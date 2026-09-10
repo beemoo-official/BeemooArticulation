@@ -27,7 +27,13 @@ struct ActivityListView: View {
                 activityRows
             }
         }
-        .background(Color.bmIce)
+        .background {
+            VStack(spacing: 0) {
+                headerGradient.frame(height: 200)
+                Color.bmIce
+            }
+            .ignoresSafeArea()
+        }
         .fullScreenCover(item: $activeRunnerConfig) { config in
             ActivityRunnerView(config: config) {
                 activeRunnerConfig = nil
@@ -53,10 +59,8 @@ struct ActivityListView: View {
                 .foregroundStyle(Color.bmNavy.opacity(0.60))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 44)
         .padding(.horizontal, BM.sectionPadH)
         .padding(.bottom, 16)
-        .background(headerGradient)
     }
 
     private var progressSubtitle: String {

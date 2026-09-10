@@ -28,6 +28,7 @@ struct HomeView: View {
                 Spacer(minLength: 18)
             }
         }
+        .ignoresSafeArea(edges: .top)
         .background(Color.bmCream)
         .onAppear {
             withAnimation(.bmFloat) {
@@ -45,15 +46,13 @@ struct HomeView: View {
     private var heroBlock: some View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
-                VStack(spacing: 0) {
-                    headerRow
-                        .padding(.top, 44)
-                        .padding(.horizontal, 18)
-                    brandBlock
-                        .padding(.top, 10)
-                }
-                .background(heroGradient)
+                headerRow
+                    .padding(.top, 59) // safe area inset for Dynamic Island
+                    .padding(.horizontal, 18)
+                brandBlock
+                    .padding(.top, 10)
             }
+            .background(heroGradient)
 
             // Cream cap at bottom
             RoundedRectangle(cornerRadius: BM.sheetTopRadius)
