@@ -5,34 +5,20 @@ struct IntroScreenView: View {
     let onAdvance: () -> Void
 
     var body: some View {
-        ZStack {
-            // Full-bleed scene
+        ZStack(alignment: .bottom) {
+            // Scene fills the full area; plate overlays bottom
             if let sceneName = screen.sceneName {
-                Image(sceneName)
-                    .resizable()
-                    .scaledToFill()
+                SceneContainer(sceneName: sceneName) { _ in }
                     .ignoresSafeArea()
+            } else {
+                Color.bmCream.ignoresSafeArea()
             }
 
-            // Scrim for text legibility
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.5)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-
-            // Prompt text overlay
-            VStack {
-                Spacer()
-                if let text = screen.displayText {
-                    Text(MarkerParser.parse(text, font: .nunito(28, weight: .bold)))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
-                        .padding(.bottom, 60)
-                }
+            if let text = screen.displayText {
+                PromptPlate(text: text)
             }
         }
+        .background(Color.bmCream)
         .contentShape(Rectangle())
         .onTapGesture { onAdvance() }
     }

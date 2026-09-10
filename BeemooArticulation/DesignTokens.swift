@@ -7,6 +7,8 @@ extension Color {
     static let bmNavy62 = bmNavy.opacity(0.62)
     static let bmNavy50 = bmNavy.opacity(0.50)
     static let bmNavy09 = bmNavy.opacity(0.09)
+    static let bmNavy60 = bmNavy.opacity(0.60)
+    static let bmNavy78 = bmNavy.opacity(0.78)
 
     static let bmConceptGreen = Color(red: 31/255, green: 138/255, blue: 72/255)
     static let bmBlue = Color(red: 30/255, green: 136/255, blue: 229/255)
@@ -16,6 +18,7 @@ extension Color {
     static let bmYellow = Color(red: 255/255, green: 209/255, blue: 0/255)
     static let bmYellowHover = Color(red: 255/255, green: 224/255, blue: 102/255)
     static let bmOrange = Color(red: 242/255, green: 128/255, blue: 31/255)
+    static let bmRingOrange = Color(hex: "F2801F")
 
     static let bmCream = Color(red: 255/255, green: 253/255, blue: 246/255)
     static let bmIce = Color(red: 244/255, green: 248/255, blue: 254/255)
@@ -34,24 +37,36 @@ extension Color {
 }
 
 // MARK: - Typography
+//
+// Both fonts are variable-weight .ttf files registered via UIAppFonts.
+// Use the family name + .weight() to select on the variable axis.
+//
+//   CSS 800 = Font.Weight.heavy  (Baloo 2 — all headings/numeric)
+//   CSS 600 = Font.Weight.semibold  (Nunito body)
+//   CSS 700 = Font.Weight.bold      (Nunito captions)
+//   CSS 800 = Font.Weight.heavy     (Nunito badges/buttons)
 
 extension Font {
+    /// Baloo 2 at weight 800 (the only weight used in the app).
     static func baloo2(_ size: CGFloat) -> Font {
-        .custom("Baloo2-ExtraBold", size: size)
+        .custom("Baloo 2", size: size).weight(.heavy)
     }
 
+    /// Nunito at the specified weight.
     static func nunito(_ size: CGFloat, weight: NunitoWeight = .semiBold) -> Font {
-        .custom(weight.fontName, size: size)
+        .custom("Nunito", size: size).weight(weight.fontWeight)
     }
 
     enum NunitoWeight {
-        case semiBold, bold, extraBold
+        case semiBold   // 600
+        case bold       // 700
+        case extraBold  // 800
 
-        var fontName: String {
+        var fontWeight: Font.Weight {
             switch self {
-            case .semiBold: "Nunito-SemiBold"
-            case .bold: "Nunito-Bold"
-            case .extraBold: "Nunito-ExtraBold"
+            case .semiBold: .semibold
+            case .bold: .bold
+            case .extraBold: .heavy
             }
         }
     }

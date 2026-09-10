@@ -208,8 +208,21 @@ struct HomeView: View {
         let goal = 5
         let progress = Double(done) / Double(goal)
 
-        return HStack(spacing: 14) {
-            // Progress ring
+        return VStack(spacing: 10) {
+            // Top row: title + chevron
+            HStack {
+                Text("Today's Progress")
+                    .font(.baloo2(13.5))
+                    .foregroundStyle(Color.bmNavy)
+                Spacer()
+                Button(action: {}) {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(Color.bmNavy50)
+                }
+            }
+
+            // Ring centred below
             ZStack {
                 Circle()
                     .stroke(Color.bmNavy09, lineWidth: 6)
@@ -229,27 +242,8 @@ struct HomeView: View {
                         .multilineTextAlignment(.center)
                 }
             }
-            .frame(width: 64, height: 64)
-
-            Spacer()
-
-            VStack(alignment: .leading) {
-                Text("Today's Progress")
-                    .font(.baloo2(13.5))
-                    .foregroundStyle(Color.bmNavy)
-            }
-
-            Spacer()
-
-            Button(action: {}) {
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(Color.bmNavy50)
-            }
         }
-        .padding(.horizontal, 13)
-        .padding(.vertical, 13)
-        .padding(.bottom, 1)
+        .padding(EdgeInsets(top: 13, leading: 13, bottom: 14, trailing: 13))
         .background {
             RoundedRectangle(cornerRadius: BM.cardRadius)
                 .fill(.white)

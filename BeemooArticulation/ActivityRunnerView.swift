@@ -4,7 +4,6 @@ struct ActivityRunnerView: View {
     let config: ActivityConfig
     let onDismiss: () -> Void
     @State private var vm: RunnerViewModel
-    @State private var showCloseConfirm = false
 
     init(config: ActivityConfig, onDismiss: @escaping () -> Void) {
         self.config = config
@@ -19,21 +18,17 @@ struct ActivityRunnerView: View {
                 .transition(.opacity)
                 .animation(.easeOut(duration: BM.transitionDuration), value: vm.currentScreen.n)
 
-            closeControl
+            HoldToExitButton { onDismiss() }
                 .padding(.top, 12)
                 .padding(.trailing, 16)
         }
-        .background(Color.black)
+        .background(Color.bmCream)
         .ignoresSafeArea()
         .onAppear {
             OrientationHelper.lockLandscape()
         }
         .onDisappear {
             OrientationHelper.lockPortrait()
-        }
-        .background {
-            OrientationLockView(orientations: .landscape)
-                .frame(width: 0, height: 0)
         }
         .onChange(of: vm.isFinished) { _, finished in
             if finished {
@@ -63,23 +58,94 @@ struct ActivityRunnerView: View {
             CelebrationScreenView(screen: screen) { vm.advance() }
         }
     }
+}
 
-    // MARK: - Close control (adult-targeted, press-and-hold)
+// MARK: - Hold-to-exit button
 
-    private var closeControl: some View {
-        Button(action: {}) {
-            Image(systemName: "xmark")
-                .font(.system(size: 13, weight: .bold))
-                .foregroundStyle(.white.opacity(0.5))
-                .frame(width: 30, height: 30)
-                .background(Circle().fill(.black.opacity(0.3)))
+/// Adult-targeted close control. First tap reveals the "Hold to exit" label and a ring
+/// that fills over the hold duration. A full hold dismisses the runner.
+struct HoldToExitButton: View {
+    let onExit: () -> Void
+
+    private let holdDuration: Double = 1.0
+    private let ringSize: CGFloat = 32
+
+    @State private var revealed = false
+    @State private var isHolding = false
+    @State private var holdProgress: CGFloat = 0
+    @State private var hideTask: Task<Void, Never>?
+
+    var body: some View {
+        HStack(spacing: 8) {
+            if revealed {
+                Text("Hold to exit")
+                    .font(.nunito(12, weight: .bold))
+                    .foregroundStyle(Color.bmNavy50)
+                    .transition(.opacity)
+            }
+
+            ZStack {
+                Circle()
+                    .fill(.black.opacity(0.15))
+                    .frame(width: ringSize, height: ringSize)
+
+                // Progress ring
+                Circle()
+                    .trim(from: 0, to: holdProgress)
+                    .stroke(Color.bmNavy, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                    .frame(width: ringSize, height: ringSize)
+                    .rotationEffect(.degrees(-90))
+
+                Image(systemName: "xmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(Color.bmNavy.opacity(0.6))
+            }
+        }
+        .onTapGesture {
+            if !revealed {
+                withAnimation(.easeOut(duration: 0.2)) { revealed = true }
+                scheduleHide()
+            }
         }
         .simultaneousGesture(
-            LongPressGesture(minimumDuration: 0.5)
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    guard revealed, !isHolding else { return }
+                    isHolding = true
+                    hideTask?.cancel()
+                    withAnimation(.linear(duration: holdDuration)) {
+                        holdProgress = 1.0
+                    }
+                }
                 .onEnded { _ in
-                    onDismiss()
+                    if holdProgress >= 0.99 {
+                        onExit()
+                    } else {
+                        isHolding = false
+                        withAnimation(.easeOut(duration: 0.15)) {
+                            holdProgress = 0
+                        }
+                        scheduleHide()
+                    }
                 }
         )
+        .onChange(of: holdProgress) { _, newValue in
+            if newValue >= 0.99 && isHolding {
+                onExit()
+            }
+        }
+    }
+
+    private func scheduleHide() {
+        hideTask?.cancel()
+        hideTask = Task {
+            try? await Task.sleep(for: .seconds(3))
+            guard !Task.isCancelled else { return }
+            withAnimation(.easeOut(duration: 0.2)) {
+                revealed = false
+                holdProgress = 0
+            }
+        }
     }
 }
 
@@ -92,17 +158,17 @@ struct PlaceholderScreenView: View {
 
     var body: some View {
         ZStack {
-            Color.black
+            Color.bmCream
             VStack(spacing: 16) {
                 Text(label)
                     .font(.baloo2(28))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.bmNavy)
                 Text("Screen \(screen.n) — \(screen.concept)")
                     .font(.nunito(16))
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(Color.bmNavy62)
                 Text("Tap to continue")
                     .font(.nunito(13))
-                    .foregroundStyle(.white.opacity(0.4))
+                    .foregroundStyle(Color.bmNavy50)
             }
         }
         .contentShape(Rectangle())

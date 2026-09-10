@@ -3,41 +3,36 @@ import SwiftUI
 struct CelebrationScreenView: View {
     let screen: ScreenConfig
     let onAdvance: () -> Void
+    @State private var bobOffset: CGFloat = 0
+
+    private let heroGradient = LinearGradient(
+        colors: [Color(hex: "FFF6DA"), Color(hex: "FFEFB8"), Color(hex: "FFE07A")],
+        startPoint: .top,
+        endPoint: .bottom
+    )
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [Color(hex: "FFE07A"), Color(hex: "FFD100")],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            heroGradient.ignoresSafeArea()
 
             VStack(spacing: 24) {
                 Image("star")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 120, height: 120)
+                    .frame(width: 160, height: 160)
+                    .offset(y: bobOffset)
 
                 Text("You did it!")
-                    .font(.baloo2(36))
+                    .font(.baloo2(44))
                     .foregroundStyle(Color.bmNavy)
-
-                if let audio = screen.audio {
-                    Text(audio)
-                        .font(.nunito(18))
-                        .foregroundStyle(Color.bmNavy.opacity(0.7))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
-                }
-
-                Text("Tap to finish")
-                    .font(.nunito(14, weight: .bold))
-                    .foregroundStyle(Color.bmNavy.opacity(0.4))
-                    .padding(.top, 8)
             }
         }
         .contentShape(Rectangle())
         .onTapGesture { onAdvance() }
+        .onAppear {
+            withAnimation(.bmBob) {
+                bobOffset = -8
+            }
+        }
     }
 }

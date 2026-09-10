@@ -28,12 +28,13 @@ struct ScreenConfig: Codable, Sendable, Identifiable {
 
     // teaching
     let ringXPercent: Int?
+    let ringYPercent: Int?
 
     // comparison
     let lines: [String]?
     let labels: [String]?
     let cuesXPercent: [Int]?
-    let cueTopPx: Int?
+    let cueTopPercent: Int?
 
     // receptive
     let prompt: String?

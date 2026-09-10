@@ -64,32 +64,3 @@ enum OrientationHelper {
     }
 }
 
-// MARK: - Orientation-locking VC wrapper
-
-struct OrientationLockView: UIViewControllerRepresentable {
-    let orientations: UIInterfaceOrientationMask
-
-    func makeUIViewController(context: Context) -> OrientationLockVC {
-        OrientationLockVC(orientations: orientations)
-    }
-
-    func updateUIViewController(_ vc: OrientationLockVC, context: Context) {
-        vc.orientations = orientations
-    }
-}
-
-class OrientationLockVC: UIViewController {
-    var orientations: UIInterfaceOrientationMask
-
-    init(orientations: UIInterfaceOrientationMask) {
-        self.orientations = orientations
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) { fatalError() }
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        orientations
-    }
-}

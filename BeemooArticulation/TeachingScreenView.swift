@@ -5,52 +5,38 @@ struct TeachingScreenView: View {
     let onAdvance: () -> Void
 
     var body: some View {
-        ZStack {
-            // Full-bleed scene
+        ZStack(alignment: .bottom) {
             if let sceneName = screen.sceneName {
-                Image(sceneName)
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-            }
-
-            // Highlight ring
-            if let ringX = screen.ringXPercent {
-                GeometryReader { geo in
-                    let cx = geo.size.width * CGFloat(ringX) / 100
-                    let cy = geo.size.height / 2
-                    Circle()
-                        .stroke(Color.bmYellow, lineWidth: 4)
-                        .frame(width: 100, height: 100)
-                        .position(x: cx, y: cy)
+                SceneContainer(sceneName: sceneName) { imageRect in
+                    highlightRing(in: imageRect)
                 }
                 .ignoresSafeArea()
+            } else {
+                Color.bmCream.ignoresSafeArea()
             }
 
-            // Scrim for text
-            VStack {
-                Spacer()
-                LinearGradient(
-                    colors: [.clear, .black.opacity(0.55)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .frame(height: 120)
-            }
-            .ignoresSafeArea()
-
-            // Prompt text
-            VStack {
-                Spacer()
-                if let text = screen.displayText {
-                    Text(MarkerParser.parse(text, font: .nunito(26, weight: .bold)))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
-                        .padding(.bottom, 40)
-                }
+            if let text = screen.displayText {
+                PromptPlate(text: text)
             }
         }
+        .background(Color.bmCream)
         .contentShape(Rectangle())
         .onTapGesture { onAdvance() }
+    }
+
+    @ViewBuilder
+    private func highlightRing(in imageRect: CGRect) -> some View {
+        if let ringX = screen.ringXPercent {
+            let ringY = screen.ringYPercent ?? 50
+            let cx = imageRect.minX + imageRect.width * CGFloat(ringX) / 100
+            let cy = imageRect.minY + imageRect.height * CGFloat(ringY) / 100
+            let shorterSide = min(imageRect.width, imageRect.height)
+            let ringSize = shorterSide * 0.22
+
+            Circle()
+                .stroke(Color.bmRingOrange, lineWidth: 4)
+                .frame(width: ringSize, height: ringSize)
+                .position(x: cx, y: cy)
+        }
     }
 }

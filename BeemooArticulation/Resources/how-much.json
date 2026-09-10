@@ -212,7 +212,8 @@
       "concept": "MORE",
       "text": "This pizza has *more* pepperoni.",
       "scene": "scene14.jpg",
-      "ringXPercent": 33
+      "ringXPercent": 33,
+      "ringYPercent": 50
     },
     {
       "n": 14,
@@ -220,7 +221,8 @@
       "concept": "LESS",
       "text": "This pizza has *less* pepperoni.",
       "scene": "scene15.jpg",
-      "ringXPercent": 67
+      "ringXPercent": 67,
+      "ringYPercent": 50
     },
     {
       "n": 15,
@@ -321,7 +323,8 @@
       "text": "This pitcher has the *most* lemonade.",
       "scene": "scene21.jpg",
       "ringXPercent": 27,
-      "note": "OPEN: confirm which pitcher the highlight ring should sit on."
+      "note": "OPEN: confirm which pitcher the highlight ring should sit on.",
+      "ringYPercent": 46
     },
     {
       "n": 22,
@@ -330,7 +333,8 @@
       "text": "This pitcher has the *least* lemonade.",
       "scene": "scene22.jpg",
       "ringXPercent": 52,
-      "note": "OPEN: confirm which pitcher the highlight ring should sit on."
+      "note": "OPEN: confirm which pitcher the highlight ring should sit on.",
+      "ringYPercent": 46
     },
     {
       "n": 23,
@@ -446,7 +450,8 @@
       "concept": "ALL",
       "text": "*All* of the jellybeans are in the jar.",
       "scene": "scene28.jpg",
-      "ringXPercent": 50
+      "ringXPercent": 50,
+      "ringYPercent": 52
     },
     {
       "n": 30,
@@ -454,7 +459,8 @@
       "concept": "SOME",
       "text": "*Some* of the jellybeans are in the jar.",
       "scene": "scene29.jpg",
-      "ringXPercent": 42
+      "ringXPercent": 42,
+      "ringYPercent": 52
     },
     {
       "n": 31,
@@ -469,7 +475,8 @@
         31,
         69
       ],
-      "cueTopPx": 216
+      "cueTopPercent": 38,
+      "note": "Cue vertical position converted from px to percent — confirm on device."
     },
     {
       "n": 32,
@@ -565,5 +572,7 @@
       "concept": "RECAP",
       "audio": "You did it! You learned about how much!"
     }
-  ]
+  ],
+  "geometryNote": "All *XPercent / *YPercent values are relative to the RENDERED SCENE IMAGE frame, not the screen. Scenes are scaledToFit and letterboxed on cream; positioning cues against the viewport will misalign them on every device.",
+  "promptTreatment": "Prompt text sits on a solid cream (#FFFDF6) plate along the bottom of the screen — not a gradient scrim over the art. Ink is navy (#16305B); the *marked* concept word is #1F8A48 at the same weight. Never white text over the illustration."
 }
