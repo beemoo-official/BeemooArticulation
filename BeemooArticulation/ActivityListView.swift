@@ -4,6 +4,7 @@ struct ActivityListView: View {
     let umbrellaKey: String
     @Binding var path: NavigationPath
     @Environment(APIClient.self) private var apiClient
+    @State private var activeRunnerConfig: ActivityConfig?
 
     private var umbrella: Umbrella? {
         apiClient.catalog.umbrellas.first { $0.key == umbrellaKey }
@@ -27,6 +28,11 @@ struct ActivityListView: View {
             }
         }
         .background(Color.bmIce)
+        .fullScreenCover(item: $activeRunnerConfig) { config in
+            ActivityRunnerView(config: config) {
+                activeRunnerConfig = nil
+            }
+        }
     }
 
     // MARK: - Header
@@ -69,7 +75,8 @@ struct ActivityListView: View {
                 ActivityRow(activity: activity)
                     .onTapGesture {
                         guard activity.isLive else { return }
-                        // Activity runner will be wired up in slice 2
+                        let config = SeedData.loadActivityConfig(activity.id)
+                        activeRunnerConfig = config
                     }
             }
         }
