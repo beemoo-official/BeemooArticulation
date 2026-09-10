@@ -358,10 +358,10 @@ private struct UmbrellaCard: View {
             Text(umbrella.desc)
                 .font(.nunito(11))
                 .foregroundStyle(Color.bmNavy62)
-                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background {
             RoundedRectangle(cornerRadius: BM.cardRadius)
                 .fill(umbrella.tintColor)
