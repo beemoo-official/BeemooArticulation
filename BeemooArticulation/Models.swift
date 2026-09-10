@@ -8,15 +8,7 @@ struct Catalog: Codable, Sendable {
     let activities: [Activity]
 
     func activities(for umbrellaKey: String) -> [Activity] {
-        let mappedKey: String
-        switch umbrellaKey {
-        case "speech": mappedKey = "clear-speech"
-        case "words": mappedKey = "words-and-concepts"
-        case "putting": mappedKey = "putting-it-together"
-        case "social": mappedKey = "social-communication"
-        default: mappedKey = umbrellaKey
-        }
-        return activities.filter { $0.umbrella == mappedKey }
+        activities.filter { $0.umbrella == umbrellaKey }
     }
 }
 
@@ -33,6 +25,7 @@ struct Umbrella: Codable, Sendable, Identifiable {
     var id: String { key }
     var tintColor: Color { Color(hex: tint) }
     var inkColor: Color { Color(hex: ink) }
+    var iconName: String { String(icon.dropLast(4)) } // "ico_words.png" → "ico_words"
 }
 
 // MARK: - Activity

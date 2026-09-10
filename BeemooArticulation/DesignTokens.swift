@@ -36,7 +36,7 @@ extension Color {
 // MARK: - Typography
 
 extension Font {
-    static func baloo2(_ size: CGFloat, weight: Font.Weight = .heavy) -> Font {
+    static func baloo2(_ size: CGFloat) -> Font {
         .custom("Baloo2-ExtraBold", size: size)
     }
 

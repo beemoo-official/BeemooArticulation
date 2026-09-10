@@ -135,7 +135,6 @@ private struct ActivityRow: View {
                 }
                 .bmCardShadow()
         }
-        .opacity(activity.isStub ? 1.0 : 1.0) // SOON rows stay readable per spec (>=4.5:1)
     }
 
     private func badge(_ text: String, fill: Color, textColor: Color) -> some View {
@@ -151,7 +150,7 @@ private struct ActivityRow: View {
 
 #Preview {
     NavigationStack {
-        ActivityListView(umbrellaKey: "words", path: .constant(NavigationPath()))
+        ActivityListView(umbrellaKey: "words-and-concepts", path: .constant(NavigationPath()))
             .environment(APIClient())
     }
 }

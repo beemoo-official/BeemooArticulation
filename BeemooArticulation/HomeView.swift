@@ -69,14 +69,11 @@ struct HomeView: View {
     private var headerRow: some View {
         HStack(spacing: BM.gridGap) {
             // Child avatar
-            Circle()
-                .fill(Color.bmBlue.opacity(0.2))
+            Image("avatar")
+                .resizable()
+                .scaledToFill()
                 .frame(width: 46, height: 46)
-                .overlay {
-                    Text(String(apiClient.childName.prefix(1)))
-                        .font(.baloo2(18))
-                        .foregroundStyle(Color.bmNavy)
-                }
+                .clipShape(Circle())
                 .overlay {
                     Circle().stroke(.white, lineWidth: 3)
                 }
@@ -127,48 +124,33 @@ struct HomeView: View {
 
     private var brandBlock: some View {
         ZStack(alignment: .topTrailing) {
-            VStack(spacing: 8) {
-                // Logo placeholder
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.white.opacity(0.5))
-                    .frame(width: 192, height: 60)
-                    .overlay {
-                        Text("BeeMoo")
-                            .font(.baloo2(28))
-                            .foregroundStyle(Color.bmNavy)
-                    }
+            // Left column: logo, tagline, speech bubble
+            VStack(alignment: .leading, spacing: 8) {
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 192)
                     .shadow(color: .black.opacity(0.13), radius: 4, x: 0, y: 4)
 
-                // Tagline
                 Text("Speech & Language Practice\nMade Simple. Made Fun.")
                     .font(.nunito(13, weight: .extraBold))
                     .foregroundStyle(Color.bmNavy)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: 190)
+                    .frame(maxWidth: 190, alignment: .leading)
 
-                Spacer(minLength: 20)
-            }
-            .frame(minHeight: 214)
-            .frame(maxWidth: .infinity)
-
-            // BeeMoo character placeholder
-            VStack(spacing: 0) {
-                Circle()
-                    .fill(Color.bmYellow.opacity(0.3))
-                    .frame(width: 168, height: 168)
-                    .overlay {
-                        Text("🐝")
-                            .font(.system(size: 70))
-                    }
-                    .offset(y: floatOffset)
-                    .rotationEffect(.degrees(floatRotation - 2))
-
-                // Speech bubble
                 speechBubble
-                    .padding(.top, -20)
             }
-            .offset(x: -30, y: 14)
-            .padding(.trailing, -30)
+            .frame(minHeight: 214, alignment: .top)
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            // BeeMoo character — right edge, overlapping
+            Image("beemoo_fly")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 168, height: 168)
+                .offset(y: floatOffset)
+                .rotationEffect(.degrees(floatRotation - 2))
+                .offset(x: -30, y: 14)
+                .padding(.trailing, -30)
         }
         .padding(.horizontal, 18)
     }
@@ -178,7 +160,7 @@ struct HomeView: View {
             Text("Hi! I'm BeeMoo!")
                 .font(.baloo2(13.5))
                 .foregroundStyle(Color.bmNavy)
-            Text("Tap a category below to start practicing!")
+            Text("I'll be your guide. Let's have fun learning together!")
                 .font(.nunito(12.5))
                 .foregroundStyle(Color.bmNavy.opacity(0.78))
         }
@@ -222,45 +204,47 @@ struct HomeView: View {
     // MARK: - Progress Card
 
     private var progressCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
+        let done = apiClient.activitiesCompletedToday
+        let goal = 5
+        let progress = Double(done) / Double(goal)
+
+        return HStack(spacing: 14) {
+            // Progress ring
+            ZStack {
+                Circle()
+                    .stroke(Color.bmNavy09, lineWidth: 6)
+                    .frame(width: 52, height: 52)
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(Color.bmBlue, style: StrokeStyle(lineWidth: 6, lineCap: .round))
+                    .frame(width: 52, height: 52)
+                    .rotationEffect(.degrees(-90))
+                VStack(spacing: 0) {
+                    Text("\(done)/\(goal)")
+                        .font(.baloo2(15))
+                        .foregroundStyle(Color.bmNavy)
+                    Text("Activities\nCompleted")
+                        .font(.nunito(6.5, weight: .bold))
+                        .foregroundStyle(Color.bmNavy)
+                        .multilineTextAlignment(.center)
+                }
+            }
+            .frame(width: 64, height: 64)
+
+            Spacer()
+
+            VStack(alignment: .leading) {
                 Text("Today's Progress")
                     .font(.baloo2(13.5))
                     .foregroundStyle(Color.bmNavy)
-                Spacer()
-                Button(action: {}) {
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(Color.bmNavy50)
-                }
             }
 
-            HStack(spacing: 14) {
-                // Progress ring
-                ZStack {
-                    Circle()
-                        .stroke(Color.bmNavy09, lineWidth: 6)
-                        .frame(width: 52, height: 52)
-                    Circle()
-                        .trim(from: 0, to: 0)
-                        .stroke(Color.bmBlue, style: StrokeStyle(lineWidth: 6, lineCap: .round))
-                        .frame(width: 52, height: 52)
-                        .rotationEffect(.degrees(-90))
-                    VStack(spacing: 0) {
-                        Text("0/5")
-                            .font(.baloo2(15))
-                            .foregroundStyle(Color.bmNavy)
-                        Text("Activities\nCompleted")
-                            .font(.nunito(6.5, weight: .bold))
-                            .foregroundStyle(Color.bmNavy)
-                            .multilineTextAlignment(.center)
-                    }
-                }
-                .frame(width: 64, height: 64)
+            Spacer()
 
-                Text("Complete activities to track your daily progress!")
-                    .font(.nunito(11))
-                    .foregroundStyle(Color.bmNavy62)
+            Button(action: {}) {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Color.bmNavy50)
             }
         }
         .padding(.horizontal, 13)
@@ -282,9 +266,10 @@ struct HomeView: View {
 
     private var dailyChallengeCard: some View {
         HStack(spacing: 12) {
-            // Star placeholder
-            Text("⭐️")
-                .font(.system(size: 44))
+            Image("star")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 66, height: 66)
                 .offset(y: bobOffset)
 
             VStack(alignment: .leading, spacing: 4) {
@@ -294,7 +279,7 @@ struct HomeView: View {
                 Text("Complete 5 activities to earn your badge.")
                     .font(.nunito(11))
                     .foregroundStyle(Color.bmNavy.opacity(0.60))
-                Text("0 / 5")
+                Text("\(apiClient.activitiesCompletedToday) / 5")
                     .font(.baloo2(13))
                     .foregroundStyle(Color.bmOrange)
             }
@@ -329,7 +314,7 @@ struct HomeView: View {
                 Text("BeeMoo Everything")
                     .font(.baloo2(13))
                     .foregroundStyle(Color.bmYellow)
-                Text("Unlock all activities and track your child's progress.")
+                Text("All 4 umbrellas, 30+ activities, unlimited children.")
                     .font(.nunito(11))
                     .foregroundStyle(.white.opacity(0.78))
             }
@@ -368,15 +353,10 @@ private struct UmbrellaCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            // Icon placeholder
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.white.opacity(0.5))
+            Image(umbrella.iconName)
+                .resizable()
+                .scaledToFit()
                 .frame(width: 36, height: 36)
-                .overlay {
-                    Text(String(umbrella.title.prefix(1)))
-                        .font(.baloo2(18))
-                        .foregroundStyle(umbrella.inkColor)
-                }
 
             Text(umbrella.title)
                 .font(.baloo2(14.5))

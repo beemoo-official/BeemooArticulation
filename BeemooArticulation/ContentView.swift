@@ -7,12 +7,12 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             HomeView(path: $path)
-                .navigationBarHidden(true)
+                .toolbar(.hidden)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .umbrella(let key):
                         ActivityListView(umbrellaKey: key, path: $path)
-                            .navigationBarHidden(true)
+                            .toolbar(.hidden)
                     default:
                         Text("Coming soon")
                     }

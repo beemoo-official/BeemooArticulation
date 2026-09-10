@@ -2,7 +2,7 @@
   "version": 1,
   "umbrellas": [
     {
-      "key": "speech",
+      "key": "clear-speech",
       "title": "Clear Speech",
       "desc": "Practice making sounds so others can understand you.",
       "icon": "ico_speech.png",
@@ -10,7 +10,7 @@
       "ink": "#3E9B4F"
     },
     {
-      "key": "words",
+      "key": "words-and-concepts",
       "title": "Words & Concepts",
       "desc": "Learn new words and understand the world around you.",
       "icon": "ico_words.png",
@@ -18,7 +18,7 @@
       "ink": "#2A7BD4"
     },
     {
-      "key": "putting",
+      "key": "putting-it-together",
       "title": "Putting It Together",
       "desc": "Build sentences and tell what happens next.",
       "icon": "ico_putting.png",
@@ -26,7 +26,7 @@
       "ink": "#8B57C4"
     },
     {
-      "key": "social",
+      "key": "social-communication",
       "title": "Social Communication",
       "desc": "Practice talking, listening, and connecting.",
       "icon": "ico_social.png",
@@ -108,5 +108,6 @@
       "tint": "#6B7BD6",
       "status": "stub"
     }
-  ]
+  ],
+  "note": "Umbrella `key` and activity `umbrella` use the same slug vocabulary. No key translation should exist in client code."
 }
