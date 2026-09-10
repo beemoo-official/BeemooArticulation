@@ -1,18 +1,18 @@
 import SwiftUI
+import UIKit
 
 /// Reusable container for activity scene images.
 ///
-/// The scene is `scaledToFit`, centred, and letterboxed on cream in the area above
-/// the prompt plate. The `overlays` closure receives the **rendered image rect** so
-/// ring/cue positions (expressed as percentages of the image) map correctly on every device.
+/// The scene is `scaledToFit`, centred, and letterboxed on cream in the area it's given.
+/// The `overlays` closure receives the **rendered image rect** so ring/cue positions
+/// (expressed as percentages of the image) map correctly on every device.
 struct SceneContainer<Overlays: View>: View {
     let sceneName: String
     @ViewBuilder let overlays: (_ imageRect: CGRect) -> Overlays
 
     var body: some View {
         GeometryReader { geo in
-            let viewSize = geo.size
-            let imageRect = fittedImageRect(in: viewSize, sceneName: sceneName)
+            let imageRect = Self.fittedImageRect(for: sceneName, in: geo.size)
 
             ZStack {
                 Color.bmCream
@@ -29,8 +29,7 @@ struct SceneContainer<Overlays: View>: View {
     }
 
     /// Computes the rect of a scaledToFit image within a container.
-    private func fittedImageRect(in containerSize: CGSize, sceneName: String) -> CGRect {
-        // Get the actual image size from UIImage
+    static func fittedImageRect(for sceneName: String, in containerSize: CGSize) -> CGRect {
         guard let uiImage = UIImage(named: sceneName) else {
             return CGRect(origin: .zero, size: containerSize)
         }

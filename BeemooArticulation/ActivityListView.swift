@@ -32,6 +32,7 @@ struct ActivityListView: View {
             ActivityRunnerView(config: config) {
                 activeRunnerConfig = nil
             }
+            .interactiveDismissDisabled()
         }
     }
 

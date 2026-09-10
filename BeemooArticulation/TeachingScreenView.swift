@@ -5,16 +5,17 @@ struct TeachingScreenView: View {
     let onAdvance: () -> Void
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        VStack(spacing: 0) {
+            // Scene fills all space above the prompt plate
             if let sceneName = screen.sceneName {
                 SceneContainer(sceneName: sceneName) { imageRect in
                     highlightRing(in: imageRect)
                 }
-                .ignoresSafeArea()
             } else {
-                Color.bmCream.ignoresSafeArea()
+                Color.bmCream
             }
 
+            // Prompt plate pinned to bottom
             if let text = screen.displayText {
                 PromptPlate(text: text)
             }

@@ -4,6 +4,8 @@ struct ActivityRunnerView: View {
     let config: ActivityConfig
     let onDismiss: () -> Void
     @State private var vm: RunnerViewModel
+    @State private var trialLogger = TrialLogger()
+    @State private var settings = RunnerSettings()
 
     init(config: ActivityConfig, onDismiss: @escaping () -> Void) {
         self.config = config
@@ -19,11 +21,12 @@ struct ActivityRunnerView: View {
                 .animation(.easeOut(duration: BM.transitionDuration), value: vm.currentScreen.n)
 
             HoldToExitButton { onDismiss() }
-                .padding(.top, 12)
+                .padding(.top, 16)
                 .padding(.trailing, 16)
         }
         .background(Color.bmCream)
-        .ignoresSafeArea()
+        .persistentSystemOverlays(.hidden)
+        .statusBarHidden()
         .onAppear {
             OrientationHelper.lockLandscape()
         }
@@ -35,7 +38,6 @@ struct ActivityRunnerView: View {
                 onDismiss()
             }
         }
-        .statusBarHidden()
     }
 
     // MARK: - Screen dispatch
@@ -49,9 +51,15 @@ struct ActivityRunnerView: View {
         case .teaching:
             TeachingScreenView(screen: screen) { vm.advance() }
         case .comparison:
-            PlaceholderScreenView(screen: screen, label: "Comparison") { vm.advance() }
+            ComparisonScreenView(screen: screen) { vm.advance() }
         case .receptive:
-            PlaceholderScreenView(screen: screen, label: "Receptive") { vm.advance() }
+            ReceptiveScreenView(
+                screen: screen,
+                activityId: config.activityId,
+                settings: settings,
+                trialLogger: trialLogger,
+                onAdvance: { vm.advance() }
+            )
         case .transition:
             TransitionScreenView(screen: screen) { vm.advance() }
         case .celebration:
@@ -62,8 +70,6 @@ struct ActivityRunnerView: View {
 
 // MARK: - Hold-to-exit button
 
-/// Adult-targeted close control. First tap reveals the "Hold to exit" label and a ring
-/// that fills over the hold duration. A full hold dismisses the runner.
 struct HoldToExitButton: View {
     let onExit: () -> Void
 
@@ -89,7 +95,6 @@ struct HoldToExitButton: View {
                     .fill(.black.opacity(0.15))
                     .frame(width: ringSize, height: ringSize)
 
-                // Progress ring
                 Circle()
                     .trim(from: 0, to: holdProgress)
                     .stroke(Color.bmNavy, style: StrokeStyle(lineWidth: 3, lineCap: .round))
@@ -146,32 +151,5 @@ struct HoldToExitButton: View {
                 holdProgress = 0
             }
         }
-    }
-}
-
-// MARK: - Placeholder for unimplemented screen types
-
-struct PlaceholderScreenView: View {
-    let screen: ScreenConfig
-    let label: String
-    let onAdvance: () -> Void
-
-    var body: some View {
-        ZStack {
-            Color.bmCream
-            VStack(spacing: 16) {
-                Text(label)
-                    .font(.baloo2(28))
-                    .foregroundStyle(Color.bmNavy)
-                Text("Screen \(screen.n) — \(screen.concept)")
-                    .font(.nunito(16))
-                    .foregroundStyle(Color.bmNavy62)
-                Text("Tap to continue")
-                    .font(.nunito(13))
-                    .foregroundStyle(Color.bmNavy50)
-            }
-        }
-        .contentShape(Rectangle())
-        .onTapGesture { onAdvance() }
     }
 }
