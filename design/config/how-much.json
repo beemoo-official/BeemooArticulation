@@ -1,0 +1,569 @@
+{
+  "activityId": "how-much",
+  "version": 1,
+  "title": "How Much",
+  "umbrella": "words-and-concepts",
+  "orientation": "landscape",
+  "concepts": [
+    "ONE",
+    "MANY",
+    "NONE",
+    "MORE",
+    "LESS",
+    "MOST",
+    "LEAST",
+    "ALL",
+    "SOME"
+  ],
+  "markerSyntax": "*word* marks the target concept word — render in accent green #1F8A48, same weight as surrounding text.",
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "HOW MUCH",
+      "text": "Let's learn about *HOW MUCH!*",
+      "scene": "scene2.jpg",
+      "audio": "Let's learn about how much!"
+    },
+    {
+      "n": 2,
+      "type": "teaching",
+      "concept": "ONE",
+      "text": "This is *one* apple.",
+      "scene": "scene3.jpg"
+    },
+    {
+      "n": 3,
+      "type": "teaching",
+      "concept": "MANY",
+      "text": "These are *many* apples.",
+      "scene": "scene4.jpg"
+    },
+    {
+      "n": 4,
+      "type": "teaching",
+      "concept": "NONE",
+      "text": "This shows no apples. *None.*",
+      "scene": "scene5.jpg"
+    },
+    {
+      "n": 5,
+      "type": "comparison",
+      "concept": "ONE/MANY/NONE",
+      "scene": "scene6.jpg",
+      "labels": [
+        "One",
+        "Many",
+        "None"
+      ],
+      "lines": [
+        "This puppy has *one* bone.",
+        "This puppy has *many* bones.",
+        "This puppy has *none.*"
+      ],
+      "cuesXPercent": [
+        23,
+        50,
+        79
+      ]
+    },
+    {
+      "n": 6,
+      "type": "receptive",
+      "concept": "ONE",
+      "prompt": "This chair has *one* balloon.",
+      "correct": "one",
+      "choices": [
+        {
+          "asset": "p7_0.jpg",
+          "meaning": "one"
+        },
+        {
+          "asset": "p7_1.jpg",
+          "meaning": "many"
+        },
+        {
+          "asset": "p7_2.jpg",
+          "meaning": "none"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 7,
+      "type": "receptive",
+      "concept": "MANY",
+      "prompt": "This bowl has *many* fish.",
+      "correct": "many",
+      "choices": [
+        {
+          "asset": "p8_0.jpg",
+          "meaning": "one"
+        },
+        {
+          "asset": "p8_1.jpg",
+          "meaning": "many"
+        },
+        {
+          "asset": "p8_2.jpg",
+          "meaning": "none"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 8,
+      "type": "receptive",
+      "concept": "NONE",
+      "prompt": "This cat has *none.*",
+      "correct": "none",
+      "choices": [
+        {
+          "asset": "p9_0.jpg",
+          "meaning": "none"
+        },
+        {
+          "asset": "p9_1.jpg",
+          "meaning": "many"
+        },
+        {
+          "asset": "p9_2.jpg",
+          "meaning": "one"
+        }
+      ],
+      "shuffleChoices": true,
+      "note": "ART DEFECT: source shows two empty bowls; the MANY and ONE distractors are not distinguishable. Needs regeneration before this trial is valid."
+    },
+    {
+      "n": 9,
+      "type": "receptive",
+      "concept": "ONE",
+      "prompt": "This dollhouse has *one* doll.",
+      "correct": "one",
+      "choices": [
+        {
+          "asset": "p10_0.jpg",
+          "meaning": "many"
+        },
+        {
+          "asset": "p10_1.jpg",
+          "meaning": "none"
+        },
+        {
+          "asset": "p10_2.jpg",
+          "meaning": "one"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 10,
+      "type": "receptive",
+      "concept": "MANY",
+      "prompt": "This pond has *many* ducks.",
+      "correct": "many",
+      "choices": [
+        {
+          "asset": "p11_0.jpg",
+          "meaning": "one"
+        },
+        {
+          "asset": "p11_1.jpg",
+          "meaning": "none"
+        },
+        {
+          "asset": "p11_2.jpg",
+          "meaning": "many"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 11,
+      "type": "receptive",
+      "concept": "NONE",
+      "prompt": "This bottle has *none.*",
+      "correct": "none",
+      "choices": [
+        {
+          "asset": "p12_0.jpg",
+          "meaning": "many"
+        },
+        {
+          "asset": "p12_1.jpg",
+          "meaning": "some"
+        },
+        {
+          "asset": "p12_2.jpg",
+          "meaning": "none"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 12,
+      "type": "transition",
+      "concept": "MORE/LESS",
+      "variant": 0
+    },
+    {
+      "n": 13,
+      "type": "teaching",
+      "concept": "MORE",
+      "text": "This pizza has *more* pepperoni.",
+      "scene": "scene14.jpg",
+      "ringXPercent": 33
+    },
+    {
+      "n": 14,
+      "type": "teaching",
+      "concept": "LESS",
+      "text": "This pizza has *less* pepperoni.",
+      "scene": "scene15.jpg",
+      "ringXPercent": 67
+    },
+    {
+      "n": 15,
+      "type": "comparison",
+      "concept": "MORE/LESS",
+      "scene": "scene16.jpg",
+      "lines": [
+        "This bowl has *more* ice cream.",
+        "This bowl has *less* ice cream."
+      ],
+      "cuesXPercent": [
+        36,
+        64
+      ]
+    },
+    {
+      "n": 16,
+      "type": "receptive",
+      "concept": "MORE",
+      "prompt": "This cup has *more* juice.",
+      "correct": "more",
+      "choices": [
+        {
+          "asset": "p17_0.jpg",
+          "meaning": "more"
+        },
+        {
+          "asset": "p17_1.jpg",
+          "meaning": "less"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 17,
+      "type": "receptive",
+      "concept": "LESS",
+      "prompt": "This one has *less* soap.",
+      "correct": "less",
+      "choices": [
+        {
+          "asset": "p18_0.jpg",
+          "meaning": "more"
+        },
+        {
+          "asset": "p18_1.jpg",
+          "meaning": "less"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 18,
+      "type": "receptive",
+      "concept": "MORE",
+      "prompt": "This one has *more* sand.",
+      "correct": "more",
+      "choices": [
+        {
+          "asset": "p19_0.jpg",
+          "meaning": "more"
+        },
+        {
+          "asset": "p19_1.jpg",
+          "meaning": "less"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 19,
+      "type": "receptive",
+      "concept": "LESS",
+      "prompt": "This one has *less* jelly.",
+      "correct": "less",
+      "choices": [
+        {
+          "asset": "p20_0.jpg",
+          "meaning": "less"
+        },
+        {
+          "asset": "p20_1.jpg",
+          "meaning": "more"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 20,
+      "type": "transition",
+      "concept": "MOST/LEAST",
+      "variant": 1
+    },
+    {
+      "n": 21,
+      "type": "teaching",
+      "concept": "MOST",
+      "text": "This pitcher has the *most* lemonade.",
+      "scene": "scene21.jpg",
+      "ringXPercent": 27,
+      "note": "OPEN: confirm which pitcher the highlight ring should sit on."
+    },
+    {
+      "n": 22,
+      "type": "teaching",
+      "concept": "LEAST",
+      "text": "This pitcher has the *least* lemonade.",
+      "scene": "scene22.jpg",
+      "ringXPercent": 52,
+      "note": "OPEN: confirm which pitcher the highlight ring should sit on."
+    },
+    {
+      "n": 23,
+      "type": "comparison",
+      "concept": "MOST/LEAST",
+      "scene": "scene23.jpg",
+      "lines": [
+        "This bowl has the *most* popcorn.",
+        "This bowl has the *least* popcorn."
+      ],
+      "cuesXPercent": [
+        26,
+        74
+      ]
+    },
+    {
+      "n": 24,
+      "type": "receptive",
+      "concept": "MOST",
+      "prompt": "This basket has the *most* laundry.",
+      "correct": "most",
+      "choices": [
+        {
+          "asset": "p24_0.jpg",
+          "meaning": "least"
+        },
+        {
+          "asset": "p24_1.jpg",
+          "meaning": "most"
+        },
+        {
+          "asset": "p24_2.jpg",
+          "meaning": "some"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 25,
+      "type": "receptive",
+      "concept": "LEAST",
+      "prompt": "This jar has the *least* honey.",
+      "correct": "least",
+      "choices": [
+        {
+          "asset": "p25_0.jpg",
+          "meaning": "most"
+        },
+        {
+          "asset": "p25_1.jpg",
+          "meaning": "least"
+        },
+        {
+          "asset": "p25_2.jpg",
+          "meaning": "some"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 26,
+      "type": "receptive",
+      "concept": "MOST",
+      "prompt": "This one has the *most* paint.",
+      "correct": "most",
+      "choices": [
+        {
+          "asset": "p26_0.jpg",
+          "meaning": "least"
+        },
+        {
+          "asset": "p26_1.jpg",
+          "meaning": "some"
+        },
+        {
+          "asset": "p26_2.jpg",
+          "meaning": "most"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 27,
+      "type": "receptive",
+      "concept": "LEAST",
+      "prompt": "This one has the *least* cereal.",
+      "correct": "least",
+      "choices": [
+        {
+          "asset": "p27_0.jpg",
+          "meaning": "most"
+        },
+        {
+          "asset": "p27_1.jpg",
+          "meaning": "least"
+        },
+        {
+          "asset": "p27_2.jpg",
+          "meaning": "some"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 28,
+      "type": "transition",
+      "concept": "ALL/SOME",
+      "variant": 2
+    },
+    {
+      "n": 29,
+      "type": "teaching",
+      "concept": "ALL",
+      "text": "*All* of the jellybeans are in the jar.",
+      "scene": "scene28.jpg",
+      "ringXPercent": 50
+    },
+    {
+      "n": 30,
+      "type": "teaching",
+      "concept": "SOME",
+      "text": "*Some* of the jellybeans are in the jar.",
+      "scene": "scene29.jpg",
+      "ringXPercent": 42
+    },
+    {
+      "n": 31,
+      "type": "comparison",
+      "concept": "ALL/SOME",
+      "scene": "scene30.jpg",
+      "lines": [
+        "*All* of the apples are on this tree.",
+        "*Some* of the apples are on this tree."
+      ],
+      "cuesXPercent": [
+        31,
+        69
+      ],
+      "cueTopPx": 216
+    },
+    {
+      "n": 32,
+      "type": "receptive",
+      "concept": "ALL",
+      "prompt": "*All* of the blocks are in the bin.",
+      "correct": "all",
+      "choices": [
+        {
+          "asset": "p31_0.jpg",
+          "meaning": "some"
+        },
+        {
+          "asset": "p31_1.jpg",
+          "meaning": "all"
+        },
+        {
+          "asset": "p31_2.jpg",
+          "meaning": "none"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 33,
+      "type": "receptive",
+      "concept": "SOME",
+      "prompt": "*Some* of the eggs are in the nest.",
+      "correct": "some",
+      "choices": [
+        {
+          "asset": "p32_0.jpg",
+          "meaning": "all"
+        },
+        {
+          "asset": "p32_1.jpg",
+          "meaning": "some"
+        },
+        {
+          "asset": "p32_2.jpg",
+          "meaning": "none"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 34,
+      "type": "receptive",
+      "concept": "ALL",
+      "prompt": "*All* of the crayons are in the box.",
+      "correct": "all",
+      "choices": [
+        {
+          "asset": "p33_0.jpg",
+          "meaning": "some"
+        },
+        {
+          "asset": "p33_1.jpg",
+          "meaning": "all"
+        },
+        {
+          "asset": "p33_2.jpg",
+          "meaning": "none"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 35,
+      "type": "receptive",
+      "concept": "SOME",
+      "prompt": "*Some* of the ducks are in the pond.",
+      "correct": "some",
+      "choices": [
+        {
+          "asset": "p34_0.jpg",
+          "meaning": "all"
+        },
+        {
+          "asset": "p34_1.jpg",
+          "meaning": "some"
+        },
+        {
+          "asset": "p34_2.jpg",
+          "meaning": "none"
+        }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 36,
+      "type": "celebration",
+      "concept": "RECAP",
+      "audio": "You did it! You learned about how much!"
+    }
+  ]
+}

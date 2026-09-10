@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "umbrellas": [
+    {
+      "key": "speech",
+      "title": "Clear Speech",
+      "desc": "Practice making sounds so others can understand you.",
+      "icon": "ico_speech.png",
+      "tint": "#EEF7EA",
+      "ink": "#3E9B4F"
+    },
+    {
+      "key": "words",
+      "title": "Words & Concepts",
+      "desc": "Learn new words and understand the world around you.",
+      "icon": "ico_words.png",
+      "tint": "#EAF2FD",
+      "ink": "#2A7BD4"
+    },
+    {
+      "key": "putting",
+      "title": "Putting It Together",
+      "desc": "Build sentences and tell what happens next.",
+      "icon": "ico_putting.png",
+      "tint": "#F6EEFB",
+      "ink": "#8B57C4"
+    },
+    {
+      "key": "social",
+      "title": "Social Communication",
+      "desc": "Practice talking, listening, and connecting.",
+      "icon": "ico_social.png",
+      "tint": "#FDF0E6",
+      "ink": "#EE7B22"
+    }
+  ],
+  "activities": [
+    {
+      "id": "how-much",
+      "umbrella": "words-and-concepts",
+      "name": "How Much",
+      "desc": "One, many, none · more, less · most, least · all, some",
+      "initials": "HM",
+      "tint": "#2A7BD4",
+      "status": "live",
+      "isNew": true
+    },
+    {
+      "id": "same-or-different",
+      "umbrella": "words-and-concepts",
+      "name": "Same or Different",
+      "desc": "Match and sort by one shared feature",
+      "initials": "SD",
+      "tint": "#3E9B4F",
+      "status": "stub"
+    },
+    {
+      "id": "where-is-it",
+      "umbrella": "words-and-concepts",
+      "name": "Where Is It?",
+      "desc": "In, on, under, behind, next to",
+      "initials": "WI",
+      "tint": "#8B57C4",
+      "status": "stub"
+    },
+    {
+      "id": "big-and-small",
+      "umbrella": "words-and-concepts",
+      "name": "Big and Small",
+      "desc": "Compare size, length and height",
+      "initials": "BS",
+      "tint": "#EE7B22",
+      "status": "stub"
+    },
+    {
+      "id": "what-goes-together",
+      "umbrella": "words-and-concepts",
+      "name": "What Goes Together",
+      "desc": "Pair objects that belong with each other",
+      "initials": "WG",
+      "tint": "#2A7BD4",
+      "status": "stub"
+    },
+    {
+      "id": "colors-and-shapes",
+      "umbrella": "words-and-concepts",
+      "name": "Colors and Shapes",
+      "desc": "Name and match basic colors and shapes",
+      "initials": "CS",
+      "tint": "#3E9B4F",
+      "status": "stub"
+    },
+    {
+      "id": "day-to-day",
+      "umbrella": "words-and-concepts",
+      "name": "Day to Day",
+      "desc": "Everyday routines and the words for them",
+      "initials": "DD",
+      "tint": "#D64C7F",
+      "status": "stub"
+    },
+    {
+      "id": "body-and-feelings",
+      "umbrella": "words-and-concepts",
+      "name": "Body & Feelings",
+      "desc": "Name body parts and simple emotions",
+      "initials": "BF",
+      "tint": "#6B7BD6",
+      "status": "stub"
+    }
+  ]
+}

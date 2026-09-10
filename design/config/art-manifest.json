@@ -1,0 +1,402 @@
+{
+  "version": 1,
+  "note": "Current files are JPG/PNG crops taken from the spec mockups. Per the delivery decision: redraw as SVG where the art allows (UI marks, rings, icons, badges); keep PNG for illustrated scenes. Every asset below needs a transparent-background or full-bleed decision at redraw time.",
+  "baseUrl": "/v1/assets/",
+  "assets": [
+    {
+      "file": "_assets.png",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "_beemoo_try.png",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "_check.png",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "_chk2.png",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "_grid.png",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "avatar.png",
+      "kind": "ui",
+      "redrawAs": "png"
+    },
+    {
+      "file": "beemoo.png",
+      "kind": "ui",
+      "redrawAs": "png"
+    },
+    {
+      "file": "beemoo_fly.png",
+      "kind": "ui",
+      "redrawAs": "png"
+    },
+    {
+      "file": "ico_putting.png",
+      "kind": "ui",
+      "redrawAs": "svg"
+    },
+    {
+      "file": "ico_social.png",
+      "kind": "ui",
+      "redrawAs": "svg"
+    },
+    {
+      "file": "ico_speech.png",
+      "kind": "ui",
+      "redrawAs": "svg"
+    },
+    {
+      "file": "ico_words.png",
+      "kind": "ui",
+      "redrawAs": "svg"
+    },
+    {
+      "file": "logo.png",
+      "kind": "ui",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p10_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p10_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p10_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p11_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p11_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p11_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p12_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p12_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p12_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p17_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p17_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p18_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p18_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p19_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p19_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p20_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p20_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p24_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p24_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p24_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p25_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p25_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p25_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p26_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p26_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p26_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p27_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p27_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p27_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p31_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p31_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p31_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p32_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p32_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p32_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p33_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p33_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p33_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p34_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p34_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p34_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p7_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p7_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p7_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p8_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p8_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p8_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p9_0.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p9_1.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "p9_2.jpg",
+      "kind": "choice-panel",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene13.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene14.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene15.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene16.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene2.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene21.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene22.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene23.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene28.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene29.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene3.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene30.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene4.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene5.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "scene6.jpg",
+      "kind": "scene",
+      "redrawAs": "png"
+    },
+    {
+      "file": "star.png",
+      "kind": "ui",
+      "redrawAs": "svg"
+    }
+  ]
+}
