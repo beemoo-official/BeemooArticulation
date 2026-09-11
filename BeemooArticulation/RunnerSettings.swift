@@ -13,13 +13,13 @@ final class RunnerSettings {
     /// Whether narration is enabled. Off still shows text and logs trials.
     var narrationEnabled: Bool = true
 
-    enum WrongAnswerResponse: Sendable {
+    enum WrongAnswerResponse: Sendable, Hashable {
         case retrySameScreen
         case advanceAnyway
         case reTeachThenRetry
     }
 
-    enum AdvanceGating: Sendable {
+    enum AdvanceGating: Sendable, Hashable {
         case autoAdvance
         case adultTaps
     }

@@ -4,7 +4,8 @@ struct ActivityListView: View {
     let umbrellaKey: String
     @Binding var path: NavigationPath
     @Environment(APIClient.self) private var apiClient
-    @Environment(\.self) private var environment
+    @Environment(TrialLogger.self) private var trialLogger
+    @Environment(RunnerSettings.self) private var runnerSettings
 
     private var umbrella: Umbrella? {
         apiClient.catalog.umbrellas.first { $0.key == umbrellaKey }
@@ -79,6 +80,8 @@ struct ActivityListView: View {
                             LandscapePresenter.dismiss()
                         }
                         .environment(apiClient)
+                        .environment(trialLogger)
+                        .environment(runnerSettings)
                         LandscapePresenter.present(runner)
                     }
             }

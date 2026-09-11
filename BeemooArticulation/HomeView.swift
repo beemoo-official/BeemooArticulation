@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(APIClient.self) private var apiClient
     @Binding var path: NavigationPath
+    @Binding var switchTab: BMTab
     @State private var floatOffset: CGFloat = 0
     @State private var floatRotation: Double = 0
     @State private var bobOffset: CGFloat = 0
@@ -18,7 +19,6 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 heroBlock
                 umbrellaGrid
-                    .padding(.top, 0)
                 progressCard
                     .padding(.top, BM.gridGap)
                 dailyChallengeCard
@@ -47,14 +47,13 @@ struct HomeView: View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
                 headerRow
-                    .padding(.top, 59) // safe area inset for Dynamic Island
+                    .padding(.top, 59)
                     .padding(.horizontal, 18)
                 brandBlock
                     .padding(.top, 10)
             }
             .background(heroGradient)
 
-            // Cream cap at bottom
             RoundedRectangle(cornerRadius: BM.sheetTopRadius)
                 .fill(Color.bmCream)
                 .frame(height: 52)
@@ -63,22 +62,18 @@ struct HomeView: View {
         .clipped()
     }
 
-    // MARK: - Header Row
+    // MARK: - Header Row (Settings and Switch Child removed — now in Parents tab)
 
     private var headerRow: some View {
         HStack(spacing: BM.gridGap) {
-            // Child avatar
             Image("avatar")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 46, height: 46)
                 .clipShape(Circle())
-                .overlay {
-                    Circle().stroke(.white, lineWidth: 3)
-                }
+                .overlay { Circle().stroke(.white, lineWidth: 3) }
                 .shadow(color: .black.opacity(0.14), radius: 5, x: 0, y: 3)
 
-            // Name block
             VStack(alignment: .leading, spacing: 1) {
                 Text("Hi, \(apiClient.childName)!")
                     .font(.baloo2(17))
@@ -89,33 +84,6 @@ struct HomeView: View {
             }
 
             Spacer()
-
-            // Switch Child pill
-            Button(action: {}) {
-                HStack(spacing: 6) {
-                    Circle()
-                        .fill(Color.bmNavy)
-                        .frame(width: 15, height: 15)
-                    Text("Switch Child")
-                        .font(.nunito(12.5, weight: .extraBold))
-                        .foregroundStyle(Color.bmNavy)
-                }
-                .padding(.horizontal, 14)
-                .frame(height: BM.hitTarget)
-                .background(Capsule().fill(.white))
-            }
-
-            // Settings
-            Button(action: {}) {
-                Circle()
-                    .fill(.white)
-                    .frame(width: BM.hitTarget, height: BM.hitTarget)
-                    .overlay {
-                        Image(systemName: "gearshape.fill")
-                            .font(.system(size: 18))
-                            .foregroundStyle(Color.bmNavy)
-                    }
-            }
         }
     }
 
@@ -123,7 +91,6 @@ struct HomeView: View {
 
     private var brandBlock: some View {
         ZStack(alignment: .topTrailing) {
-            // Left column: logo, tagline, speech bubble
             VStack(alignment: .leading, spacing: 8) {
                 Image("logo")
                     .resizable()
@@ -141,7 +108,6 @@ struct HomeView: View {
             .frame(minHeight: 214, alignment: .top)
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            // BeeMoo character — right edge, overlapping
             Image("beemoo_fly")
                 .resizable()
                 .scaledToFit()
@@ -161,16 +127,14 @@ struct HomeView: View {
                 .foregroundStyle(Color.bmNavy)
             Text("I'll be your guide. Let's have fun learning together!")
                 .font(.nunito(12.5))
-                .foregroundStyle(Color.bmNavy.opacity(0.78))
+                .foregroundStyle(Color.bmNavy78)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
         .frame(width: 214, alignment: .leading)
         .background {
             ZStack(alignment: .bottomLeading) {
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(.white)
-                // Tail
+                RoundedRectangle(cornerRadius: 18).fill(.white)
                 Rectangle()
                     .fill(.white)
                     .frame(width: 16, height: 16)
@@ -187,20 +151,17 @@ struct HomeView: View {
             GridItem(.flexible(), spacing: BM.gridGap),
             GridItem(.flexible(), spacing: BM.gridGap)
         ]
-
         return LazyVGrid(columns: columns, spacing: BM.gridGap) {
             ForEach(apiClient.catalog.umbrellas) { umbrella in
                 UmbrellaCard(umbrella: umbrella)
-                    .onTapGesture {
-                        path.append(Route.umbrella(key: umbrella.key))
-                    }
+                    .onTapGesture { path.append(Route.umbrella(key: umbrella.key)) }
             }
         }
         .padding(.horizontal, BM.sectionPadH)
         .padding(.bottom, 18)
     }
 
-    // MARK: - Progress Card
+    // MARK: - Progress Card (tap → Progress tab)
 
     private var progressCard: some View {
         let done = apiClient.activitiesCompletedToday
@@ -208,20 +169,16 @@ struct HomeView: View {
         let progress = Double(done) / Double(goal)
 
         return VStack(spacing: 10) {
-            // Top row: title + chevron
             HStack {
                 Text("Today's Progress")
                     .font(.baloo2(13.5))
                     .foregroundStyle(Color.bmNavy)
                 Spacer()
-                Button(action: {}) {
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(Color.bmNavy50)
-                }
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Color.bmNavy50)
             }
 
-            // Ring centred below
             ZStack {
                 Circle()
                     .stroke(Color.bmNavy09, lineWidth: 6)
@@ -253,9 +210,10 @@ struct HomeView: View {
                 .bmCardShadow()
         }
         .padding(.horizontal, BM.sectionPadH)
+        .onTapGesture { switchTab = .progress }
     }
 
-    // MARK: - Daily Challenge Card
+    // MARK: - Daily Challenge Card (tap → Rewards tab)
 
     private var dailyChallengeCard: some View {
         HStack(spacing: 12) {
@@ -271,7 +229,7 @@ struct HomeView: View {
                     .foregroundStyle(Color.bmNavy)
                 Text("Complete 5 activities to earn your badge.")
                     .font(.nunito(11))
-                    .foregroundStyle(Color.bmNavy.opacity(0.60))
+                    .foregroundStyle(Color.bmNavy60)
                 Text("\(apiClient.activitiesCompletedToday) / 5")
                     .font(.baloo2(13))
                     .foregroundStyle(Color.bmOrange)
@@ -279,11 +237,9 @@ struct HomeView: View {
 
             Spacer()
 
-            Button(action: {}) {
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(Color.bmNavy50)
-            }
+            Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Color.bmNavy50)
         }
         .padding(.horizontal, 15)
         .padding(.vertical, 13)
@@ -297,6 +253,7 @@ struct HomeView: View {
                 .bmCardShadow()
         }
         .padding(.horizontal, BM.sectionPadH)
+        .onTapGesture { switchTab = .rewards }
     }
 
     // MARK: - Subscription Banner
@@ -311,9 +268,7 @@ struct HomeView: View {
                     .font(.nunito(11))
                     .foregroundStyle(.white.opacity(0.78))
             }
-
             Spacer()
-
             Button(action: {}) {
                 Text("See plans")
                     .font(.nunito(12, weight: .extraBold))
@@ -327,13 +282,10 @@ struct HomeView: View {
         .padding(.vertical, 13)
         .background {
             RoundedRectangle(cornerRadius: BM.cardRadius)
-                .fill(
-                    LinearGradient(
-                        colors: [Color(hex: "16305B"), Color(hex: "264A85")],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .fill(LinearGradient(
+                    colors: [Color(hex: "16305B"), Color(hex: "264A85")],
+                    startPoint: .topLeading, endPoint: .bottomTrailing
+                ))
         }
         .padding(.horizontal, BM.sectionPadH)
     }
@@ -370,6 +322,6 @@ private struct UmbrellaCard: View {
 }
 
 #Preview {
-    HomeView(path: .constant(NavigationPath()))
+    HomeView(path: .constant(NavigationPath()), switchTab: .constant(.home))
         .environment(APIClient())
 }

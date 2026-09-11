@@ -4,8 +4,8 @@ struct ActivityRunnerView: View {
     let config: ActivityConfig
     let onDismiss: () -> Void
     @State private var vm: RunnerViewModel
-    @State private var trialLogger = TrialLogger()
-    @State private var settings = RunnerSettings()
+    @Environment(TrialLogger.self) private var trialLogger
+    @Environment(RunnerSettings.self) private var settings
 
     init(config: ActivityConfig, onDismiss: @escaping () -> Void) {
         self.config = config
