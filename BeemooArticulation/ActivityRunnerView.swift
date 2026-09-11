@@ -14,12 +14,15 @@ struct ActivityRunnerView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack {
+            // Screen content
             screenView
+                .id(vm.currentScreen.n)
+                .transition(.opacity)
+                .animation(.easeOut(duration: BM.transitionDuration), value: vm.currentScreen.n)
 
-            HoldToExitButton { onDismiss() }
-                .padding(.top, 8)
-                .padding(.trailing, 12)
+            // Chrome overlay
+            chromeOverlay
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.bmCream)
@@ -28,16 +31,52 @@ struct ActivityRunnerView: View {
         }
     }
 
+    // MARK: - Chrome
+
+    private var chromeOverlay: some View {
+        VStack {
+            // Top row: Home leading, Progress pill trailing
+            HStack {
+                RunnerHomeButton(onExit: onDismiss)
+                Spacer()
+                ProgressPill(
+                    current: vm.currentIndex + 1,
+                    total: vm.screenCount
+                )
+            }
+            .padding(.top, 14)
+            .padding(.horizontal, 14)
+
+            Spacer()
+
+            // Bottom row: Next button trailing
+            HStack {
+                Spacer()
+                if !isReceptiveScreen {
+                    NextButton { vm.advance() }
+                }
+            }
+            .padding(.bottom, 14)
+            .padding(.horizontal, 14)
+        }
+    }
+
+    private var isReceptiveScreen: Bool {
+        vm.currentScreen.type == .receptive
+    }
+
+    // MARK: - Screen dispatch
+
     @ViewBuilder
     private var screenView: some View {
         let screen = vm.currentScreen
         switch screen.type {
         case .intro:
-            IntroScreenView(screen: screen) { vm.advance() }
+            IntroScreenView(screen: screen, settings: settings) { vm.advance() }
         case .teaching:
-            TeachingScreenView(screen: screen) { vm.advance() }
+            TeachingScreenView(screen: screen, settings: settings) { vm.advance() }
         case .comparison:
-            ComparisonScreenView(screen: screen) { vm.advance() }
+            ComparisonScreenView(screen: screen, settings: settings) { vm.advance() }
         case .receptive:
             ReceptiveScreenView(
                 screen: screen,
@@ -50,92 +89,6 @@ struct ActivityRunnerView: View {
             TransitionScreenView(screen: screen) { vm.advance() }
         case .celebration:
             CelebrationScreenView(screen: screen) { vm.advance() }
-        }
-    }
-}
-
-// MARK: - Hold-to-exit button
-
-struct HoldToExitButton: View {
-    let onExit: () -> Void
-
-    private let holdDuration: Double = 1.0
-    private let ringSize: CGFloat = 32
-
-    @State private var revealed = false
-    @State private var isHolding = false
-    @State private var holdProgress: CGFloat = 0
-    @State private var hideTask: Task<Void, Never>?
-
-    var body: some View {
-        HStack(spacing: 8) {
-            if revealed {
-                Text("Hold to exit")
-                    .font(.nunito(12, weight: .bold))
-                    .foregroundStyle(Color.bmNavy50)
-                    .transition(.opacity)
-            }
-
-            ZStack {
-                Circle()
-                    .fill(.black.opacity(0.15))
-                    .frame(width: ringSize, height: ringSize)
-
-                Circle()
-                    .trim(from: 0, to: holdProgress)
-                    .stroke(Color.bmNavy, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                    .frame(width: ringSize, height: ringSize)
-                    .rotationEffect(.degrees(-90))
-
-                Image(systemName: "xmark")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(Color.bmNavy.opacity(0.6))
-            }
-        }
-        .onTapGesture {
-            if !revealed {
-                withAnimation(.easeOut(duration: 0.2)) { revealed = true }
-                scheduleHide()
-            }
-        }
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    guard revealed, !isHolding else { return }
-                    isHolding = true
-                    hideTask?.cancel()
-                    withAnimation(.linear(duration: holdDuration)) {
-                        holdProgress = 1.0
-                    }
-                }
-                .onEnded { _ in
-                    if holdProgress >= 0.99 {
-                        onExit()
-                    } else {
-                        isHolding = false
-                        withAnimation(.easeOut(duration: 0.15)) {
-                            holdProgress = 0
-                        }
-                        scheduleHide()
-                    }
-                }
-        )
-        .onChange(of: holdProgress) { _, newValue in
-            if newValue >= 0.99 && isHolding {
-                onExit()
-            }
-        }
-    }
-
-    private func scheduleHide() {
-        hideTask?.cancel()
-        hideTask = Task {
-            try? await Task.sleep(for: .seconds(3))
-            guard !Task.isCancelled else { return }
-            withAnimation(.easeOut(duration: 0.2)) {
-                revealed = false
-                holdProgress = 0
-            }
         }
     }
 }

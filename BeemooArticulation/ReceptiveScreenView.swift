@@ -12,39 +12,51 @@ struct ReceptiveScreenView: View {
     @State private var firstTry: Bool = true
     @State private var selectedMeaning: String?
     @State private var isCorrect: Bool?
-    @State private var choicesEnabled: Bool = true
+    @State private var choicesEnabled: Bool = false  // starts false, enabled after narration
     @State private var showCorrectFeedback: Bool = false
     @State private var trialId = UUID()
 
-    var body: some View {
-        VStack(spacing: 0) {
-            // Choice panels fill space above the prompt plate
-            choicePanels
+    @State private var bubbleVM: NarratedBubbleVM?
+    @State private var narrationTrack = SystemNarrationTrack()
 
-            // Prompt plate pinned to bottom
-            if let text = screen.displayText {
-                PromptPlate(text: text)
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .topLeading) {
+                // Choice panels fill the frame
+                choicePanels(in: geo.size)
+
+                // Narrated bubble overlay
+                if let vm = bubbleVM {
+                    NarratedBubble(vm: vm, contentWidth: geo.size.width * 0.6)
+                        .padding(.top, 60)
+                        .padding(.leading, 70)
+                }
             }
         }
         .background(Color.bmCream)
-        .onAppear { shuffleAndReset() }
+        .onAppear {
+            shuffleAndReset()
+            startNarration()
+        }
+        .onDisappear { narrationTrack.stop() }
     }
 
     // MARK: - Choice panels
 
-    private var choicePanels: some View {
-        GeometryReader { geo in
-            HStack(spacing: 16) {
-                ForEach(shuffledChoices) { choice in
-                    choiceCard(choice, height: geo.size.height)
-                }
+    private func choicePanels(in size: CGSize) -> some View {
+        HStack(spacing: 16) {
+            ForEach(shuffledChoices) { choice in
+                choiceCard(choice)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
         }
+        // Inset: clear home button (leading 70), progress pill (trailing 80), bottom chrome (60)
+        .padding(.leading, 70)
+        .padding(.trailing, 80)
+        .padding(.top, 12)
+        .padding(.bottom, 60)
     }
 
-    private func choiceCard(_ choice: ChoiceConfig, height: CGFloat) -> some View {
+    private func choiceCard(_ choice: ChoiceConfig) -> some View {
         let isSelected = selectedMeaning == choice.meaning
         let isRight = choice.meaning == screen.correct
         let borderColor: Color = {
@@ -71,8 +83,38 @@ struct ReceptiveScreenView: View {
                 )
                 .scaleEffect(showCorrectFeedback && isRight ? 1.06 : 1.0)
                 .animation(.spring(duration: 0.32), value: showCorrectFeedback)
+                .opacity(choicesEnabled ? 1.0 : 0.6)
         }
         .buttonStyle(.plain)
+        .disabled(!choicesEnabled)
+    }
+
+    // MARK: - Narration
+
+    private func startNarration() {
+        guard let text = screen.displayText else {
+            choicesEnabled = true
+            return
+        }
+
+        let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
+        vm.isNarrationOff = !settings.narrationEnabled
+        self.bubbleVM = vm
+
+        // Choices become tappable after narration
+        if !settings.narrationEnabled {
+            choicesEnabled = true
+        }
+
+        vm.startNarration()
+
+        // Watch for narration end
+        Task {
+            while !(bubbleVM?.narrationFinished ?? true) {
+                try? await Task.sleep(for: .milliseconds(50))
+            }
+            choicesEnabled = true
+        }
     }
 
     // MARK: - Trial logic
@@ -88,7 +130,6 @@ struct ReceptiveScreenView: View {
             choicesEnabled = false
             showCorrectFeedback = true
 
-            // Log trial
             let record = TrialRecord(
                 id: trialId,
                 screenId: screen.n,
@@ -100,24 +141,20 @@ struct ReceptiveScreenView: View {
             )
             trialLogger.log(record)
 
-            // Advance after feedback
             Task {
                 try? await Task.sleep(for: .milliseconds(800))
                 onAdvance()
             }
         } else {
-            // Wrong answer
             if firstTry { firstTry = false }
 
             switch settings.wrongAnswerResponse {
             case .retrySameScreen:
-                // Brief feedback, then re-enable choices
                 Task {
                     try? await Task.sleep(for: .milliseconds(600))
                     selectedMeaning = nil
                     isCorrect = nil
                 }
-
             case .advanceAnyway:
                 let record = TrialRecord(
                     id: trialId,
@@ -134,9 +171,7 @@ struct ReceptiveScreenView: View {
                     try? await Task.sleep(for: .milliseconds(600))
                     onAdvance()
                 }
-
             case .reTeachThenRetry:
-                // For now, behave like retry (re-teach requires runner-level navigation)
                 Task {
                     try? await Task.sleep(for: .milliseconds(600))
                     selectedMeaning = nil
@@ -153,7 +188,7 @@ struct ReceptiveScreenView: View {
         firstTry = true
         selectedMeaning = nil
         isCorrect = nil
-        choicesEnabled = true
+        choicesEnabled = false
         showCorrectFeedback = false
         trialId = UUID()
     }
