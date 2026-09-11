@@ -16,31 +16,17 @@ struct ActivityRunnerView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             screenView
-                .id(vm.currentScreen.n)
-                .transition(.opacity)
-                .animation(.easeOut(duration: BM.transitionDuration), value: vm.currentScreen.n)
 
             HoldToExitButton { onDismiss() }
-                .padding(.top, 16)
-                .padding(.trailing, 16)
+                .padding(.top, 8)
+                .padding(.trailing, 12)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.bmCream)
-        .persistentSystemOverlays(.hidden)
-        .statusBarHidden()
-        .onAppear {
-            OrientationHelper.lockLandscape()
-        }
-        .onDisappear {
-            OrientationHelper.lockPortrait()
-        }
         .onChange(of: vm.isFinished) { _, finished in
-            if finished {
-                onDismiss()
-            }
+            if finished { onDismiss() }
         }
     }
-
-    // MARK: - Screen dispatch
 
     @ViewBuilder
     private var screenView: some View {

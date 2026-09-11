@@ -4,7 +4,7 @@ struct ActivityListView: View {
     let umbrellaKey: String
     @Binding var path: NavigationPath
     @Environment(APIClient.self) private var apiClient
-    @State private var activeRunnerConfig: ActivityConfig?
+    @Environment(\.self) private var environment
 
     private var umbrella: Umbrella? {
         apiClient.catalog.umbrellas.first { $0.key == umbrellaKey }
@@ -33,12 +33,6 @@ struct ActivityListView: View {
                 Color.bmIce
             }
             .ignoresSafeArea()
-        }
-        .fullScreenCover(item: $activeRunnerConfig) { config in
-            ActivityRunnerView(config: config) {
-                activeRunnerConfig = nil
-            }
-            .interactiveDismissDisabled()
         }
     }
 
@@ -81,7 +75,11 @@ struct ActivityListView: View {
                     .onTapGesture {
                         guard activity.isLive else { return }
                         let config = SeedData.loadActivityConfig(activity.id)
-                        activeRunnerConfig = config
+                        let runner = ActivityRunnerView(config: config) {
+                            LandscapePresenter.dismiss()
+                        }
+                        .environment(apiClient)
+                        LandscapePresenter.present(runner)
                     }
             }
         }
