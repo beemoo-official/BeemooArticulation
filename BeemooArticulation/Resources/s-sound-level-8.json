@@ -1,0 +1,120 @@
+{
+  "activityId": "s-sound-level-8",
+  "version": 1,
+  "title": "Middle S Sentences",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's say sentences with middle *S* words!",
+      "audio": "Let's say sentences with middle S words!"
+    },
+    {
+      "n": 2,
+      "type": "sentenceProduction",
+      "concept": "S",
+      "stimuli": [
+        {
+          "stimulusId": "S-MED-01",
+          "targetWord": "dinosaur",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Dinosaur.png",
+          "sentenceText": "The dinosaur is big.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_01_The_Dinosaur_Is_Big.png",
+          "audioText": "Say: The dinosaur is big."
+        },
+        {
+          "stimulusId": "S-MED-02",
+          "targetWord": "bicycle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Bicycle_Full.png",
+          "sentenceText": "I ride my bicycle.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_02_I_Ride_My_Bicycle.png",
+          "audioText": "Say: I ride my bicycle."
+        },
+        {
+          "stimulusId": "S-MED-03",
+          "targetWord": "messy",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Messy_CLEAN.png",
+          "sentenceText": "My room is messy.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_03_My_Room_Is_Messy.png",
+          "audioText": "Say: My room is messy."
+        },
+        {
+          "stimulusId": "S-MED-04",
+          "targetWord": "fossil",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Fossil.png",
+          "sentenceText": "I found a fossil.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_04_I_Found_A_Fossil.png",
+          "audioText": "Say: I found a fossil."
+        },
+        {
+          "stimulusId": "S-MED-05",
+          "targetWord": "castle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Castle_FINAL.png",
+          "sentenceText": "I made a castle.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_05_I_Made_A_Castle.png",
+          "audioText": "Say: I made a castle."
+        },
+        {
+          "stimulusId": "S-MED-06",
+          "targetWord": "whistle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Whistle_NEW.png",
+          "sentenceText": "I blow the whistle.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_06_I_Blow_The_Whistle_Black_Girl.png",
+          "audioText": "Say: I blow the whistle."
+        },
+        {
+          "stimulusId": "S-MED-07",
+          "targetWord": "dresser",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Dresser_REVISED.png",
+          "sentenceText": "My dresser is brown.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_07_My_Dresser_Is_Brown.png",
+          "audioText": "Say: My dresser is brown."
+        },
+        {
+          "stimulusId": "S-MED-08",
+          "targetWord": "eraser",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Eraser.png",
+          "sentenceText": "I have an eraser.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_08_I_Have_An_Eraser.png",
+          "audioText": "Say: I have an eraser."
+        },
+        {
+          "stimulusId": "S-MED-09",
+          "targetWord": "faucet",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Faucet.png",
+          "sentenceText": "I turn on the faucet.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_09_I_Turn_On_The_Faucet_Blond_Boy.png",
+          "audioText": "Say: I turn on the faucet."
+        },
+        {
+          "stimulusId": "S-MED-10",
+          "targetWord": "wrestle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Wrestle.png",
+          "sentenceText": "I like to wrestle.",
+          "sentenceImage": "BEEMOO_Medial_S_Sentence_10_I_Like_To_Wrestle.png",
+          "audioText": "Say: I like to wrestle."
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Awesome! You said all the middle S sentences!"
+    }
+  ]
+}

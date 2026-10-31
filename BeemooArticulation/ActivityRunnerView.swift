@@ -52,7 +52,7 @@ struct ActivityRunnerView: View {
             // Bottom row: Next button trailing
             HStack {
                 Spacer()
-                if !isReceptiveScreen {
+                if !hidesNextButton {
                     NextButton { vm.advance() }
                 }
             }
@@ -61,8 +61,13 @@ struct ActivityRunnerView: View {
         }
     }
 
-    private var isReceptiveScreen: Bool {
-        vm.currentScreen.type == .receptive
+    private var hidesNextButton: Bool {
+        switch vm.currentScreen.type {
+        case .receptive, .soundDiscrimination, .wordProduction, .sentenceProduction, .flashcard, .soundModeling:
+            true
+        default:
+            false
+        }
     }
 
     // MARK: - Screen dispatch
@@ -89,6 +94,34 @@ struct ActivityRunnerView: View {
             TransitionScreenView(screen: screen) { vm.advance() }
         case .celebration:
             CelebrationScreenView(screen: screen) { vm.advance() }
+        case .soundModeling:
+            SoundModelingScreenView(screen: screen, settings: settings) { vm.advance() }
+        case .soundDiscrimination:
+            SoundDiscriminationScreenView(
+                screen: screen,
+                activityId: config.activityId,
+                settings: settings,
+                trialLogger: trialLogger,
+                onAdvance: { vm.advance() }
+            )
+        case .wordProduction:
+            WordProductionScreenView(
+                screen: screen,
+                activityId: config.activityId,
+                settings: settings,
+                trialLogger: trialLogger,
+                onAdvance: { vm.advance() }
+            )
+        case .sentenceProduction:
+            SentenceProductionScreenView(
+                screen: screen,
+                activityId: config.activityId,
+                settings: settings,
+                trialLogger: trialLogger,
+                onAdvance: { vm.advance() }
+            )
+        case .flashcard:
+            FlashcardScreenView(screen: screen, settings: settings) { vm.advance() }
         }
     }
 }

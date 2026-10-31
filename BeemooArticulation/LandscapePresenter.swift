@@ -25,6 +25,7 @@ enum LandscapePresenter {
         }
 
         let host = LandscapeHostingController(rootView: view)
+        host.view.backgroundColor = UIColor(red: 255/255, green: 253/255, blue: 246/255, alpha: 1) // cream
         host.modalPresentationStyle = .fullScreen
         host.modalTransitionStyle = .crossDissolve
 

@@ -1,0 +1,120 @@
+{
+  "activityId": "s-sound-level-6",
+  "version": 1,
+  "title": "Beginning S Sentences",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's say sentences with *S* words!",
+      "audio": "Let's say sentences with S words!"
+    },
+    {
+      "n": 2,
+      "type": "sentenceProduction",
+      "concept": "S",
+      "stimuli": [
+        {
+          "stimulusId": "S-INI-01",
+          "targetWord": "sun",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sun.png",
+          "sentenceText": "The sun is hot.",
+          "sentenceImage": "BEEMOO_Initial_S_Sun.png",
+          "audioText": "Say: The sun is hot."
+        },
+        {
+          "stimulusId": "S-INI-02",
+          "targetWord": "sock",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sock.png",
+          "sentenceText": "My sock is red.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_02_My_Sock_Is_Red.png",
+          "audioText": "Say: My sock is red."
+        },
+        {
+          "stimulusId": "S-INI-03",
+          "targetWord": "soup",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Soup.png",
+          "sentenceText": "The soup is yummy.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_03_The_Soup_Is_Yummy.png",
+          "audioText": "Say: The soup is yummy."
+        },
+        {
+          "stimulusId": "S-INI-04",
+          "targetWord": "seal",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Seal.png",
+          "sentenceText": "The seal is wet.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_04_The_Seal_Is_Wet.png",
+          "audioText": "Say: The seal is wet."
+        },
+        {
+          "stimulusId": "S-INI-05",
+          "targetWord": "sit",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sit.png",
+          "sentenceText": "I like to sit.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_05_I_Like_To_Sit.png",
+          "audioText": "Say: I like to sit."
+        },
+        {
+          "stimulusId": "S-INI-06",
+          "targetWord": "soap",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Soap.png",
+          "sentenceText": "The soap is pink.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_06_The_Soap_Is_Pink.png",
+          "audioText": "Say: The soap is pink."
+        },
+        {
+          "stimulusId": "S-INI-07",
+          "targetWord": "sad",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sad.png",
+          "sentenceText": "I am sad.",
+          "sentenceImage": "BEEMOO_He_Is_Sad.png",
+          "audioText": "Say: I am sad."
+        },
+        {
+          "stimulusId": "S-INI-08",
+          "targetWord": "sip",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sip.png",
+          "sentenceText": "I sip my milk.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_08_I_Sip_My_Milk.png",
+          "audioText": "Say: I sip my milk."
+        },
+        {
+          "stimulusId": "S-INI-09",
+          "targetWord": "sail",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sail.png",
+          "sentenceText": "I sail the boat.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_09_I_Sail_The_Boat.png",
+          "audioText": "Say: I sail the boat."
+        },
+        {
+          "stimulusId": "S-INI-10",
+          "targetWord": "sack",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sack.png",
+          "sentenceText": "The sack is heavy.",
+          "sentenceImage": "BEEMOO_Initial_S_Sentence_10_The_Sack_Is_Heavy.png",
+          "audioText": "Say: The sack is heavy."
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Awesome! You said all the beginning S sentences!"
+    }
+  ]
+}

@@ -42,8 +42,19 @@ struct ScreenConfig: Codable, Sendable, Identifiable {
     let choices: [ChoiceConfig]?
     let shuffleChoices: Bool?
 
-    // transition
+    // transition / soundModeling variant
     let variant: Int?
+
+    // soundModeling (Level 1)
+    let spotXPercent: Int?
+    let spotYPercent: Int?
+
+    // soundDiscrimination (Level 2)
+    let targetAsset: String?
+    let distractorAssets: [String]?
+
+    // wordProduction / sentenceProduction / flashcard (Levels 3-8)
+    let stimuli: [StimulusConfig]?
 
     var id: Int { n }
 
@@ -65,6 +76,12 @@ enum ScreenType: String, Codable, Sendable {
     case receptive
     case transition
     case celebration
+    // /s/ articulation module
+    case soundModeling
+    case soundDiscrimination
+    case wordProduction
+    case sentenceProduction
+    case flashcard
 }
 
 // MARK: - Choice config
@@ -77,6 +94,28 @@ struct ChoiceConfig: Codable, Sendable, Identifiable {
 
     var assetName: String {
         String(asset.dropLast(4)) // "p7_0.jpg" → "p7_0"
+    }
+}
+
+// MARK: - Stimulus config (for articulation production screens)
+
+struct StimulusConfig: Codable, Sendable, Identifiable {
+    let stimulusId: String
+    let targetWord: String
+    let targetPosition: String   // "initial", "final", "medial"
+    let wordImage: String
+    let sentenceText: String?
+    let sentenceImage: String?
+    let audioText: String?       // text for TTS or audio filename
+
+    var id: String { stimulusId }
+
+    var wordImageName: String {
+        String(wordImage.dropLast(4))
+    }
+
+    var sentenceImageName: String? {
+        sentenceImage.map { String($0.dropLast(4)) }
     }
 }
 

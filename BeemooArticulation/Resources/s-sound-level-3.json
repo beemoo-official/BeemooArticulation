@@ -1,0 +1,100 @@
+{
+  "activityId": "s-sound-level-3",
+  "version": 1,
+  "title": "Beginning S Words",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's say words that start with *S*!",
+      "audio": "Let's say words that start with S!"
+    },
+    {
+      "n": 2,
+      "type": "wordProduction",
+      "concept": "S",
+      "stimuli": [
+        {
+          "stimulusId": "S-INI-01",
+          "targetWord": "sun",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sun.png",
+          "audioText": "Say sun."
+        },
+        {
+          "stimulusId": "S-INI-02",
+          "targetWord": "sock",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sock.png",
+          "audioText": "Say sock."
+        },
+        {
+          "stimulusId": "S-INI-03",
+          "targetWord": "soup",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Soup.png",
+          "audioText": "Say soup."
+        },
+        {
+          "stimulusId": "S-INI-04",
+          "targetWord": "seal",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Seal.png",
+          "audioText": "Say seal."
+        },
+        {
+          "stimulusId": "S-INI-05",
+          "targetWord": "sit",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sit.png",
+          "audioText": "Say sit."
+        },
+        {
+          "stimulusId": "S-INI-06",
+          "targetWord": "soap",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Soap.png",
+          "audioText": "Say soap."
+        },
+        {
+          "stimulusId": "S-INI-07",
+          "targetWord": "sad",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sad.png",
+          "audioText": "Say sad."
+        },
+        {
+          "stimulusId": "S-INI-08",
+          "targetWord": "sip",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sip.png",
+          "audioText": "Say sip."
+        },
+        {
+          "stimulusId": "S-INI-09",
+          "targetWord": "sail",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sail.png",
+          "audioText": "Say sail."
+        },
+        {
+          "stimulusId": "S-INI-10",
+          "targetWord": "sack",
+          "targetPosition": "initial",
+          "wordImage": "BEEMOO_Initial_S_Sack.png",
+          "audioText": "Say sack."
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Amazing! You said all the beginning S words!"
+    }
+  ]
+}

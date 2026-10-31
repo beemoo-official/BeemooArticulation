@@ -1,0 +1,5 @@
+django>=6.1
+djangorestframework>=3.18
+django-cors-headers>=4.9
+drf-spectacular>=0.30
+Pillow>=13.0

@@ -1,0 +1,101 @@
+{
+  "activityId": "s-sound-level-1",
+  "version": 1,
+  "title": "Make the S Sound",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's make the *S* sound!",
+      "audio": "Let's make the S sound!"
+    },
+    {
+      "n": 2,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 0,
+      "text": "Find the snake! Tap the spot to hear the *S* sound.",
+      "spotXPercent": 50,
+      "spotYPercent": 50
+    },
+    {
+      "n": 3,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 1,
+      "text": "Drag the snake out of the pit! Say *sssss* as you drag."
+    },
+    {
+      "n": 4,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 2,
+      "text": "Tap the egg to hatch the snake! Say *sssss*!"
+    },
+    {
+      "n": 5,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 0,
+      "text": "Find the snake hiding! Tap the spot and say *sssss*.",
+      "spotXPercent": 30,
+      "spotYPercent": 60
+    },
+    {
+      "n": 6,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 1,
+      "text": "Drag the snake up! Keep saying *sssss* the whole time."
+    },
+    {
+      "n": 7,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 2,
+      "text": "Hatch another snake egg! Say *sssss*!"
+    },
+    {
+      "n": 8,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 0,
+      "text": "Where is the snake? Tap and say *sssss*!",
+      "spotXPercent": 70,
+      "spotYPercent": 40
+    },
+    {
+      "n": 9,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 1,
+      "text": "Drag the snake out! Say a long *sssss* sound."
+    },
+    {
+      "n": 10,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 2,
+      "text": "One more egg! Tap to hatch and say *sssss*!"
+    },
+    {
+      "n": 11,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 0,
+      "text": "Last one! Find the snake and say *sssss*!",
+      "spotXPercent": 45,
+      "spotYPercent": 55
+    },
+    {
+      "n": 12,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Great job making the S sound!"
+    }
+  ]
+}

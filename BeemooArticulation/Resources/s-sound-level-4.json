@@ -1,0 +1,100 @@
+{
+  "activityId": "s-sound-level-4",
+  "version": 1,
+  "title": "Final S Words",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's say words that end with *S*!",
+      "audio": "Let's say words that end with S!"
+    },
+    {
+      "n": 2,
+      "type": "wordProduction",
+      "concept": "S",
+      "stimuli": [
+        {
+          "stimulusId": "S-FIN-01",
+          "targetWord": "bus",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_01_Bus.png",
+          "audioText": "Say bus."
+        },
+        {
+          "stimulusId": "S-FIN-02",
+          "targetWord": "house",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_02_House.png",
+          "audioText": "Say house."
+        },
+        {
+          "stimulusId": "S-FIN-03",
+          "targetWord": "mouse",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Mouse.png",
+          "audioText": "Say mouse."
+        },
+        {
+          "stimulusId": "S-FIN-04",
+          "targetWord": "ice",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_04_Ice.png",
+          "audioText": "Say ice."
+        },
+        {
+          "stimulusId": "S-FIN-05",
+          "targetWord": "face",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Face.png",
+          "audioText": "Say face."
+        },
+        {
+          "stimulusId": "S-FIN-06",
+          "targetWord": "kiss",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_06_Kiss.png",
+          "audioText": "Say kiss."
+        },
+        {
+          "stimulusId": "S-FIN-07",
+          "targetWord": "rice",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_07_Rice_REVISED.png",
+          "audioText": "Say rice."
+        },
+        {
+          "stimulusId": "S-FIN-08",
+          "targetWord": "goose",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_08_Goose.png",
+          "audioText": "Say goose."
+        },
+        {
+          "stimulusId": "S-FIN-09",
+          "targetWord": "juice",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Juice.png",
+          "audioText": "Say juice."
+        },
+        {
+          "stimulusId": "S-FIN-10",
+          "targetWord": "dress",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Dress.png",
+          "audioText": "Say dress."
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Amazing! You said all the final S words!"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "activityId": "s-sound-level-5",
+  "version": 1,
+  "title": "Middle S Words",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's say words with *S* in the middle!",
+      "audio": "Let's say words with S in the middle!"
+    },
+    {
+      "n": 2,
+      "type": "wordProduction",
+      "concept": "S",
+      "stimuli": [
+        {
+          "stimulusId": "S-MED-01",
+          "targetWord": "dinosaur",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Dinosaur.png",
+          "audioText": "Say dinosaur."
+        },
+        {
+          "stimulusId": "S-MED-02",
+          "targetWord": "bicycle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Bicycle_Full.png",
+          "audioText": "Say bicycle."
+        },
+        {
+          "stimulusId": "S-MED-03",
+          "targetWord": "messy",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Messy_CLEAN.png",
+          "audioText": "Say messy."
+        },
+        {
+          "stimulusId": "S-MED-04",
+          "targetWord": "fossil",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Fossil.png",
+          "audioText": "Say fossil."
+        },
+        {
+          "stimulusId": "S-MED-05",
+          "targetWord": "castle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Castle_FINAL.png",
+          "audioText": "Say castle."
+        },
+        {
+          "stimulusId": "S-MED-06",
+          "targetWord": "whistle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Whistle_NEW.png",
+          "audioText": "Say whistle."
+        },
+        {
+          "stimulusId": "S-MED-07",
+          "targetWord": "dresser",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Dresser_REVISED.png",
+          "audioText": "Say dresser."
+        },
+        {
+          "stimulusId": "S-MED-08",
+          "targetWord": "eraser",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Eraser.png",
+          "audioText": "Say eraser."
+        },
+        {
+          "stimulusId": "S-MED-09",
+          "targetWord": "faucet",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Faucet.png",
+          "audioText": "Say faucet."
+        },
+        {
+          "stimulusId": "S-MED-10",
+          "targetWord": "wrestle",
+          "targetPosition": "medial",
+          "wordImage": "BEEMOO_Medial_S_Wrestle.png",
+          "audioText": "Say wrestle."
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Amazing! You said all the middle S words!"
+    }
+  ]
+}

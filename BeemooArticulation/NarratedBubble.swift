@@ -148,6 +148,7 @@ struct NarratedBubble: View {
                 .fixedSize(horizontal: true, vertical: true)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
+                .frame(minWidth: 44, minHeight: 36)
                 .background {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.white)
@@ -157,10 +158,13 @@ struct NarratedBubble: View {
                         }
                 }
 
-            // Reserve 40% so the bubble never exceeds 60%
             Spacer(minLength: 0)
         }
         .frame(width: contentWidth)
-        .animation(reduceMotion ? nil : .easeOut(duration: 0.22), value: vm.revealedCount)
+        // Only animate after first word (not the initial empty → first word transition)
+        .animation(
+            vm.revealedCount > 1 && !reduceMotion ? .easeOut(duration: 0.22) : nil,
+            value: vm.revealedCount
+        )
     }
 }

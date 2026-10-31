@@ -1,0 +1,153 @@
+{
+  "activityId": "s-sound-level-2",
+  "version": 1,
+  "title": "Hear the S Sound",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's listen for the *S* sound!",
+      "audio": "Let's listen for the S sound!"
+    },
+    {
+      "n": 2,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one starts with *S*? Tap the picture!",
+      "correct": "sun",
+      "choices": [
+        { "asset": "BEEMOO_Initial_S_Sun.png", "meaning": "sun" },
+        { "asset": "BEEMOO_Distractor_01_Cat.png", "meaning": "cat" },
+        { "asset": "BEEMOO_Distractor_02_Dog.png", "meaning": "dog" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 3,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one starts with *S*? Tap the picture!",
+      "correct": "sock",
+      "choices": [
+        { "asset": "BEEMOO_Initial_S_Sock.png", "meaning": "sock" },
+        { "asset": "BEEMOO_Distractor_03_Hat.png", "meaning": "hat" },
+        { "asset": "BEEMOO_Distractor_04_Ball.png", "meaning": "ball" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 4,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one starts with *S*? Tap the picture!",
+      "correct": "soup",
+      "choices": [
+        { "asset": "BEEMOO_Initial_S_Soup.png", "meaning": "soup" },
+        { "asset": "BEEMOO_Distractor_05_Cup.png", "meaning": "cup" },
+        { "asset": "BEEMOO_Distractor_06_Bed.png", "meaning": "bed" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 5,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one starts with *S*? Tap the picture!",
+      "correct": "seal",
+      "choices": [
+        { "asset": "BEEMOO_Initial_S_Seal.png", "meaning": "seal" },
+        { "asset": "BEEMOO_Distractor_07_Pig.png", "meaning": "pig" },
+        { "asset": "BEEMOO_Distractor_08_Car.png", "meaning": "car" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 6,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one ends with *S*? Tap the picture!",
+      "correct": "bus",
+      "choices": [
+        { "asset": "BEEMOO_Final_S_01_Bus.png", "meaning": "bus" },
+        { "asset": "BEEMOO_Distractor_09_Book.png", "meaning": "book" },
+        { "asset": "BEEMOO_Distractor_10_Fish.png", "meaning": "fish" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 7,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one ends with *S*? Tap the picture!",
+      "correct": "house",
+      "choices": [
+        { "asset": "BEEMOO_Final_S_02_House.png", "meaning": "house" },
+        { "asset": "BEEMOO_Distractor_11_Duck.png", "meaning": "duck" },
+        { "asset": "BEEMOO_Distractor_12_Frog.png", "meaning": "frog" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 8,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one ends with *S*? Tap the picture!",
+      "correct": "mouse",
+      "choices": [
+        { "asset": "BEEMOO_Final_S_REPLACEMENT_Mouse.png", "meaning": "mouse" },
+        { "asset": "BEEMOO_Distractor_13_Drum.png", "meaning": "drum" },
+        { "asset": "BEEMOO_Distractor_14_Kite.png", "meaning": "kite" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 9,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one has *S* in the middle? Tap the picture!",
+      "correct": "dinosaur",
+      "choices": [
+        { "asset": "BEEMOO_Medial_S_Dinosaur.png", "meaning": "dinosaur" },
+        { "asset": "BEEMOO_Distractor_15_Lamp.png", "meaning": "lamp" },
+        { "asset": "BEEMOO_Distractor_16_Tree.png", "meaning": "tree" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 10,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one has *S* in the middle? Tap the picture!",
+      "correct": "bicycle",
+      "choices": [
+        { "asset": "BEEMOO_Medial_S_Bicycle_Full.png", "meaning": "bicycle" },
+        { "asset": "BEEMOO_Distractor_17_Moon.png", "meaning": "moon" },
+        { "asset": "BEEMOO_Distractor_18_Cake.png", "meaning": "cake" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 11,
+      "type": "soundDiscrimination",
+      "concept": "S",
+      "prompt": "Which one has *S* in the middle? Tap the picture!",
+      "correct": "castle",
+      "choices": [
+        { "asset": "BEEMOO_Medial_S_Castle_FINAL.png", "meaning": "castle" },
+        { "asset": "BEEMOO_Distractor_19_Ring.png", "meaning": "ring" },
+        { "asset": "BEEMOO_Distractor_20_Shoe.png", "meaning": "shoe" }
+      ],
+      "shuffleChoices": true
+    },
+    {
+      "n": 12,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Great job hearing the S sound!"
+    }
+  ]
+}

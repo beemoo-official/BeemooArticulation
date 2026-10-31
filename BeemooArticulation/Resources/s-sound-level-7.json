@@ -1,0 +1,120 @@
+{
+  "activityId": "s-sound-level-7",
+  "version": 1,
+  "title": "Final S Sentences",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": ["S"],
+  "screens": [
+    {
+      "n": 1,
+      "type": "intro",
+      "concept": "S",
+      "text": "Let's say sentences with final *S* words!",
+      "audio": "Let's say sentences with final S words!"
+    },
+    {
+      "n": 2,
+      "type": "sentenceProduction",
+      "concept": "S",
+      "stimuli": [
+        {
+          "stimulusId": "S-FIN-01",
+          "targetWord": "bus",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_01_Bus.png",
+          "sentenceText": "I ride the bus.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_01_I_Ride_The_Bus_No_Text.png",
+          "audioText": "Say: I ride the bus."
+        },
+        {
+          "stimulusId": "S-FIN-02",
+          "targetWord": "house",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_02_House.png",
+          "sentenceText": "We live in a house.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_02_We_Live_In_A_House.png",
+          "audioText": "Say: We live in a house."
+        },
+        {
+          "stimulusId": "S-FIN-03",
+          "targetWord": "mouse",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Mouse.png",
+          "sentenceText": "I have a mouse.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_03_I_Have_A_Mouse.png",
+          "audioText": "Say: I have a mouse."
+        },
+        {
+          "stimulusId": "S-FIN-04",
+          "targetWord": "ice",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_04_Ice.png",
+          "sentenceText": "I have ice.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_04_I_Have_Ice.png",
+          "audioText": "Say: I have ice."
+        },
+        {
+          "stimulusId": "S-FIN-05",
+          "targetWord": "face",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Face.png",
+          "sentenceText": "I wash my face.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_05_I_Wash_My_Face.png",
+          "audioText": "Say: I wash my face."
+        },
+        {
+          "stimulusId": "S-FIN-06",
+          "targetWord": "kiss",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_06_Kiss.png",
+          "sentenceText": "Give me a kiss.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_06_Give_Me_A_Kiss.png",
+          "audioText": "Say: Give me a kiss."
+        },
+        {
+          "stimulusId": "S-FIN-07",
+          "targetWord": "rice",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_07_Rice_REVISED.png",
+          "sentenceText": "I eat rice.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_07_I_Eat_Rice.png",
+          "audioText": "Say: I eat rice."
+        },
+        {
+          "stimulusId": "S-FIN-08",
+          "targetWord": "goose",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_08_Goose.png",
+          "sentenceText": "I pet the goose.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_08_I_Pet_The_Goose.png",
+          "audioText": "Say: I pet the goose."
+        },
+        {
+          "stimulusId": "S-FIN-09",
+          "targetWord": "juice",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Juice.png",
+          "sentenceText": "I drink juice.",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_09_I_Drink_Juice.png",
+          "audioText": "Say: I drink juice."
+        },
+        {
+          "stimulusId": "S-FIN-10",
+          "targetWord": "dress",
+          "targetPosition": "final",
+          "wordImage": "BEEMOO_Final_S_REPLACEMENT_Dress.png",
+          "sentenceText": "I love my dress!",
+          "sentenceImage": "BEEMOO_Final_S_Sentence_10_I_Love_My_Dress_Red_Hair.png",
+          "audioText": "Say: I love my dress!"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "type": "celebration",
+      "concept": "S",
+      "audio": "Awesome! You said all the final S sentences!"
+    }
+  ]
+}
