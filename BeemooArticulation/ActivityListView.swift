@@ -6,6 +6,7 @@ struct ActivityListView: View {
     @Environment(APIClient.self) private var apiClient
     @Environment(TrialLogger.self) private var trialLogger
     @Environment(RunnerSettings.self) private var runnerSettings
+    @Environment(SProgressStore.self) private var sProgressStore
 
     private var umbrella: Umbrella? {
         apiClient.catalog.umbrellas.first { $0.key == umbrellaKey }
@@ -75,6 +76,12 @@ struct ActivityListView: View {
                 ActivityRow(activity: activity)
                     .onTapGesture {
                         guard activity.isLive else { return }
+
+                        if activity.id == "s-sound-practice" {
+                            path.append(Route.sPracticeHome)
+                            return
+                        }
+
                         let config = SeedData.loadActivityConfig(activity.id)
                         let runner = ActivityRunnerView(config: config) {
                             LandscapePresenter.dismiss()
@@ -82,6 +89,7 @@ struct ActivityListView: View {
                         .environment(apiClient)
                         .environment(trialLogger)
                         .environment(runnerSettings)
+                        .environment(sProgressStore)
                         LandscapePresenter.present(runner)
                     }
             }

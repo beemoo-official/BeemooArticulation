@@ -8,11 +8,15 @@ struct SoundModelingScreenView: View {
     let settings: RunnerSettings
     let onAdvance: () -> Void
 
+    @Environment(APIClient.self) private var apiClient
+
     @State private var interactionCount = 0
+    @State private var completedSpots: Set<String> = []
     @State private var bubbleVM: NarratedBubbleVM?
     @State private var narrationTrack = SystemNarrationTrack()
+    @State private var popPlayer = RemoteAudioPlayer()
 
-    private let maxInteractions = 10
+    private let maxInteractions = 4
 
     var body: some View {
         GeometryReader { geo in
@@ -39,7 +43,7 @@ struct SoundModelingScreenView: View {
                 }
             }
         }
-        .background(Color.bmCream)
+        .background { JungleBackground() }
         .onAppear { startNarration() }
         .onDisappear { narrationTrack.stop() }
     }
@@ -51,16 +55,36 @@ struct SoundModelingScreenView: View {
         let variant = screen.variant ?? 0
         switch variant {
         case 0:
-            SpotTapGame(
-                size: size,
-                spotX: screen.spotXPercent ?? 50,
-                spotY: screen.spotYPercent ?? 50,
-                onTap: handleInteraction
-            )
+            if let spotMap = screen.spotMap {
+                SpotTapGame(
+                    size: size,
+                    spotMap: spotMap,
+                    completedSpots: $completedSpots,
+                    onSpotTapped: {
+                        popPlayer.play("popEffect.mp3", from: apiClient)
+                        handleInteraction()
+                    }
+                )
+            }
         case 1:
-            SnakeDragGame(size: size, onDrop: handleInteraction)
+            if let dragConfig = screen.dragToGoal {
+                DragToGoalView(
+                    config: dragConfig,
+                    screenSize: size,
+                    onItemDropped: { _ in
+                        popPlayer.play("popEffect.mp3", from: apiClient)
+                        handleInteraction()
+                    },
+                    showDebug: false
+                )
+            }
         default:
-            EggHatchGame(size: size, onTap: handleInteraction)
+            EggHatchGame(size: size, onCrack: {
+                popPlayer.play("eggCrack.mp3", from: apiClient)
+            }, onHatch: {
+                popPlayer.play("eggCrack.mp3", from: apiClient)
+                handleInteraction()
+            })
         }
     }
 
@@ -68,7 +92,7 @@ struct SoundModelingScreenView: View {
 
     private func handleInteraction() {
         interactionCount += 1
-        if interactionCount >= maxInteractions {
+        if interactionCount >= totalInteractions {
             Task {
                 try? await Task.sleep(for: .milliseconds(600))
                 onAdvance()
@@ -76,11 +100,25 @@ struct SoundModelingScreenView: View {
         }
     }
 
+    /// Total interactions is driven by data for variants 0 and 1, or egg count for variant 2.
+    private var totalInteractions: Int {
+        switch screen.variant {
+        case 0:
+            return screen.spotMap?.spots.count ?? maxInteractions
+        case 1:
+            return screen.dragToGoal?.items.count ?? maxInteractions
+        case 2:
+            return 3  // 3 eggs to hatch
+        default:
+            return maxInteractions
+        }
+    }
+
     // MARK: - Progress dots
 
     private var progressDots: some View {
         HStack(spacing: 6) {
-            ForEach(0..<maxInteractions, id: \.self) { i in
+            ForEach(0..<totalInteractions, id: \.self) { i in
                 Circle()
                     .fill(i < interactionCount ? Color.bmConceptGreen : Color.bmNavy09)
                     .frame(width: 10, height: 10)
@@ -103,142 +141,24 @@ struct SoundModelingScreenView: View {
 
 private struct SpotTapGame: View {
     let size: CGSize
-    let spotX: Int
-    let spotY: Int
-    let onTap: () -> Void
-
-    @State private var spotScale: CGFloat = 1.0
-    @State private var showRipple = false
+    let spotMap: SpotMap
+    @Binding var completedSpots: Set<String>
+    let onSpotTapped: () -> Void
 
     var body: some View {
-        ZStack {
-            // Snake background
-            RemoteImage(filename: "Level1_SnakePit_Teal_Snake.png")
-                .scaledToFit()
-                .frame(maxWidth: size.width * 0.5, maxHeight: size.height * 0.7)
-                .position(x: size.width * 0.5, y: size.height * 0.5)
-
-            // Pulsing spot
-            ZStack {
-                if showRipple {
-                    Circle()
-                        .stroke(Color.bmConceptGreen.opacity(0.4), lineWidth: 3)
-                        .frame(width: 80, height: 80)
-                        .scaleEffect(showRipple ? 1.6 : 1.0)
-                        .opacity(showRipple ? 0 : 1)
+        SpotTargetImage(
+            spotMap: spotMap,
+            completedSpots: completedSpots,
+            onTap: { spot in
+                withAnimation(.spring(duration: 0.35, bounce: 0.4)) {
+                    completedSpots.insert(spot.id)
                 }
-                Circle()
-                    .fill(Color.bmConceptGreen.opacity(0.7))
-                    .frame(width: 60, height: 60)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.bmConceptGreen, lineWidth: 3)
-                    )
-                    .scaleEffect(spotScale)
-            }
-            .position(
-                x: size.width * CGFloat(spotX) / 100,
-                y: size.height * CGFloat(spotY) / 100
-            )
-            .onTapGesture {
-                withAnimation(.spring(duration: 0.3)) {
-                    spotScale = 1.3
-                    showRipple = true
-                }
-                Task {
-                    try? await Task.sleep(for: .milliseconds(300))
-                    withAnimation(.spring(duration: 0.3)) {
-                        spotScale = 1.0
-                        showRipple = false
-                    }
-                }
-                onTap()
-            }
-            .animation(
-                .easeInOut(duration: 1.2).repeatForever(autoreverses: true),
-                value: spotScale
-            )
-            .onAppear {
-                withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
-                    spotScale = 1.1
-                }
-            }
-        }
-    }
-}
-
-// MARK: - Snake Drag Game (variant 1)
-
-private struct SnakeDragGame: View {
-    let size: CGSize
-    let onDrop: () -> Void
-
-    @State private var snakeOffset: CGSize = .zero
-    @State private var isDragging = false
-    @State private var snakeDropped = false
-    @State private var currentSnake = 0
-
-    private let snakeFilenames = [
-        "Level1_SnakePit_Teal_Snake.png",
-        "Level1_SnakePit_Green_Snake.png",
-        "Level1_SnakePit_Orange_Snake.png",
-        "Level1_SnakePit_Blue_Snake.png"
-    ]
-
-    var body: some View {
-        ZStack {
-            // Stone pit (drop target)
-            RemoteImage(filename: "Level1_SnakePit_Stone_Pit.png")
-                .scaledToFit()
-                .frame(maxWidth: size.width * 0.35, maxHeight: size.height * 0.5)
-                .position(x: size.width * 0.7, y: size.height * 0.55)
-
-            // Draggable snake
-            if !snakeDropped {
-                RemoteImage(filename: snakeFilenames[currentSnake % snakeFilenames.count])
-                    .scaledToFit()
-                    .frame(maxWidth: size.width * 0.22, maxHeight: size.height * 0.4)
-                    .offset(snakeOffset)
-                    .position(x: size.width * 0.25, y: size.height * 0.5)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                isDragging = true
-                                snakeOffset = value.translation
-                            }
-                            .onEnded { value in
-                                isDragging = false
-                                let dropX = size.width * 0.25 + value.translation.width
-                                let dropY = size.height * 0.5 + value.translation.height
-                                let targetX = size.width * 0.7
-                                let targetY = size.height * 0.55
-                                let distance = hypot(dropX - targetX, dropY - targetY)
-
-                                if distance < size.width * 0.18 {
-                                    // Successful drop
-                                    withAnimation(.spring(duration: 0.3)) {
-                                        snakeDropped = true
-                                    }
-                                    onDrop()
-                                    Task {
-                                        try? await Task.sleep(for: .milliseconds(700))
-                                        withAnimation(.easeOut(duration: 0.2)) {
-                                            snakeDropped = false
-                                            snakeOffset = .zero
-                                            currentSnake += 1
-                                        }
-                                    }
-                                } else {
-                                    withAnimation(.spring(duration: 0.4)) {
-                                        snakeOffset = .zero
-                                    }
-                                }
-                            }
-                    )
-                    .scaleEffect(isDragging ? 1.1 : 1.0)
-                    .animation(.spring(duration: 0.2), value: isDragging)
-            }
-        }
+                onSpotTapped()
+            },
+            showDebug: false
+        )
+        .frame(maxWidth: size.width * 0.8, maxHeight: size.height * 0.75)
+        .position(x: size.width * 0.5, y: size.height * 0.52)
     }
 }
 
@@ -246,11 +166,12 @@ private struct SnakeDragGame: View {
 
 private struct EggHatchGame: View {
     let size: CGSize
-    let onTap: () -> Void
+    let onCrack: () -> Void
+    let onHatch: () -> Void
 
-    @State private var eggState = 0 // 0 = whole, 1 = cracked, 2 = hatched
-    @State private var eggScale: CGFloat = 1.0
-    @State private var cycleCount = 0
+    // Per-egg state: 0 = whole, 1 = cracked, 2 = hatched
+    @State private var eggStates: [Int] = [0, 0, 0]
+    @State private var eggScales: [CGFloat] = [1, 1, 1]
 
     private let eggFilenames = [
         "Level1_SnakeEgg_Whole.png",
@@ -258,34 +179,50 @@ private struct EggHatchGame: View {
         "Level1_SnakeEgg_Hatched.png"
     ]
 
+    // Egg positions spread horizontally
+    private func eggPosition(_ index: Int) -> CGPoint {
+        let xPositions: [CGFloat] = [0.25, 0.50, 0.75]
+        return CGPoint(x: size.width * xPositions[index], y: size.height * 0.52)
+    }
+
     var body: some View {
-        RemoteImage(filename: eggFilenames[eggState])
+        ZStack {
+            ForEach(0..<3, id: \.self) { i in
+                eggView(index: i)
+            }
+        }
+    }
+
+    private func eggView(index i: Int) -> some View {
+        RemoteImage(filename: eggFilenames[eggStates[i]])
             .scaledToFit()
-            .frame(maxWidth: size.width * 0.3, maxHeight: size.height * 0.5)
-            .scaleEffect(eggScale)
-            .position(x: size.width * 0.5, y: size.height * 0.5)
+            .frame(maxWidth: size.width * 0.22, maxHeight: size.height * 0.55)
+            .scaleEffect(eggScales[i])
+            .position(eggPosition(i))
             .onTapGesture {
-                withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
-                    eggScale = 1.15
+                guard eggStates[i] < 2 else { return }
+
+                // Bounce
+                withAnimation(.spring(duration: 0.25, bounce: 0.5)) {
+                    eggScales[i] = 1.15
                 }
                 Task {
                     try? await Task.sleep(for: .milliseconds(200))
                     withAnimation(.spring(duration: 0.3)) {
-                        eggScale = 1.0
-                        eggState = min(eggState + 1, 2)
+                        eggScales[i] = 1.0
                     }
                 }
-                onTap()
 
-                // Reset egg after hatched
-                if eggState == 2 {
-                    Task {
-                        try? await Task.sleep(for: .milliseconds(900))
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            eggState = 0
-                            cycleCount += 1
-                        }
+                if eggStates[i] == 0 {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        eggStates[i] = 1
                     }
+                    onCrack()
+                } else if eggStates[i] == 1 {
+                    withAnimation(.spring(duration: 0.35, bounce: 0.4)) {
+                        eggStates[i] = 2
+                    }
+                    onHatch()
                 }
             }
     }

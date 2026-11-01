@@ -104,7 +104,7 @@ struct FlashcardScreenView: View {
                 }
             }
         }
-        .background(Color.bmCream)
+        .background { JungleBackground() }
         .onAppear { startNarration() }
         .onDisappear { narrationTrack.stop() }
     }

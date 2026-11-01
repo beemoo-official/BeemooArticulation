@@ -36,91 +36,11 @@
   ],
   "activities": [
     {
-      "id": "s-sound-level-1",
+      "id": "s-sound-practice",
       "umbrella": "clear-speech",
-      "name": "Make the S Sound",
-      "desc": "Learn to make the ssssss sound",
-      "initials": "S1",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-level-2",
-      "umbrella": "clear-speech",
-      "name": "Hear the S Sound",
-      "desc": "Find the word with the S sound",
-      "initials": "S2",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-level-3",
-      "umbrella": "clear-speech",
-      "name": "Beginning S Words",
-      "desc": "Say words that start with S",
-      "initials": "S3",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-level-4",
-      "umbrella": "clear-speech",
-      "name": "Final S Words",
-      "desc": "Say words that end with S",
-      "initials": "S4",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-level-5",
-      "umbrella": "clear-speech",
-      "name": "Middle S Words",
-      "desc": "Say words with S in the middle",
-      "initials": "S5",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-level-6",
-      "umbrella": "clear-speech",
-      "name": "Beginning S Sentences",
-      "desc": "Say sentences with beginning S words",
-      "initials": "S6",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-level-7",
-      "umbrella": "clear-speech",
-      "name": "Final S Sentences",
-      "desc": "Say sentences with final S words",
-      "initials": "S7",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-level-8",
-      "umbrella": "clear-speech",
-      "name": "Middle S Sentences",
-      "desc": "Say sentences with middle S words",
-      "initials": "S8",
-      "tint": "#3E9B4F",
-      "status": "live",
-      "isNew": true
-    },
-    {
-      "id": "s-sound-flashcards",
-      "umbrella": "clear-speech",
-      "name": "S Sound Flashcards",
-      "desc": "Practice all S words at your own pace",
-      "initials": "SF",
+      "name": "S Sound Practice",
+      "desc": "Guided learning, activities, and flashcards for the S sound",
+      "initials": "S",
       "tint": "#3E9B4F",
       "status": "live",
       "isNew": true

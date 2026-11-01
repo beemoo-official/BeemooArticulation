@@ -48,6 +48,8 @@ struct ScreenConfig: Codable, Sendable, Identifiable {
     // soundModeling (Level 1)
     let spotXPercent: Int?
     let spotYPercent: Int?
+    let spotMap: SpotMap?
+    let dragToGoal: DragToGoalConfig?
 
     // soundDiscrimination (Level 2)
     let targetAsset: String?

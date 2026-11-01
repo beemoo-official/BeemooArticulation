@@ -4,7 +4,9 @@
   "title": "Flashcard Practice",
   "umbrella": "clear-speech",
   "orientation": "landscape",
-  "concepts": ["S"],
+  "concepts": [
+    "S"
+  ],
   "screens": [
     {
       "n": 1,
@@ -16,270 +18,270 @@
           "targetWord": "sun",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Sun.png",
-          "sentenceText": "The sun is hot.",
+          "sentenceText": "The *sun* is hot.",
           "sentenceImage": "BEEMOO_Initial_S_Sun.png",
-          "audioText": "Say sun."
+          "audioText": "The sun is hot."
         },
         {
           "stimulusId": "S-INI-02",
           "targetWord": "sock",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Sock.png",
-          "sentenceText": "My sock is red.",
+          "sentenceText": "My *sock* is red.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_02_My_Sock_Is_Red.png",
-          "audioText": "Say sock."
+          "audioText": "My sock is red."
         },
         {
           "stimulusId": "S-INI-03",
           "targetWord": "soup",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Soup.png",
-          "sentenceText": "The soup is yummy.",
+          "sentenceText": "The *soup* is yummy.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_03_The_Soup_Is_Yummy.png",
-          "audioText": "Say soup."
+          "audioText": "The soup is yummy."
         },
         {
           "stimulusId": "S-INI-04",
           "targetWord": "seal",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Seal.png",
-          "sentenceText": "The seal is wet.",
+          "sentenceText": "The *seal* is wet.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_04_The_Seal_Is_Wet.png",
-          "audioText": "Say seal."
+          "audioText": "The seal is wet."
         },
         {
           "stimulusId": "S-INI-05",
           "targetWord": "sit",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Sit.png",
-          "sentenceText": "I like to sit.",
+          "sentenceText": "I like to *sit*.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_05_I_Like_To_Sit.png",
-          "audioText": "Say sit."
+          "audioText": "I like to sit."
         },
         {
           "stimulusId": "S-INI-06",
           "targetWord": "soap",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Soap.png",
-          "sentenceText": "The soap is pink.",
+          "sentenceText": "The *soap* is pink.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_06_The_Soap_Is_Pink.png",
-          "audioText": "Say soap."
+          "audioText": "The soap is pink."
         },
         {
           "stimulusId": "S-INI-07",
           "targetWord": "sad",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Sad.png",
-          "sentenceText": "I am sad.",
+          "sentenceText": "I am *sad*.",
           "sentenceImage": "BEEMOO_He_Is_Sad.png",
-          "audioText": "Say sad."
+          "audioText": "I am sad."
         },
         {
           "stimulusId": "S-INI-08",
           "targetWord": "sip",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Sip.png",
-          "sentenceText": "I sip my milk.",
+          "sentenceText": "I *sip* my milk.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_08_I_Sip_My_Milk.png",
-          "audioText": "Say sip."
+          "audioText": "I sip my milk."
         },
         {
           "stimulusId": "S-INI-09",
           "targetWord": "sail",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Sail.png",
-          "sentenceText": "I sail the boat.",
+          "sentenceText": "I *sail* the boat.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_09_I_Sail_The_Boat.png",
-          "audioText": "Say sail."
+          "audioText": "I sail the boat."
         },
         {
           "stimulusId": "S-INI-10",
           "targetWord": "sack",
           "targetPosition": "initial",
           "wordImage": "BEEMOO_Initial_S_Sack.png",
-          "sentenceText": "The sack is heavy.",
+          "sentenceText": "The *sack* is heavy.",
           "sentenceImage": "BEEMOO_Initial_S_Sentence_10_The_Sack_Is_Heavy.png",
-          "audioText": "Say sack."
+          "audioText": "The sack is heavy."
         },
         {
           "stimulusId": "S-FIN-01",
           "targetWord": "bus",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_01_Bus.png",
-          "sentenceText": "I ride the bus.",
+          "sentenceText": "I ride the *bus*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_01_I_Ride_The_Bus_No_Text.png",
-          "audioText": "Say bus."
+          "audioText": "I ride the bus."
         },
         {
           "stimulusId": "S-FIN-02",
           "targetWord": "house",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_02_House.png",
-          "sentenceText": "We live in a house.",
+          "sentenceText": "We live in a *house*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_02_We_Live_In_A_House.png",
-          "audioText": "Say house."
+          "audioText": "We live in a house."
         },
         {
           "stimulusId": "S-FIN-03",
           "targetWord": "mouse",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_REPLACEMENT_Mouse.png",
-          "sentenceText": "I have a mouse.",
+          "sentenceText": "I have a *mouse*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_03_I_Have_A_Mouse.png",
-          "audioText": "Say mouse."
+          "audioText": "I have a mouse."
         },
         {
           "stimulusId": "S-FIN-04",
           "targetWord": "ice",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_04_Ice.png",
-          "sentenceText": "I have ice.",
+          "sentenceText": "I have *ice*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_04_I_Have_Ice.png",
-          "audioText": "Say ice."
+          "audioText": "I have ice."
         },
         {
           "stimulusId": "S-FIN-05",
           "targetWord": "face",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_REPLACEMENT_Face.png",
-          "sentenceText": "I wash my face.",
+          "sentenceText": "I wash my *face*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_05_I_Wash_My_Face.png",
-          "audioText": "Say face."
+          "audioText": "I wash my face."
         },
         {
           "stimulusId": "S-FIN-06",
           "targetWord": "kiss",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_06_Kiss.png",
-          "sentenceText": "Give me a kiss.",
+          "sentenceText": "Give me a *kiss*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_06_Give_Me_A_Kiss.png",
-          "audioText": "Say kiss."
+          "audioText": "Give me a kiss."
         },
         {
           "stimulusId": "S-FIN-07",
           "targetWord": "rice",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_07_Rice_REVISED.png",
-          "sentenceText": "I eat rice.",
+          "sentenceText": "I eat *rice*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_07_I_Eat_Rice.png",
-          "audioText": "Say rice."
+          "audioText": "I eat rice."
         },
         {
           "stimulusId": "S-FIN-08",
           "targetWord": "goose",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_08_Goose.png",
-          "sentenceText": "I pet the goose.",
+          "sentenceText": "I pet the *goose*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_08_I_Pet_The_Goose.png",
-          "audioText": "Say goose."
+          "audioText": "I pet the goose."
         },
         {
           "stimulusId": "S-FIN-09",
           "targetWord": "juice",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_REPLACEMENT_Juice.png",
-          "sentenceText": "I drink juice.",
+          "sentenceText": "I drink *juice*.",
           "sentenceImage": "BEEMOO_Final_S_Sentence_09_I_Drink_Juice.png",
-          "audioText": "Say juice."
+          "audioText": "I drink juice."
         },
         {
           "stimulusId": "S-FIN-10",
           "targetWord": "dress",
           "targetPosition": "final",
           "wordImage": "BEEMOO_Final_S_REPLACEMENT_Dress.png",
-          "sentenceText": "I love my dress!",
+          "sentenceText": "I love my *dress*!",
           "sentenceImage": "BEEMOO_Final_S_Sentence_10_I_Love_My_Dress_Red_Hair.png",
-          "audioText": "Say dress."
+          "audioText": "I love my dress!"
         },
         {
           "stimulusId": "S-MED-01",
           "targetWord": "dinosaur",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Dinosaur.png",
-          "sentenceText": "The dinosaur is big.",
+          "sentenceText": "The *dinosaur* is big.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_01_The_Dinosaur_Is_Big.png",
-          "audioText": "Say dinosaur."
+          "audioText": "The dinosaur is big."
         },
         {
           "stimulusId": "S-MED-02",
           "targetWord": "bicycle",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Bicycle_Full.png",
-          "sentenceText": "I ride my bicycle.",
+          "sentenceText": "I ride my *bicycle*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_02_I_Ride_My_Bicycle.png",
-          "audioText": "Say bicycle."
+          "audioText": "I ride my bicycle."
         },
         {
           "stimulusId": "S-MED-03",
           "targetWord": "messy",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Messy_CLEAN.png",
-          "sentenceText": "My room is messy.",
+          "sentenceText": "My room is *messy*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_03_My_Room_Is_Messy.png",
-          "audioText": "Say messy."
+          "audioText": "My room is messy."
         },
         {
           "stimulusId": "S-MED-04",
           "targetWord": "fossil",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Fossil.png",
-          "sentenceText": "I found a fossil.",
+          "sentenceText": "I found a *fossil*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_04_I_Found_A_Fossil.png",
-          "audioText": "Say fossil."
+          "audioText": "I found a fossil."
         },
         {
           "stimulusId": "S-MED-05",
           "targetWord": "castle",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Castle_FINAL.png",
-          "sentenceText": "I made a castle.",
+          "sentenceText": "I made a *castle*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_05_I_Made_A_Castle.png",
-          "audioText": "Say castle."
+          "audioText": "I made a castle."
         },
         {
           "stimulusId": "S-MED-06",
           "targetWord": "whistle",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Whistle_NEW.png",
-          "sentenceText": "I blow the whistle.",
+          "sentenceText": "I blow the *whistle*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_06_I_Blow_The_Whistle_Black_Girl.png",
-          "audioText": "Say whistle."
+          "audioText": "I blow the whistle."
         },
         {
           "stimulusId": "S-MED-07",
           "targetWord": "dresser",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Dresser_REVISED.png",
-          "sentenceText": "My dresser is brown.",
+          "sentenceText": "My *dresser* is brown.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_07_My_Dresser_Is_Brown.png",
-          "audioText": "Say dresser."
+          "audioText": "My dresser is brown."
         },
         {
           "stimulusId": "S-MED-08",
           "targetWord": "eraser",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Eraser.png",
-          "sentenceText": "I have an eraser.",
+          "sentenceText": "I have an *eraser*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_08_I_Have_An_Eraser.png",
-          "audioText": "Say eraser."
+          "audioText": "I have an eraser."
         },
         {
           "stimulusId": "S-MED-09",
           "targetWord": "faucet",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Faucet.png",
-          "sentenceText": "I turn on the faucet.",
+          "sentenceText": "I turn on the *faucet*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_09_I_Turn_On_The_Faucet_Blond_Boy.png",
-          "audioText": "Say faucet."
+          "audioText": "I turn on the faucet."
         },
         {
           "stimulusId": "S-MED-10",
           "targetWord": "wrestle",
           "targetPosition": "medial",
           "wordImage": "BEEMOO_Medial_S_Wrestle.png",
-          "sentenceText": "I like to wrestle.",
+          "sentenceText": "I like to *wrestle*.",
           "sentenceImage": "BEEMOO_Medial_S_Sentence_10_I_Like_To_Wrestle.png",
-          "audioText": "Say wrestle."
+          "audioText": "I like to wrestle."
         }
       ]
     }

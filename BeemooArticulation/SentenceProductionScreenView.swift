@@ -78,7 +78,7 @@ struct SentenceProductionScreenView: View {
                 }
             }
         }
-        .background(Color.bmCream)
+        .background { JungleBackground() }
         .onAppear { startNarration() }
         .onDisappear { narrationTrack.stop() }
     }

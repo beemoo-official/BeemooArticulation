@@ -7,6 +7,7 @@ struct BeemooArticulationApp: App {
     @State private var apiClient = APIClient()
     @State private var trialLogger = TrialLogger()
     @State private var runnerSettings = RunnerSettings()
+    @State private var sProgressStore = SProgressStore()
 
     var body: some Scene {
         WindowGroup {
@@ -14,6 +15,7 @@ struct BeemooArticulationApp: App {
                 .environment(apiClient)
                 .environment(trialLogger)
                 .environment(runnerSettings)
+                .environment(sProgressStore)
         }
     }
 }

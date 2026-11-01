@@ -10,7 +10,7 @@
       "n": 1,
       "type": "intro",
       "concept": "S",
-      "text": "Let's make the *S* sound!",
+      "text": "Let's make the *ssssss* sound!",
       "audio": "Let's make the S sound!"
     },
     {
@@ -18,84 +18,74 @@
       "type": "soundModeling",
       "concept": "S",
       "variant": 0,
-      "text": "Find the snake! Tap the spot to hear the *S* sound.",
-      "spotXPercent": 50,
-      "spotYPercent": 50
+      "text": "Find the spot on the snake! Tap it and say *ssssss*.",
+      "spotMap": {
+        "asset": "BEEMOO_S_Sound_Snake.png",
+        "imageWidth": 1448,
+        "imageHeight": 1086,
+        "spots": [
+          {"id": "spot_1", "x": 0.1962, "y": 0.5878, "r": 0.0357},
+          {"id": "spot_2", "x": 0.2594, "y": 0.6936, "r": 0.0368},
+          {"id": "spot_3", "x": 0.3719, "y": 0.7162, "r": 0.0373},
+          {"id": "spot_4", "x": 0.4709, "y": 0.6479, "r": 0.0359},
+          {"id": "spot_5", "x": 0.5509, "y": 0.5405, "r": 0.0364},
+          {"id": "spot_6", "x": 0.6474, "y": 0.4912, "r": 0.0359},
+          {"id": "spot_7", "x": 0.7452, "y": 0.5393, "r": 0.0368},
+          {"id": "spot_8", "x": 0.8214, "y": 0.6565, "r": 0.0359},
+          {"id": "spot_9", "x": 0.9445, "y": 0.6091, "r": 0.0335}
+        ]
+      }
     },
     {
       "n": 3,
       "type": "soundModeling",
       "concept": "S",
       "variant": 1,
-      "text": "Drag the snake out of the pit! Say *sssss* as you drag."
+      "text": "Drag the snake into the pit! Say *ssssss* as you drag.",
+      "dragToGoal": {
+        "goalBack": "snake_pit_back.png",
+        "goalFront": "snake_pit_front.png",
+        "goalImageWidth": 1774,
+        "goalImageHeight": 887,
+        "dropZone": {
+          "centerX": 0.49,
+          "centerY": 0.47,
+          "radiusX": 0.33,
+          "radiusY": 0.23
+        },
+        "spots": [
+          {"id": "pit_front_1", "x": 0.25, "y": 0.72, "height": 0.28},
+          {"id": "pit_front_2", "x": 0.40, "y": 0.74, "height": 0.28},
+          {"id": "pit_front_3", "x": 0.60, "y": 0.74, "height": 0.28},
+          {"id": "pit_front_4", "x": 0.75, "y": 0.72, "height": 0.28},
+          {"id": "pit_back_1",  "x": 0.30, "y": 0.56, "height": 0.24},
+          {"id": "pit_back_2",  "x": 0.45, "y": 0.57, "height": 0.24},
+          {"id": "pit_back_3",  "x": 0.55, "y": 0.57, "height": 0.24},
+          {"id": "pit_back_4",  "x": 0.70, "y": 0.56, "height": 0.24}
+        ],
+        "items": [
+          {"id": "snake_1", "asset": "Level1_SnakePit_Purple_Snake.png", "startX": 0.06, "startY": 0.78},
+          {"id": "snake_2", "asset": "Level1_SnakePit_Teal_Snake.png",   "startX": 0.20, "startY": 0.88},
+          {"id": "snake_3", "asset": "Level1_SnakePit_Pink_Snake.png",   "startX": 0.36, "startY": 0.92},
+          {"id": "snake_4", "asset": "Level1_SnakePit_Orange_Snake.png", "startX": 0.52, "startY": 0.92},
+          {"id": "snake_5", "asset": "Level1_SnakePit_Blue_Snake.png",   "startX": 0.64, "startY": 0.92},
+          {"id": "snake_6", "asset": "Level1_SnakePit_Green_Snake.png",  "startX": 0.80, "startY": 0.88},
+          {"id": "snake_7", "asset": "Level1_SnakePit_Red_Snake.png",    "startX": 0.94, "startY": 0.78},
+          {"id": "snake_8", "asset": "Level1_SnakePit_Yellow_Snake.png", "startX": 0.50, "startY": 0.80}
+        ]
+      }
     },
     {
       "n": 4,
       "type": "soundModeling",
       "concept": "S",
       "variant": 2,
-      "text": "Tap the egg to hatch the snake! Say *sssss*!"
+      "text": "Make the *ssssss* sound then tap the egg."
     },
     {
       "n": 5,
-      "type": "soundModeling",
-      "concept": "S",
-      "variant": 0,
-      "text": "Find the snake hiding! Tap the spot and say *sssss*.",
-      "spotXPercent": 30,
-      "spotYPercent": 60
-    },
-    {
-      "n": 6,
-      "type": "soundModeling",
-      "concept": "S",
-      "variant": 1,
-      "text": "Drag the snake up! Keep saying *sssss* the whole time."
-    },
-    {
-      "n": 7,
-      "type": "soundModeling",
-      "concept": "S",
-      "variant": 2,
-      "text": "Hatch another snake egg! Say *sssss*!"
-    },
-    {
-      "n": 8,
-      "type": "soundModeling",
-      "concept": "S",
-      "variant": 0,
-      "text": "Where is the snake? Tap and say *sssss*!",
-      "spotXPercent": 70,
-      "spotYPercent": 40
-    },
-    {
-      "n": 9,
-      "type": "soundModeling",
-      "concept": "S",
-      "variant": 1,
-      "text": "Drag the snake out! Say a long *sssss* sound."
-    },
-    {
-      "n": 10,
-      "type": "soundModeling",
-      "concept": "S",
-      "variant": 2,
-      "text": "One more egg! Tap to hatch and say *sssss*!"
-    },
-    {
-      "n": 11,
-      "type": "soundModeling",
-      "concept": "S",
-      "variant": 0,
-      "text": "Last one! Find the snake and say *sssss*!",
-      "spotXPercent": 45,
-      "spotYPercent": 55
-    },
-    {
-      "n": 12,
       "type": "celebration",
-      "concept": "S",
-      "audio": "Great job making the S sound!"
+      "concept": "S"
     }
   ]
 }

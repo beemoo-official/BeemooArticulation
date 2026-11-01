@@ -34,6 +34,11 @@ struct ContentView: View {
                     case .umbrella(let key):
                         ActivityListView(umbrellaKey: key, path: $homePath)
                             .toolbar(.hidden)
+                    case .sPracticeHome:
+                        SPracticeHomeView {
+                            homePath.removeLast()
+                        }
+                        .toolbar(.hidden)
                     default:
                         Text("Coming soon")
                     }
@@ -82,4 +87,5 @@ enum ParentsRoute: Hashable {
         .environment(APIClient())
         .environment(TrialLogger())
         .environment(RunnerSettings())
+        .environment(SProgressStore())
 }

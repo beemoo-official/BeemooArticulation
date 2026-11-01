@@ -34,7 +34,7 @@ struct SoundDiscriminationScreenView: View {
                 }
             }
         }
-        .background(Color.bmCream)
+        .background { JungleBackground() }
         .onAppear {
             shuffleAndReset()
             startNarration()
@@ -90,24 +90,35 @@ struct SoundDiscriminationScreenView: View {
 
     // MARK: - Narration
 
+    /// Narrates each choice word aloud, then asks the question, then enables taps.
     private func startNarration() {
-        let text = screen.displayText ?? "Which one has the *ssss* sound?"
-        let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
-        vm.isNarrationOff = !settings.narrationEnabled
+        if !settings.narrationEnabled {
+            let text = screen.displayText ?? "Which one has the *ssss* sound?"
+            let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
+            vm.isNarrationOff = true
+            self.bubbleVM = vm
+            choicesEnabled = true
+            return
+        }
+
+        // Build a sentence like "Sun… cat… dog. Which one has the ssss sound?"
+        let choiceWords = shuffledChoices.map { $0.meaning.capitalized }
+        let listing = choiceWords.joined(separator: "… ")
+        let question = screen.displayText ?? "Which one has the *ssss* sound?"
+        let fullNarration = "\(listing). \(question)"
+
+        let vm = NarratedBubbleVM(markerText: question, narrationTrack: narrationTrack)
+        vm.isNarrationOff = false
         self.bubbleVM = vm
 
-        if !settings.narrationEnabled {
+        // Speak the full narration (choice words + question)
+        let strippedQuestion = StrippedText(from: question).stripped
+        let fullText = "\(listing). \(strippedQuestion)"
+        narrationTrack.speak(fullText, onWord: { _ in }, onFinish: { [weak vm] in
+            // Reveal the full bubble text and enable choices
+            vm?.revealAll()
             choicesEnabled = true
-        }
-
-        vm.startNarration()
-
-        Task {
-            while !(bubbleVM?.narrationFinished ?? true) {
-                try? await Task.sleep(for: .milliseconds(50))
-            }
-            choicesEnabled = true
-        }
+        })
     }
 
     // MARK: - Trial logic
