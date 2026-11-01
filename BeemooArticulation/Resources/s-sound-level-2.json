@@ -4,25 +4,51 @@
   "title": "Hear the S Sound",
   "umbrella": "clear-speech",
   "orientation": "landscape",
-  "concepts": ["S"],
+  "concepts": [
+    "S"
+  ],
   "screens": [
     {
       "n": 1,
-      "type": "intro",
+      "type": "soundDiscrimination",
       "concept": "S",
-      "text": "Let's listen for the *ssssss* sound!",
-      "audio": "Let's listen for the S sound!"
+      "prompt": "Which one has the *ssss* sound?",
+      "correct": "sun",
+      "choices": [
+        {
+          "asset": "BEEMOO_Initial_S_Sun.png",
+          "meaning": "sun"
+        },
+        {
+          "asset": "BEEMOO_Distractor_01_Cat.png",
+          "meaning": "cat"
+        },
+        {
+          "asset": "BEEMOO_Distractor_02_Dog.png",
+          "meaning": "dog"
+        }
+      ],
+      "shuffleChoices": true
     },
     {
       "n": 2,
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "sun",
+      "correct": "sock",
       "choices": [
-        { "asset": "BEEMOO_Initial_S_Sun.png", "meaning": "sun" },
-        { "asset": "BEEMOO_Distractor_01_Cat.png", "meaning": "cat" },
-        { "asset": "BEEMOO_Distractor_02_Dog.png", "meaning": "dog" }
+        {
+          "asset": "BEEMOO_Initial_S_Sock.png",
+          "meaning": "sock"
+        },
+        {
+          "asset": "BEEMOO_Distractor_03_Hat.png",
+          "meaning": "hat"
+        },
+        {
+          "asset": "BEEMOO_Distractor_04_Bed.png",
+          "meaning": "bed"
+        }
       ],
       "shuffleChoices": true
     },
@@ -31,11 +57,20 @@
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "sock",
+      "correct": "soup",
       "choices": [
-        { "asset": "BEEMOO_Initial_S_Sock.png", "meaning": "sock" },
-        { "asset": "BEEMOO_Distractor_03_Hat.png", "meaning": "hat" },
-        { "asset": "BEEMOO_Distractor_04_Bed.png", "meaning": "bed" }
+        {
+          "asset": "BEEMOO_Initial_S_Soup.png",
+          "meaning": "soup"
+        },
+        {
+          "asset": "BEEMOO_Distractor_05_Ball.png",
+          "meaning": "ball"
+        },
+        {
+          "asset": "BEEMOO_Distractor_06_Car.png",
+          "meaning": "car"
+        }
       ],
       "shuffleChoices": true
     },
@@ -44,11 +79,20 @@
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "soup",
+      "correct": "seal",
       "choices": [
-        { "asset": "BEEMOO_Initial_S_Soup.png", "meaning": "soup" },
-        { "asset": "BEEMOO_Distractor_05_Ball.png", "meaning": "ball" },
-        { "asset": "BEEMOO_Distractor_06_Car.png", "meaning": "car" }
+        {
+          "asset": "BEEMOO_Initial_S_Seal.png",
+          "meaning": "seal"
+        },
+        {
+          "asset": "BEEMOO_Distractor_07_Goat.png",
+          "meaning": "goat"
+        },
+        {
+          "asset": "BEEMOO_Distractor_08_Bat.png",
+          "meaning": "bat"
+        }
       ],
       "shuffleChoices": true
     },
@@ -57,11 +101,20 @@
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "seal",
+      "correct": "bus",
       "choices": [
-        { "asset": "BEEMOO_Initial_S_Seal.png", "meaning": "seal" },
-        { "asset": "BEEMOO_Distractor_07_Goat.png", "meaning": "goat" },
-        { "asset": "BEEMOO_Distractor_08_Bat.png", "meaning": "bat" }
+        {
+          "asset": "BEEMOO_Final_S_01_Bus.png",
+          "meaning": "bus"
+        },
+        {
+          "asset": "BEEMOO_Distractor_09_Pen.png",
+          "meaning": "pen"
+        },
+        {
+          "asset": "BEEMOO_Distractor_10_Pig.png",
+          "meaning": "pig"
+        }
       ],
       "shuffleChoices": true
     },
@@ -70,11 +123,20 @@
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "bus",
+      "correct": "house",
       "choices": [
-        { "asset": "BEEMOO_Final_S_01_Bus.png", "meaning": "bus" },
-        { "asset": "BEEMOO_Distractor_09_Pen.png", "meaning": "pen" },
-        { "asset": "BEEMOO_Distractor_10_Pig.png", "meaning": "pig" }
+        {
+          "asset": "BEEMOO_Final_S_02_House.png",
+          "meaning": "house"
+        },
+        {
+          "asset": "BEEMOO_Distractor_11_Hen.png",
+          "meaning": "hen"
+        },
+        {
+          "asset": "BEEMOO_Distractor_12_Bug.png",
+          "meaning": "bug"
+        }
       ],
       "shuffleChoices": true
     },
@@ -83,11 +145,20 @@
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "house",
+      "correct": "mouse",
       "choices": [
-        { "asset": "BEEMOO_Final_S_02_House.png", "meaning": "house" },
-        { "asset": "BEEMOO_Distractor_11_Hen.png", "meaning": "hen" },
-        { "asset": "BEEMOO_Distractor_12_Bug.png", "meaning": "bug" }
+        {
+          "asset": "BEEMOO_Final_S_REPLACEMENT_Mouse.png",
+          "meaning": "mouse"
+        },
+        {
+          "asset": "BEEMOO_Distractor_13_Cup.png",
+          "meaning": "cup"
+        },
+        {
+          "asset": "BEEMOO_Distractor_14_Pot.png",
+          "meaning": "pot"
+        }
       ],
       "shuffleChoices": true
     },
@@ -96,11 +167,20 @@
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "mouse",
+      "correct": "dinosaur",
       "choices": [
-        { "asset": "BEEMOO_Final_S_REPLACEMENT_Mouse.png", "meaning": "mouse" },
-        { "asset": "BEEMOO_Distractor_13_Cup.png", "meaning": "cup" },
-        { "asset": "BEEMOO_Distractor_14_Pot.png", "meaning": "pot" }
+        {
+          "asset": "BEEMOO_Medial_S_Dinosaur.png",
+          "meaning": "dinosaur"
+        },
+        {
+          "asset": "BEEMOO_Distractor_15_Pan.png",
+          "meaning": "pan"
+        },
+        {
+          "asset": "BEEMOO_Distractor_16_Bear.png",
+          "meaning": "bear"
+        }
       ],
       "shuffleChoices": true
     },
@@ -109,29 +189,25 @@
       "type": "soundDiscrimination",
       "concept": "S",
       "prompt": "Which one has the *ssss* sound?",
-      "correct": "dinosaur",
+      "correct": "castle",
       "choices": [
-        { "asset": "BEEMOO_Medial_S_Dinosaur.png", "meaning": "dinosaur" },
-        { "asset": "BEEMOO_Distractor_15_Pan.png", "meaning": "pan" },
-        { "asset": "BEEMOO_Distractor_16_Bear.png", "meaning": "bear" }
+        {
+          "asset": "BEEMOO_Medial_S_Castle_FINAL.png",
+          "meaning": "castle"
+        },
+        {
+          "asset": "BEEMOO_Distractor_17_Key.png",
+          "meaning": "key"
+        },
+        {
+          "asset": "BEEMOO_Distractor_18_Cow.png",
+          "meaning": "cow"
+        }
       ],
       "shuffleChoices": true
     },
     {
       "n": 10,
-      "type": "soundDiscrimination",
-      "concept": "S",
-      "prompt": "Which one has the *ssss* sound?",
-      "correct": "castle",
-      "choices": [
-        { "asset": "BEEMOO_Medial_S_Castle_FINAL.png", "meaning": "castle" },
-        { "asset": "BEEMOO_Distractor_17_Key.png", "meaning": "key" },
-        { "asset": "BEEMOO_Distractor_18_Cow.png", "meaning": "cow" }
-      ],
-      "shuffleChoices": true
-    },
-    {
-      "n": 11,
       "type": "celebration",
       "concept": "S"
     }

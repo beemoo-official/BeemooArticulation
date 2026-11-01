@@ -95,14 +95,20 @@ struct ActivityRunnerView: View {
         case .celebration:
             CelebrationScreenView(screen: screen) { vm.advance() }
         case .soundModeling:
-            SoundModelingScreenView(screen: screen, settings: settings) { vm.advance() }
+            SoundModelingScreenView(
+                screen: screen,
+                settings: settings,
+                onAdvance: { vm.advance() },
+                isFirstScreen: vm.currentIndex == 0
+            )
         case .soundDiscrimination:
             SoundDiscriminationScreenView(
                 screen: screen,
                 activityId: config.activityId,
                 settings: settings,
                 trialLogger: trialLogger,
-                onAdvance: { vm.advance() }
+                onAdvance: { vm.advance() },
+                isFirstScreen: vm.currentIndex == 0
             )
         case .wordProduction:
             WordProductionScreenView(

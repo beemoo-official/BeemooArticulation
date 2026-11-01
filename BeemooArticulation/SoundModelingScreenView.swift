@@ -1,51 +1,162 @@
 import SwiftUI
 
 /// Level 1 — Make the S Sound.
+/// First screen: intro phase (BEEMOO centered, "Let's make the ssssss sound!", Go button).
+/// Each screen: game phase with BEEMOO top-left.
+/// On completion: celebration phase (BEEMOO returns to center, "Great Job!", Continue button).
 /// Three game variants: spot tap (0), snake drag (1), egg hatch (2).
-/// Each interaction is a production opportunity for sustained /s/.
 struct SoundModelingScreenView: View {
     let screen: ScreenConfig
     let settings: RunnerSettings
     let onAdvance: () -> Void
+    let isFirstScreen: Bool
 
     @Environment(APIClient.self) private var apiClient
 
+    @State private var phase: Phase = .game  // overridden to .intro in onAppear if first screen
     @State private var interactionCount = 0
     @State private var completedSpots: Set<String> = []
     @State private var bubbleVM: NarratedBubbleVM?
     @State private var narrationTrack = SystemNarrationTrack()
     @State private var popPlayer = RemoteAudioPlayer()
+    @State private var showActionButton = false
 
     private let maxInteractions = 4
 
+    enum Phase {
+        case intro        // BEEMOO centered, "Let's make the ssssss sound!", Go button
+        case game         // BEEMOO top-left, game content visible
+        case celebration  // BEEMOO returns to center, "Great Job!", Continue button
+    }
+
+    private var beemooCentered: Bool {
+        phase == .intro || phase == .celebration
+    }
+
     var body: some View {
         GeometryReader { geo in
-            ZStack(alignment: .topLeading) {
-                // Game area
-                gameContent(size: geo.size)
+            ZStack {
+                // BEEMOO mascot
+                beemooMascot(size: geo.size)
 
-                // BEEMOO speech bubble
+                // Speech bubble — near BEEMOO's mouth area
                 if let vm = bubbleVM {
-                    NarratedBubble(vm: vm, contentWidth: geo.size.width * 0.5)
-                        .padding(.top, 60)
-                        .padding(.leading, 70)
+                    NarratedBubble(vm: vm, contentWidth: geo.size.width * (beemooCentered ? 0.5 : 0.4))
+                        .position(
+                            x: beemooCentered ? geo.size.width * 0.5 : geo.size.width * 0.32,
+                            y: beemooCentered ? geo.size.height * 0.28 : 60
+                        )
                 }
 
-                // Progress indicator
-                VStack {
-                    Spacer()
-                    HStack {
-                        progressDots
-                            .padding(.leading, 20)
-                            .padding(.bottom, 16)
+                // Action button (Go or Continue)
+                if showActionButton {
+                    actionButton(size: geo.size)
+                        .transition(.scale.combined(with: .opacity))
+                }
+
+                // Game content (game phase only)
+                if phase == .game {
+                    gameContent(size: geo.size)
+                        .transition(.opacity)
+
+                    // Progress indicator
+                    VStack {
                         Spacer()
+                        HStack {
+                            progressDots
+                                .padding(.leading, 20)
+                                .padding(.bottom, 16)
+                            Spacer()
+                        }
                     }
                 }
             }
         }
         .background { JungleBackground() }
-        .onAppear { startNarration() }
+        .onAppear {
+            if isFirstScreen {
+                phase = .intro
+                startIntroNarration()
+            } else {
+                // Start centered briefly, then animate to game position
+                phase = .celebration  // reuse centered position
+                bubbleVM = nil
+                Task {
+                    try? await Task.sleep(for: .milliseconds(100))
+                    withAnimation(.spring(duration: 0.5, bounce: 0.15)) {
+                        phase = .game
+                    }
+                    try? await Task.sleep(for: .milliseconds(500))
+                    startGameNarration()
+                }
+            }
+        }
         .onDisappear { narrationTrack.stop() }
+    }
+
+    // MARK: - BEEMOO mascot
+
+    private func beemooMascot(size: CGSize) -> some View {
+        RemoteImage(filename: "BEEMOO_04_Smiling_Happy.png")
+            .scaledToFit()
+            .frame(
+                width: beemooCentered ? size.width * 0.28 : size.width * 0.09,
+                height: beemooCentered ? size.height * 0.55 : size.height * 0.22
+            )
+            .position(
+                x: beemooCentered ? size.width * 0.5 : size.width * 0.065,
+                y: beemooCentered ? size.height * 0.62 : size.height * 0.18
+            )
+            .animation(.spring(duration: 0.6, bounce: 0.2), value: phase)
+    }
+
+    // MARK: - Action button (Go / Continue)
+
+    private func actionButton(size: CGSize) -> some View {
+        Button {
+            if phase == .intro {
+                transitionToGame()
+            } else if phase == .celebration {
+                // Continue to next screen
+                withAnimation(.spring(duration: 0.4)) {
+                    showActionButton = false
+                }
+                onAdvance()
+            }
+        } label: {
+            Text(phase == .intro ? "Go!" : "Continue")
+                .font(.baloo2(24))
+                .foregroundStyle(.white)
+                .frame(width: phase == .intro ? 120 : 160, height: 52)
+                .background(Capsule().fill(Color.bmConceptGreen))
+                .bmRaisedShadow()
+        }
+        .buttonStyle(.plain)
+        .position(x: size.width * 0.5, y: size.height * 0.88)
+    }
+
+    // MARK: - Transitions
+
+    private func transitionToGame() {
+        withAnimation(.spring(duration: 0.5, bounce: 0.15)) {
+            phase = .game
+            showActionButton = false
+        }
+        Task {
+            try? await Task.sleep(for: .milliseconds(600))
+            startGameNarration()
+        }
+    }
+
+    private func transitionToCelebration() {
+        withAnimation(.spring(duration: 0.5, bounce: 0.2)) {
+            phase = .celebration
+            bubbleVM = nil
+        }
+        Task {
+            try? await Task.sleep(for: .milliseconds(500))
+            startCelebrationNarration()
+        }
     }
 
     // MARK: - Game variants
@@ -95,7 +206,7 @@ struct SoundModelingScreenView: View {
         if interactionCount >= totalInteractions {
             Task {
                 try? await Task.sleep(for: .milliseconds(600))
-                onAdvance()
+                transitionToCelebration()
             }
         }
     }
@@ -108,7 +219,7 @@ struct SoundModelingScreenView: View {
         case 1:
             return screen.dragToGoal?.items.count ?? maxInteractions
         case 2:
-            return 3  // 3 eggs to hatch
+            return 3
         default:
             return maxInteractions
         }
@@ -128,12 +239,46 @@ struct SoundModelingScreenView: View {
 
     // MARK: - Narration
 
-    private func startNarration() {
-        let text = screen.displayText ?? "Let's make the *ssssss* sound!"
+    private func startIntroNarration() {
+        let text = "Let's make the *ssssss* sound!"
         let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
         vm.isNarrationOff = !settings.narrationEnabled
         self.bubbleVM = vm
         vm.startNarration()
+
+        Task {
+            while !(bubbleVM?.narrationFinished ?? true) {
+                try? await Task.sleep(for: .milliseconds(50))
+            }
+            withAnimation(.spring(duration: 0.35)) {
+                showActionButton = true
+            }
+        }
+    }
+
+    private func startGameNarration() {
+        let text = screen.displayText ?? "Say *ssssss* and play!"
+        let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
+        vm.isNarrationOff = !settings.narrationEnabled
+        self.bubbleVM = vm
+        vm.startNarration()
+    }
+
+    private func startCelebrationNarration() {
+        let text = "Great job!"
+        let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
+        vm.isNarrationOff = !settings.narrationEnabled
+        self.bubbleVM = vm
+        vm.startNarration()
+
+        Task {
+            while !(bubbleVM?.narrationFinished ?? true) {
+                try? await Task.sleep(for: .milliseconds(50))
+            }
+            withAnimation(.spring(duration: 0.35)) {
+                showActionButton = true
+            }
+        }
     }
 }
 
@@ -169,7 +314,6 @@ private struct EggHatchGame: View {
     let onCrack: () -> Void
     let onHatch: () -> Void
 
-    // Per-egg state: 0 = whole, 1 = cracked, 2 = hatched
     @State private var eggStates: [Int] = [0, 0, 0]
     @State private var eggScales: [CGFloat] = [1, 1, 1]
 
@@ -179,7 +323,6 @@ private struct EggHatchGame: View {
         "Level1_SnakeEgg_Hatched.png"
     ]
 
-    // Egg positions spread horizontally
     private func eggPosition(_ index: Int) -> CGPoint {
         let xPositions: [CGFloat] = [0.25, 0.50, 0.75]
         return CGPoint(x: size.width * xPositions[index], y: size.height * 0.52)
@@ -202,7 +345,6 @@ private struct EggHatchGame: View {
             .onTapGesture {
                 guard eggStates[i] < 2 else { return }
 
-                // Bounce
                 withAnimation(.spring(duration: 0.25, bounce: 0.5)) {
                     eggScales[i] = 1.15
                 }

@@ -8,13 +8,6 @@
   "screens": [
     {
       "n": 1,
-      "type": "intro",
-      "concept": "S",
-      "text": "Let's make the *ssssss* sound!",
-      "audio": "Let's make the S sound!"
-    },
-    {
-      "n": 2,
       "type": "soundModeling",
       "concept": "S",
       "variant": 0,
@@ -37,7 +30,7 @@
       }
     },
     {
-      "n": 3,
+      "n": 2,
       "type": "soundModeling",
       "concept": "S",
       "variant": 1,
@@ -76,14 +69,14 @@
       }
     },
     {
-      "n": 4,
+      "n": 3,
       "type": "soundModeling",
       "concept": "S",
       "variant": 2,
       "text": "Make the *ssssss* sound then tap the egg."
     },
     {
-      "n": 5,
+      "n": 4,
       "type": "celebration",
       "concept": "S"
     }
