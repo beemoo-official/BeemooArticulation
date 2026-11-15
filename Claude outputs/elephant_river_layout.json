@@ -1,0 +1,102 @@
+{
+  "_about": "Elephant River Hop placement. 'World units' = pixels of the river background. All sizes assume the tightly cropped images: elephant stand 1181x878, elephant jump 1196x819, stone 1437x748.",
+  "background": {
+    "asset": "river_background.png",
+    "width": 1672,
+    "height": 941
+  },
+  "elephant": {
+    "standAsset": "elephant_stand.png",
+    "jumpAsset": "elephant_jump.png",
+    "height": 86,
+    "jumpHeightScale": 1.04,
+    "anchor": "bottom-center = the feet; width comes from each image's own aspect ratio",
+    "faces": "right (no mirroring needed)"
+  },
+  "stone": {
+    "asset": "stone.png",
+    "drawWidth": 94,
+    "landingPoint": {
+      "x": 0.5,
+      "y": 0.3,
+      "_note": "fraction of the stone image from its top-left; this point is placed on each stone position and the feet land here"
+    }
+  },
+  "path": {
+    "start": {
+      "x": 215,
+      "y": 706,
+      "_note": "feet on the left bank"
+    },
+    "stones": [
+      {
+        "id": "stone_1",
+        "x": 392,
+        "y": 742
+      },
+      {
+        "id": "stone_2",
+        "x": 497,
+        "y": 742
+      },
+      {
+        "id": "stone_3",
+        "x": 602,
+        "y": 742
+      },
+      {
+        "id": "stone_4",
+        "x": 707,
+        "y": 742
+      },
+      {
+        "id": "stone_5",
+        "x": 812,
+        "y": 742
+      },
+      {
+        "id": "stone_6",
+        "x": 917,
+        "y": 742
+      },
+      {
+        "id": "stone_7",
+        "x": 1022,
+        "y": 742
+      },
+      {
+        "id": "stone_8",
+        "x": 1127,
+        "y": 742
+      },
+      {
+        "id": "stone_9",
+        "x": 1232,
+        "y": 742
+      }
+    ],
+    "end": {
+      "x": 1430,
+      "y": 684,
+      "_note": "feet on the right bank (10th hop)"
+    }
+  },
+  "hop": {
+    "windup": 0.17,
+    "durationBase": 0.48,
+    "durationPerUnit": 0.0011111111111111111,
+    "arcBase": 40,
+    "arcPerUnit": 0.25,
+    "_note": "duration = durationBase + distance*durationPerUnit; arc height = arcBase + distance*arcPerUnit (world units)"
+  },
+  "camera": {
+    "elephantScreenHeight": 0.35,
+    "feetScreenY": 0.72,
+    "lookAhead": 30,
+    "followRate": 3.0,
+    "introSeconds": 1.5,
+    "outroSeconds": 1.7,
+    "landingPunch": 0.012,
+    "_note": "aim at the landing point, not the airborne position; clamp so the view never leaves the background"
+  }
+}

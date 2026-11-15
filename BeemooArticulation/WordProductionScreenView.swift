@@ -11,6 +11,13 @@ struct WordProductionScreenView: View {
     let trialLogger: TrialLogger
     let onAdvance: () -> Void
 
+    private static let cardBackPatterns = [
+        "ui/BackgroundPattern227.png",
+        "ui/BackgroundPattern42.png",
+        "ui/BackgroundPattern45.png"
+    ]
+
+    @State private var cardBackPattern = cardBackPatterns.randomElement()!
     @State private var cards: [MatchCard] = []
     @State private var flippedIndices: Set<Int> = []
     @State private var matchedIds: Set<String> = []
@@ -112,40 +119,50 @@ struct WordProductionScreenView: View {
         let card = cards[index]
         let isFlipped = flippedIndices.contains(index) || matchedIds.contains(card.stimulusId)
         let isMatched = matchedIds.contains(card.stimulusId)
+        let flipAngle: Double = isFlipped ? 0 : 180
 
-        return Button {
-            guard !isChecking, !isMatched, !flippedIndices.contains(index), scoringStimulus == nil else { return }
-            flipCard(at: index)
-        } label: {
+        return ZStack {
+            // Face-up side (visible when angle near 0)
             ZStack {
-                if isFlipped {
+                ZStack {
+                    Color.white
                     RemoteImage(filename: card.imageFilename)
                         .scaledToFit()
-                        .padding(4)
-                } else {
-                    // Face-down card
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.bmBlue.opacity(0.15))
-                        .overlay {
-                            Image(systemName: "questionmark")
-                                .font(.system(size: 20, weight: .bold))
-                                .foregroundStyle(Color.bmBlue.opacity(0.4))
-                        }
+                        .padding(8)
                 }
+                .drawingGroup()
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                CardFrame(cornerRadius: 12, borderWidth: 4)
             }
-            .frame(width: width, height: height)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(isMatched ? Color.bmConceptGreen : Color.bmNavy09, lineWidth: isMatched ? 3 : 1)
-                    )
-                    .bmCardShadow()
-            )
-            .opacity(isMatched && scoringStimulus?.stimulusId != card.stimulusId ? 0.5 : 1.0)
+            .opacity(isFlipped ? 1 : 0)
+
+            // Face-down side (visible when angle near 180)
+            RemoteImage(filename: cardBackPattern)
+                .scaledToFill()
+                .frame(width: width, height: height)
+                .clipped()
+                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                .opacity(isFlipped ? 0 : 1)
         }
-        .buttonStyle(.plain)
+        .frame(width: width, height: height)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(isMatched ? Color.bmConceptGreen : Color.clear, lineWidth: isMatched ? 3 : 0)
+        )
+        .rotation3DEffect(
+            .degrees(flipAngle),
+            axis: (x: 0, y: 1, z: 0),
+            perspective: 0.4
+        )
+        .animation(.easeInOut(duration: 0.4), value: isFlipped)
+        .opacity(isMatched && scoringStimulus?.stimulusId != card.stimulusId ? 0.5 : 1.0)
+        // Hit testing on a flat rect, unaffected by 3D rotation
+        .contentShape(Rectangle())
+        .onTapGesture {
+            guard !isChecking, !isMatched, !flippedIndices.contains(index), scoringStimulus == nil else { return }
+            flipCard(at: index)
+        }
     }
 
     // MARK: - Card logic
@@ -302,4 +319,10 @@ private struct MatchCard: Identifiable {
     let id = UUID()
     let stimulusId: String
     let imageFilename: String
+}
+
+private struct MatchCardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+    }
 }

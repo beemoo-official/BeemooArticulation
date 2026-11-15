@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Level 1 — Make the S Sound.
-/// First screen: intro phase (BEEMOO centered, "Let's make the ssssss sound!", Go button).
+/// First screen: intro phase (BEEMOO centered, "Let's make the S sound!", Go button).
 /// Each screen: game phase with BEEMOO top-left.
 /// On completion: celebration phase (BEEMOO returns to center, "Great Job!", Continue button).
 /// Three game variants: spot tap (0), snake drag (1), egg hatch (2).
@@ -24,7 +24,7 @@ struct SoundModelingScreenView: View {
     private let maxInteractions = 4
 
     enum Phase {
-        case intro        // BEEMOO centered, "Let's make the ssssss sound!", Go button
+        case intro        // BEEMOO centered, "Let's make the S sound!", Go button
         case game         // BEEMOO top-left, game content visible
         case celebration  // BEEMOO returns to center, "Great Job!", Continue button
     }
@@ -97,7 +97,7 @@ struct SoundModelingScreenView: View {
     // MARK: - BEEMOO mascot
 
     private func beemooMascot(size: CGSize) -> some View {
-        RemoteImage(filename: "BEEMOO_04_Smiling_Happy.png")
+        RemoteImage(filename: "mascot/BEEMOO_04_Smiling_Happy.png")
             .scaledToFit()
             .frame(
                 width: beemooCentered ? size.width * 0.28 : size.width * 0.09,
@@ -172,7 +172,7 @@ struct SoundModelingScreenView: View {
                     spotMap: spotMap,
                     completedSpots: $completedSpots,
                     onSpotTapped: {
-                        popPlayer.play("popEffect.mp3", from: apiClient)
+                        popPlayer.play("sfx/popEffect.mp3", from: apiClient)
                         handleInteraction()
                     }
                 )
@@ -183,7 +183,7 @@ struct SoundModelingScreenView: View {
                     config: dragConfig,
                     screenSize: size,
                     onItemDropped: { _ in
-                        popPlayer.play("popEffect.mp3", from: apiClient)
+                        popPlayer.play("sfx/popEffect.mp3", from: apiClient)
                         handleInteraction()
                     },
                     showDebug: false
@@ -191,9 +191,9 @@ struct SoundModelingScreenView: View {
             }
         default:
             EggHatchGame(size: size, onCrack: {
-                popPlayer.play("eggCrack.mp3", from: apiClient)
+                popPlayer.play("sfx/eggCrack.mp3", from: apiClient)
             }, onHatch: {
-                popPlayer.play("eggCrack.mp3", from: apiClient)
+                popPlayer.play("sfx/eggCrack.mp3", from: apiClient)
                 handleInteraction()
             })
         }
@@ -240,7 +240,7 @@ struct SoundModelingScreenView: View {
     // MARK: - Narration
 
     private func startIntroNarration() {
-        let text = "Let's make the *ssssss* sound!"
+        let text = "Let's make the *S* sound!"
         let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
         vm.isNarrationOff = !settings.narrationEnabled
         self.bubbleVM = vm
@@ -257,7 +257,7 @@ struct SoundModelingScreenView: View {
     }
 
     private func startGameNarration() {
-        let text = screen.displayText ?? "Say *ssssss* and play!"
+        let text = screen.displayText ?? "Say *S* and play!"
         let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
         vm.isNarrationOff = !settings.narrationEnabled
         self.bubbleVM = vm
@@ -318,9 +318,9 @@ private struct EggHatchGame: View {
     @State private var eggScales: [CGFloat] = [1, 1, 1]
 
     private let eggFilenames = [
-        "Level1_SnakeEgg_Whole.png",
-        "Level1_SnakeEgg_Cracked.png",
-        "Level1_SnakeEgg_Hatched.png"
+        "s-sound/level1/Level1_SnakeEgg_Whole.png",
+        "s-sound/level1/Level1_SnakeEgg_Cracked.png",
+        "s-sound/level1/Level1_SnakeEgg_Hatched.png"
     ]
 
     private func eggPosition(_ index: Int) -> CGPoint {

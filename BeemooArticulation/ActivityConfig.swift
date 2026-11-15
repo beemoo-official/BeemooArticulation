@@ -50,6 +50,8 @@ struct ScreenConfig: Codable, Sendable, Identifiable {
     let spotYPercent: Int?
     let spotMap: SpotMap?
     let dragToGoal: DragToGoalConfig?
+    let monkeyClimb: MonkeyClimbConfig?
+    let riverHop: RiverHopConfig?
 
     // soundDiscrimination (Level 2)
     let targetAsset: String?
@@ -84,6 +86,8 @@ enum ScreenType: String, Codable, Sendable {
     case wordProduction
     case sentenceProduction
     case flashcard
+    case monkeyClimb
+    case riverHop
 }
 
 // MARK: - Choice config

@@ -13,9 +13,11 @@ final class RemoteAudioPlayer {
         try? FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
     }
 
-    /// Play an audio file by filename, fetching from the backend if not cached.
-    func play(_ filename: String, from apiClient: APIClient) {
-        let localURL = cacheDir.appendingPathComponent(filename)
+    /// Play an audio file by path (e.g. "sfx/popEffect.mp3"), fetching from the backend if not cached.
+    func play(_ path: String, from apiClient: APIClient) {
+        // Flatten the path for local caching (sfx/popEffect.mp3 → sfx_popEffect.mp3)
+        let cacheKey = path.replacingOccurrences(of: "/", with: "_")
+        let localURL = cacheDir.appendingPathComponent(cacheKey)
 
         if FileManager.default.fileExists(atPath: localURL.path) {
             playLocal(localURL)
@@ -23,7 +25,7 @@ final class RemoteAudioPlayer {
         }
 
         // Download in background, then play
-        let remoteURL = apiClient.mediaURL(for: filename)
+        let remoteURL = apiClient.mediaURL(for: path)
         Task {
             do {
                 let (data, response) = try await URLSession.shared.data(from: remoteURL)

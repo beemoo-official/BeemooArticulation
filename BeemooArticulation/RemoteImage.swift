@@ -40,20 +40,26 @@ struct RemoteImage: View {
             return
         }
 
-        // Download
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200,
-                  let uiImage = UIImage(data: data) else {
-                phase = .failed
-                return
+        // Download with retry
+        for attempt in 0..<3 {
+            if attempt > 0 {
+                try? await Task.sleep(for: .milliseconds(500 * attempt))
             }
-            ImageCache.shared.store(uiImage, for: filename)
-            phase = .loaded(Image(uiImage: uiImage))
-        } catch {
-            phase = .failed
+            do {
+                let (data, response) = try await URLSession.shared.data(from: url)
+                guard let httpResponse = response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200,
+                      let uiImage = UIImage(data: data) else {
+                    continue
+                }
+                ImageCache.shared.store(uiImage, for: filename)
+                phase = .loaded(Image(uiImage: uiImage))
+                return
+            } catch {
+                continue
+            }
         }
+        phase = .failed
     }
 
     private enum Phase {
@@ -77,14 +83,19 @@ final class ImageCache: @unchecked Sendable {
         try? FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
     }
 
+    private func cacheURL(for path: String) -> URL {
+        let cacheKey = path.replacingOccurrences(of: "/", with: "_")
+        return cacheDir.appendingPathComponent(cacheKey)
+    }
+
     func image(for filename: String) -> UIImage? {
-        let fileURL = cacheDir.appendingPathComponent(filename)
+        let fileURL = cacheURL(for: filename)
         guard let data = try? Data(contentsOf: fileURL) else { return nil }
         return UIImage(data: data)
     }
 
     func store(_ image: UIImage, for filename: String) {
-        let fileURL = cacheDir.appendingPathComponent(filename)
+        let fileURL = cacheURL(for: filename)
         if let data = image.pngData() {
             try? data.write(to: fileURL, options: .atomic)
         }

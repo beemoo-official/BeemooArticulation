@@ -1,8 +1,8 @@
 import SwiftUI
 
 /// Level 2 — Hear the S Sound.
-/// Intro: BEEMOO centered, "Let's listen for the ssssss sound!", Continue button.
-/// Game: BEEMOO top-right, 3 image cards with speaker buttons, child picks the /s/ word.
+/// Intro: BEEMOO centered, "Let's listen for the S sound!", Continue button.
+/// Game: BEEMOO top-left, 3 image cards with speaker buttons, child picks the /s/ word.
 struct SoundDiscriminationScreenView: View {
     let screen: ScreenConfig
     let activityId: String
@@ -22,13 +22,17 @@ struct SoundDiscriminationScreenView: View {
     @State private var choicesEnabled = false
     @State private var showCorrectFeedback = false
     @State private var showContinueButton = false
+    @State private var correctRevealed = false   // wrong cards faded, correct centered
     @State private var trialId = UUID()
     @State private var showActionButton = false
-    @State private var highlightedIndex: Int? = nil  // which card is being named
+    @State private var highlightedIndex: Int? = nil
+    @State private var dismissing = false
 
     @State private var bubbleVM: NarratedBubbleVM?
     @State private var narrationTrack = SystemNarrationTrack()
     @State private var listingTrack = SystemNarrationTrack()
+    @State private var speakerTrack = SystemNarrationTrack()  // persistent track for speaker buttons
+    @State private var sfxPlayer = RemoteAudioPlayer()
 
     enum Phase {
         case intro
@@ -45,11 +49,12 @@ struct SoundDiscriminationScreenView: View {
 
                 // Speech bubble
                 if let vm = bubbleVM {
-                    NarratedBubble(vm: vm, contentWidth: geo.size.width * (beemooCentered ? 0.5 : 0.3))
+                    NarratedBubble(vm: vm, contentWidth: geo.size.width * (beemooCentered ? 0.5 : 0.4))
                         .position(
-                            x: beemooCentered ? geo.size.width * 0.5 : geo.size.width * 0.70,
-                            y: beemooCentered ? geo.size.height * 0.28 : geo.size.height * 0.12
+                            x: beemooCentered ? geo.size.width * 0.5 : geo.size.width * 0.32,
+                            y: beemooCentered ? geo.size.height * 0.28 : geo.size.height * 0.10
                         )
+                        .opacity(dismissing ? 0 : 1)
                 }
 
                 // Intro action button
@@ -61,10 +66,12 @@ struct SoundDiscriminationScreenView: View {
                 // Game content
                 if phase == .game {
                     choicePanels(in: geo.size)
+                        .opacity(dismissing ? 0 : 1)
+                        .scaleEffect(dismissing ? 0.9 : 1.0)
                         .transition(.opacity)
 
                     // Continue button after correct answer
-                    if showContinueButton {
+                    if showContinueButton && !dismissing {
                         continueButton(size: geo.size)
                             .transition(.scale.combined(with: .opacity))
                     }
@@ -91,15 +98,15 @@ struct SoundDiscriminationScreenView: View {
     // MARK: - BEEMOO mascot
 
     private func beemooMascot(size: CGSize) -> some View {
-        RemoteImage(filename: "BEEMOO_02_Flying_Hovering.png")
+        RemoteImage(filename: "mascot/BEEMOO_02_Flying_Hovering.png")
             .scaledToFit()
             .frame(
-                width: beemooCentered ? size.width * 0.28 : size.width * 0.1,
-                height: beemooCentered ? size.height * 0.55 : size.height * 0.25
+                width: beemooCentered ? size.width * 0.28 : size.width * 0.09,
+                height: beemooCentered ? size.height * 0.55 : size.height * 0.22
             )
             .position(
-                x: beemooCentered ? size.width * 0.5 : size.width * 0.88,
-                y: beemooCentered ? size.height * 0.62 : size.height * 0.15
+                x: beemooCentered ? size.width * 0.5 : size.width * 0.065,
+                y: beemooCentered ? size.height * 0.62 : size.height * 0.18
             )
             .animation(.spring(duration: 0.6, bounce: 0.2), value: phase)
     }
@@ -131,7 +138,13 @@ struct SoundDiscriminationScreenView: View {
 
     private func continueButton(size: CGSize) -> some View {
         Button {
-            onAdvance()
+            withAnimation(.easeOut(duration: 0.3)) {
+                dismissing = true
+            }
+            Task {
+                try? await Task.sleep(for: .milliseconds(350))
+                onAdvance()
+            }
         } label: {
             HStack(spacing: 6) {
                 Text("Continue")
@@ -154,10 +167,25 @@ struct SoundDiscriminationScreenView: View {
     private func choicePanels(in size: CGSize) -> some View {
         let cardWidth = (size.width - 160 - 32) / 3
         let cardHeight = size.height * 0.55
+        let spacing: CGFloat = 16
+        // The HStack is positioned at y=0.55, screen center is y=0.5
+        let yCorrectionToCenter = size.height * (0.5 - 0.55)
 
-        return HStack(spacing: 16) {
+        return HStack(spacing: spacing) {
             ForEach(Array(shuffledChoices.enumerated()), id: \.element.id) { index, choice in
+                let isRight = choice.meaning == screen.correct
+                let isWrong = !isRight
+
+                let cardSlot = cardWidth + spacing
+                let xOffset: CGFloat = correctRevealed && isRight ? CGFloat(1 - index) * cardSlot : 0
+                let yOffset: CGFloat = correctRevealed && isRight ? yCorrectionToCenter : 0
+
                 choiceCard(choice, index: index, width: cardWidth, height: cardHeight)
+                    .scaleEffect(correctRevealed && isRight ? 1.15 : 1.0)
+                    .offset(x: xOffset, y: yOffset)
+                    .opacity(correctRevealed && isWrong ? 0 : 1)
+                    .zIndex(correctRevealed && isRight ? 10 : 0)
+                    .animation(.spring(duration: 0.5, bounce: 0.2), value: correctRevealed)
             }
         }
         .padding(.horizontal, 80)
@@ -169,53 +197,67 @@ struct SoundDiscriminationScreenView: View {
         let isRight = choice.meaning == screen.correct
         let isHighlighted = highlightedIndex == index
 
-        let borderColor: Color = {
-            if let correct = isCorrect, isSelected {
-                return correct ? Color.bmConceptGreen : Color.bmOrange
-            }
-            if isHighlighted { return Color.bmYellow }
-            return Color(hex: "8B5E3C")
+        let feedbackBorder: Color? = {
+            guard let correct = isCorrect, isSelected else { return nil }
+            return correct ? Color.bmConceptGreen : Color.bmOrange
         }()
-        let borderWidth: CGFloat = (isSelected || isHighlighted) ? 5 : 3
 
-        return VStack(spacing: 10) {
-            Button {
-                guard choicesEnabled else { return }
-                handleChoice(choice)
-            } label: {
+        return ZStack {
+            // Card (tappable only when choices enabled)
+            ZStack {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(.white)
+                    Color.white
                     RemoteImage(filename: choice.asset)
                         .scaledToFit()
-                        .padding(12)
+                        .padding(24)
                 }
-                .frame(width: width, height: height)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
                 .drawingGroup()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(borderColor, lineWidth: borderWidth)
-                    )
-                    .shadow(
-                        color: isHighlighted ? Color.bmYellow.opacity(0.5) : .clear,
-                        radius: isHighlighted ? 12 : 0
-                    )
-                    .scaleEffect(isHighlighted ? 1.05 : (showCorrectFeedback && isRight ? 1.06 : 1.0))
-                    .animation(.spring(duration: 0.3), value: isHighlighted)
-                    .animation(.spring(duration: 0.32), value: showCorrectFeedback)
-            }
-            .buttonStyle(NoFadeButtonStyle())
-            .allowsHitTesting(choicesEnabled)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
 
-            SpeakerButton(text: choice.meaning, size: 42)
+                CardFrame()
+            }
+            .frame(width: width, height: height)
+            .overlay(
+                Group {
+                    if let color = feedbackBorder {
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(color, lineWidth: 5)
+                    }
+                }
+            )
+            .contentShape(RoundedRectangle(cornerRadius: 20))
+            .onTapGesture {
+                guard choicesEnabled else { return }
+                handleChoice(choice)
+            }
+
+            // Speaker button — always tappable, independent of choicesEnabled
+            .overlay(alignment: .bottom) {
+                Button {
+                    speakerTrack.speak(choice.meaning, onWord: { _ in }, onFinish: {})
+                } label: {
+                    RemoteImage(filename: "ui/speaker_button.png")
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                }
+                .buttonStyle(PressButtonStyle())
+                .offset(y: 25)
+                .opacity(correctRevealed && choice.meaning != screen.correct ? 0 : 1)
+            }
+            .shadow(
+                color: isHighlighted ? Color.bmYellow.opacity(0.5) : .clear,
+                radius: isHighlighted ? 12 : 0
+            )
+            .scaleEffect(isHighlighted ? 1.05 : (showCorrectFeedback && isRight ? 1.06 : 1.0))
+            .animation(.spring(duration: 0.3), value: isHighlighted)
+            .animation(.spring(duration: 0.32), value: showCorrectFeedback)
         }
     }
 
     // MARK: - Narration
 
     private func startIntroNarration() {
-        let text = "Let's listen for the *ssssss* sound!"
+        let text = "Let's listen for the *S* sound!"
         let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
         vm.isNarrationOff = !settings.narrationEnabled
         self.bubbleVM = vm
@@ -233,7 +275,7 @@ struct SoundDiscriminationScreenView: View {
 
     private func startGameNarration() {
         guard settings.narrationEnabled else {
-            let text = screen.displayText ?? "Which one has the *ssss* sound?"
+            let text = screen.displayText ?? "Which one has the *S* sound?"
             let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
             vm.isNarrationOff = true
             self.bubbleVM = vm
@@ -241,36 +283,9 @@ struct SoundDiscriminationScreenView: View {
             return
         }
 
-        // Speak each choice word one at a time, highlighting the card
+        // Just narrate the question word-by-word in the bubble
         Task {
-            for i in 0..<shuffledChoices.count {
-                let word = shuffledChoices[i].meaning.capitalized
-
-                // Highlight this card
-                withAnimation(.spring(duration: 0.2)) {
-                    highlightedIndex = i
-                }
-
-                // Speak the word and wait for it to finish
-                await withCheckedContinuation { cont in
-                    listingTrack.speak(word, onWord: { _ in }, onFinish: {
-                        cont.resume()
-                    })
-                }
-
-                // Brief pause between words
-                try? await Task.sleep(for: .milliseconds(400))
-
-                // Un-highlight
-                withAnimation(.spring(duration: 0.2)) {
-                    highlightedIndex = nil
-                }
-
-                try? await Task.sleep(for: .milliseconds(200))
-            }
-
-            // Now narrate the question word-by-word in the bubble
-            let question = screen.displayText ?? "Which one has the *ssss* sound?"
+            let question = screen.displayText ?? "Which one has the *S* sound?"
             let vm = NarratedBubbleVM(markerText: question, narrationTrack: narrationTrack)
             vm.isNarrationOff = false
             self.bubbleVM = vm
@@ -280,6 +295,23 @@ struct SoundDiscriminationScreenView: View {
                 try? await Task.sleep(for: .milliseconds(50))
             }
             choicesEnabled = true
+        }
+    }
+
+    private func startCorrectNarration(word: String) {
+        let text = "That's right! *\(word.capitalized)*!"
+        let vm = NarratedBubbleVM(markerText: text, narrationTrack: narrationTrack)
+        vm.isNarrationOff = !settings.narrationEnabled
+        self.bubbleVM = vm
+        vm.startNarration()
+
+        Task {
+            while !(bubbleVM?.narrationFinished ?? true) {
+                try? await Task.sleep(for: .milliseconds(50))
+            }
+            withAnimation(.spring(duration: 0.35)) {
+                showContinueButton = true
+            }
         }
     }
 
@@ -295,6 +327,7 @@ struct SoundDiscriminationScreenView: View {
         if correct {
             choicesEnabled = false
             showCorrectFeedback = true
+            sfxPlayer.play("sfx/correct.mp3", from: apiClient)
 
             let record = TrialRecord(
                 id: trialId,
@@ -308,15 +341,18 @@ struct SoundDiscriminationScreenView: View {
             )
             trialLogger.log(record)
 
-            // Show continue button instead of auto-advancing
+            // Animate: fade wrong cards, scale correct card, then narrate
             Task {
-                try? await Task.sleep(for: .milliseconds(500))
-                withAnimation(.spring(duration: 0.35)) {
-                    showContinueButton = true
+                try? await Task.sleep(for: .milliseconds(600))
+                withAnimation(.spring(duration: 0.5, bounce: 0.2)) {
+                    correctRevealed = true
                 }
+                try? await Task.sleep(for: .milliseconds(600))
+                startCorrectNarration(word: choice.meaning)
             }
         } else {
             if firstTry { firstTry = false }
+            sfxPlayer.play("sfx/incorrect.mp3", from: apiClient)
 
             Task {
                 try? await Task.sleep(for: .milliseconds(600))
@@ -336,6 +372,7 @@ struct SoundDiscriminationScreenView: View {
         choicesEnabled = false
         showCorrectFeedback = false
         showContinueButton = false
+        correctRevealed = false
         trialId = UUID()
         highlightedIndex = nil
     }
@@ -345,5 +382,14 @@ struct SoundDiscriminationScreenView: View {
 private struct NoFadeButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
+    }
+}
+
+/// Button style that scales down slightly on press, no opacity change.
+private struct PressButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
+            .animation(.spring(duration: 0.15), value: configuration.isPressed)
     }
 }

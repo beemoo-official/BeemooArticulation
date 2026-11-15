@@ -1,0 +1,84 @@
+{
+  "asset": "monkey_tree.png",
+  "imageWidth": 913,
+  "imageHeight": 1517,
+  "planks": [
+    {
+      "id": "step_1",
+      "x": 0.4053,
+      "topY": 0.8497,
+      "width": 0.2344,
+      "side": "left"
+    },
+    {
+      "id": "step_2",
+      "x": 0.5986,
+      "topY": 0.7811,
+      "width": 0.2311,
+      "side": "right"
+    },
+    {
+      "id": "step_3",
+      "x": 0.3987,
+      "topY": 0.7212,
+      "width": 0.2212,
+      "side": "left"
+    },
+    {
+      "id": "step_4",
+      "x": 0.6123,
+      "topY": 0.6605,
+      "width": 0.2278,
+      "side": "right"
+    },
+    {
+      "id": "step_5",
+      "x": 0.4064,
+      "topY": 0.5933,
+      "width": 0.2191,
+      "side": "left"
+    },
+    {
+      "id": "step_6",
+      "x": 0.6112,
+      "topY": 0.5412,
+      "width": 0.2212,
+      "side": "right"
+    },
+    {
+      "id": "step_7",
+      "x": 0.4272,
+      "topY": 0.4792,
+      "width": 0.2147,
+      "side": "left"
+    },
+    {
+      "id": "step_8",
+      "x": 0.6194,
+      "topY": 0.412,
+      "width": 0.2158,
+      "side": "right"
+    },
+    {
+      "id": "step_9",
+      "x": 0.443,
+      "topY": 0.3606,
+      "width": 0.2202,
+      "side": "left"
+    },
+    {
+      "id": "step_10",
+      "x": 0.6342,
+      "topY": 0.3026,
+      "width": 0.2103,
+      "side": "right"
+    },
+    {
+      "id": "step_11",
+      "x": 0.4803,
+      "topY": 0.2353,
+      "width": 0.207,
+      "side": "left"
+    }
+  ]
+}

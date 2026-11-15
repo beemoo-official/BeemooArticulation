@@ -5,7 +5,7 @@ import SwiftUI
 struct JungleBackground: View {
     var body: some View {
         GeometryReader { geo in
-            RemoteImage(filename: "Jungle_Background.png")
+            RemoteImage(filename: "backgrounds/Jungle_Background.png")
                 .scaledToFill()
                 .frame(width: geo.size.width, height: geo.size.height)
                 .clipped()

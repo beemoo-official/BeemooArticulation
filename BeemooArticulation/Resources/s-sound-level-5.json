@@ -4,7 +4,9 @@
   "title": "Middle S Words",
   "umbrella": "clear-speech",
   "orientation": "landscape",
-  "concepts": ["S"],
+  "concepts": [
+    "S"
+  ],
   "screens": [
     {
       "n": 1,
@@ -22,70 +24,70 @@
           "stimulusId": "S-MED-01",
           "targetWord": "dinosaur",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Dinosaur.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Dinosaur.png",
           "audioText": "Say dinosaur."
         },
         {
           "stimulusId": "S-MED-02",
           "targetWord": "bicycle",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Bicycle_Full.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Bicycle_Full.png",
           "audioText": "Say bicycle."
         },
         {
           "stimulusId": "S-MED-03",
           "targetWord": "messy",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Messy_CLEAN.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Messy_CLEAN.png",
           "audioText": "Say messy."
         },
         {
           "stimulusId": "S-MED-04",
           "targetWord": "fossil",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Fossil.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Fossil.png",
           "audioText": "Say fossil."
         },
         {
           "stimulusId": "S-MED-05",
           "targetWord": "castle",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Castle_FINAL.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Castle_FINAL.png",
           "audioText": "Say castle."
         },
         {
           "stimulusId": "S-MED-06",
           "targetWord": "whistle",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Whistle_NEW.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Whistle_NEW.png",
           "audioText": "Say whistle."
         },
         {
           "stimulusId": "S-MED-07",
           "targetWord": "dresser",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Dresser_REVISED.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Dresser_REVISED.png",
           "audioText": "Say dresser."
         },
         {
           "stimulusId": "S-MED-08",
           "targetWord": "eraser",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Eraser.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Eraser.png",
           "audioText": "Say eraser."
         },
         {
           "stimulusId": "S-MED-09",
           "targetWord": "faucet",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Faucet.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Faucet.png",
           "audioText": "Say faucet."
         },
         {
           "stimulusId": "S-MED-10",
           "targetWord": "wrestle",
           "targetPosition": "medial",
-          "wordImage": "BEEMOO_Medial_S_Wrestle.png",
+          "wordImage": "s-sound/words/medial/BEEMOO_Medial_S_Wrestle.png",
           "audioText": "Say wrestle."
         }
       ]
