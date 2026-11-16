@@ -99,15 +99,22 @@ struct DragToGoalView: View {
     @State private var feedbackMessage: String?
 
     // pitRect: the actual on-screen rect of the aspect-fit pit image
+    // The pit sits left of center; snakes wait in the open space to its right, never on the rim.
     private var pitRect: CGRect {
-        let maxW = screenSize.width * 0.85
-        let maxH = screenSize.height * 0.75
+        // The art's transparent margin is ~3% top and ~7% bottom, so it can use the full height
+        let maxW = screenSize.width * 0.72
+        let maxH = screenSize.height
         let ar = config.goalAspectRatio
         let fitW = min(maxW, maxH * ar)
         let fitH = fitW / ar
-        let x = (screenSize.width - fitW) / 2
-        let y = (screenSize.height - fitH) / 2 + screenSize.height * 0.05
+        let x = screenSize.width * 0.40 - fitW / 2
+        let y = (screenSize.height - fitH) / 2
         return CGRect(x: x, y: y, width: fitW, height: fitH)
+    }
+
+    /// Where every undropped snake waits (and where drags are measured from)
+    private var startPosition: CGPoint {
+        CGPoint(x: (pitRect.maxX + screenSize.width) / 2, y: pitRect.midY)
     }
 
     var body: some View {
@@ -209,12 +216,10 @@ struct DragToGoalView: View {
             }
             posAndSize = (CGPoint(x: centerX, y: centerY), snakeW, snakeH)
         } else {
-            // Start position — all undropped snakes share a single entry point (bottom center)
-            let startPos = CGPoint(
-                x: screenSize.width * 0.5,
-                y: screenSize.height * 0.82
-            )
-            let h = screenSize.height * 0.32
+            // Start position — all undropped snakes share a single entry point, right of the pit
+            let startPos = startPosition
+            // Big enough to grab, but never dwarfing the pit (iPad's pit is width-limited)
+            let h = min(screenSize.height * 0.4, pitRect.height * 0.45)
             let w = snakeAspectWidth(item: item, forHeight: h)
             posAndSize = (startPos, w, h)
         }
@@ -263,10 +268,7 @@ struct DragToGoalView: View {
                 }
                 .onEnded { value in
                     snakeDragging[item.id] = false
-                    let startPos = CGPoint(
-                        x: screenSize.width * 0.5,
-                        y: screenSize.height * 0.82
-                    )
+                    let startPos = startPosition
                     let fingerX = startPos.x + value.translation.width
                     let fingerY = startPos.y + value.translation.height
 

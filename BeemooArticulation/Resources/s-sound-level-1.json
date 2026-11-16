@@ -18,6 +18,7 @@
         "asset": "s-sound/level1/BEEMOO_S_Sound_Snake.png",
         "imageWidth": 1448,
         "imageHeight": 1086,
+        "contentBounds": [0.013, 0.168, 0.994, 0.852],
         "spots": [
           {
             "id": "spot_1",

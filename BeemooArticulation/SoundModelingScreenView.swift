@@ -17,7 +17,8 @@ struct SoundModelingScreenView: View {
     @State private var interactionCount = 0
     @State private var completedSpots: Set<String> = []
     @State private var bubbleVM: NarratedBubbleVM?
-    @State private var narrationTrack = SystemNarrationTrack()
+    /// BEEMOO's voice: pre-recorded clips (voice/beemoo/…), falling back to the system voice. Set on appear.
+    @State private var narrationTrack: any NarrationTrack = SystemNarrationTrack()
     @State private var popPlayer = RemoteAudioPlayer()
     @State private var showActionButton = false
 
@@ -35,45 +36,34 @@ struct SoundModelingScreenView: View {
 
     var body: some View {
         GeometryReader { geo in
+            let layout = SoundLayout(size: geo.size)
             ZStack {
                 // BEEMOO mascot
-                beemooMascot(size: geo.size)
+                beemooMascot(layout)
 
-                // Speech bubble — near BEEMOO's mouth area
+                // Speech bubble — above the big BEEMOO (intro/celebration) or beside the small one (game)
                 if let vm = bubbleVM {
-                    NarratedBubble(vm: vm, contentWidth: geo.size.width * (beemooCentered ? 0.5 : 0.4))
-                        .position(
-                            x: beemooCentered ? geo.size.width * 0.5 : geo.size.width * 0.32,
-                            y: beemooCentered ? geo.size.height * 0.28 : 60
-                        )
+                    speechBubble(vm: vm, layout: layout)
                 }
 
                 // Action button (Go or Continue)
                 if showActionButton {
-                    actionButton(size: geo.size)
+                    actionButton(layout)
                         .transition(.scale.combined(with: .opacity))
                 }
 
-                // Game content (game phase only)
+                // Game content (game phase only), in the area below BEEMOO's row
                 if phase == .game {
-                    gameContent(size: geo.size)
+                    gameContent(size: layout.gameRect.size)
+                        .frame(width: layout.gameRect.width, height: layout.gameRect.height)
+                        .position(x: layout.gameRect.midX, y: layout.gameRect.midY)
                         .transition(.opacity)
-
-                    // Progress indicator
-                    VStack {
-                        Spacer()
-                        HStack {
-                            progressDots
-                                .padding(.leading, 20)
-                                .padding(.bottom, 16)
-                            Spacer()
-                        }
-                    }
                 }
             }
         }
         .background { JungleBackground() }
         .onAppear {
+            narrationTrack = VoiceClipNarrationTrack(apiClient: apiClient)
             if isFirstScreen {
                 phase = .intro
                 startIntroNarration()
@@ -96,23 +86,51 @@ struct SoundModelingScreenView: View {
 
     // MARK: - BEEMOO mascot
 
-    private func beemooMascot(size: CGSize) -> some View {
+    private func beemooMascot(_ layout: SoundLayout) -> some View {
         RemoteImage(filename: "mascot/BEEMOO_04_Smiling_Happy.png")
             .scaledToFit()
             .frame(
-                width: beemooCentered ? size.width * 0.28 : size.width * 0.09,
-                height: beemooCentered ? size.height * 0.55 : size.height * 0.22
+                width: beemooCentered ? layout.heroSize.width : layout.beemooSize,
+                height: beemooCentered ? layout.heroSize.height : layout.beemooSize
             )
-            .position(
-                x: beemooCentered ? size.width * 0.5 : size.width * 0.065,
-                y: beemooCentered ? size.height * 0.62 : size.height * 0.18
-            )
+            .position(beemooCentered ? layout.heroCenter : layout.beemooCenter)
             .animation(.spring(duration: 0.6, bounce: 0.2), value: phase)
+    }
+
+    // MARK: - Speech bubble
+
+    @ViewBuilder
+    private func speechBubble(vm: NarratedBubbleVM, layout: SoundLayout) -> some View {
+        if beemooCentered {
+            // Bottom of the bubble sits just above BEEMOO's head, tail pointing down at it
+            VStack(spacing: -2) {
+                NarratedBubble(vm: vm, contentWidth: layout.heroBubbleWidth, centered: true)
+                SpeechTail()
+                    .fill(.white)
+                    .overlay { SpeechTail().stroke(Color.bmYellow, lineWidth: 3) }
+                    .frame(width: 12, height: 18)
+                    .rotationEffect(.degrees(-90))
+                    .frame(width: 18, height: 12)
+            }
+            .frame(width: layout.size.width, height: layout.heroTop - 4, alignment: .bottom)
+            .position(x: layout.size.width / 2, y: (layout.heroTop - 4) / 2)
+        } else {
+            HStack(spacing: -2) {
+                SpeechTail()
+                    .fill(.white)
+                    .overlay { SpeechTail().stroke(Color.bmYellow, lineWidth: 3) }
+                    .frame(width: 12, height: 18)
+                    .zIndex(1)
+                NarratedBubble(vm: vm, contentWidth: layout.bubbleWidth)
+            }
+            .frame(width: layout.bubbleWidth + 10, alignment: .leading)
+            .position(x: layout.bubbleLeft + (layout.bubbleWidth + 10) / 2, y: layout.beemooCenter.y)
+        }
     }
 
     // MARK: - Action button (Go / Continue)
 
-    private func actionButton(size: CGSize) -> some View {
+    private func actionButton(_ layout: SoundLayout) -> some View {
         Button {
             if phase == .intro {
                 transitionToGame()
@@ -132,7 +150,7 @@ struct SoundModelingScreenView: View {
                 .bmRaisedShadow()
         }
         .buttonStyle(.plain)
-        .position(x: size.width * 0.5, y: size.height * 0.88)
+        .position(x: layout.size.width / 2, y: layout.actionY)
     }
 
     // MARK: - Transitions
@@ -225,18 +243,6 @@ struct SoundModelingScreenView: View {
         }
     }
 
-    // MARK: - Progress dots
-
-    private var progressDots: some View {
-        HStack(spacing: 6) {
-            ForEach(0..<totalInteractions, id: \.self) { i in
-                Circle()
-                    .fill(i < interactionCount ? Color.bmConceptGreen : Color.bmNavy09)
-                    .frame(width: 10, height: 10)
-            }
-        }
-    }
-
     // MARK: - Narration
 
     private func startIntroNarration() {
@@ -302,8 +308,27 @@ private struct SpotTapGame: View {
             },
             showDebug: false
         )
-        .frame(maxWidth: size.width * 0.8, maxHeight: size.height * 0.75)
-        .position(x: size.width * 0.5, y: size.height * 0.52)
+        .frame(width: artSize.width, height: artSize.height)
+        // Center the visible snake, not the padded image
+        .position(
+            x: size.width / 2 + (0.5 - content.midX) * artSize.width,
+            y: size.height / 2 + (0.5 - content.midY) * artSize.height
+        )
+    }
+
+    private var content: CGRect { spotMap.contentRect }
+
+    /// Image size such that the visible snake fills the game area, whichever of width or height
+    /// binds first. Phones use nearly all of it (spots need to stay ~40pt to tap); iPads leave
+    /// more breathing room since spots are already large.
+    private var artSize: CGSize {
+        let isPhone = size.height < 450
+        let maxContentW = size.width * (isPhone ? 0.88 : 0.8)
+        let maxContentH = size.height * (isPhone ? 0.94 : 0.86)
+        let contentAspect = spotMap.aspectRatio * content.width / content.height
+        let contentW = min(maxContentW, maxContentH * contentAspect)
+        let imageW = contentW / content.width
+        return CGSize(width: imageW, height: imageW / spotMap.aspectRatio)
     }
 }
 
@@ -324,8 +349,8 @@ private struct EggHatchGame: View {
     ]
 
     private func eggPosition(_ index: Int) -> CGPoint {
-        let xPositions: [CGFloat] = [0.25, 0.50, 0.75]
-        return CGPoint(x: size.width * xPositions[index], y: size.height * 0.52)
+        let xPositions: [CGFloat] = [0.22, 0.50, 0.78]
+        return CGPoint(x: size.width * xPositions[index], y: size.height * 0.5)
     }
 
     var body: some View {
@@ -339,7 +364,7 @@ private struct EggHatchGame: View {
     private func eggView(index i: Int) -> some View {
         RemoteImage(filename: eggFilenames[eggStates[i]])
             .scaledToFit()
-            .frame(maxWidth: size.width * 0.22, maxHeight: size.height * 0.55)
+            .frame(maxWidth: size.width * 0.26, maxHeight: size.height * 0.85)
             .scaleEffect(eggScales[i])
             .position(eggPosition(i))
             .onTapGesture {
@@ -367,5 +392,53 @@ private struct EggHatchGame: View {
                     onHatch()
                 }
             }
+    }
+}
+
+// MARK: - Layout
+
+/// Landscape metrics. Game phase: small BEEMOO + bubble in a row at the top (clear of the runner's
+/// home button), the mini-game filling the area below.
+/// Intro/celebration: big BEEMOO centered, bubble above it, Go/Continue below it.
+private struct SoundLayout {
+    let size: CGSize
+
+    /// iPhone landscape (short screens)
+    var isCompact: Bool { size.height < 600 }
+    var margin: CGFloat { isCompact ? 10 : 24 }
+
+    // Game phase: top row
+    var beemooSize: CGFloat { min(max(size.height * 0.15, 56), 120) }
+    /// BEEMOO starts right of the runner's 44pt home button (RunnerChrome)
+    private var beemooLeft: CGFloat { isCompact ? 58 : 72 }
+    /// Tall enough for a two-line bubble next to BEEMOO
+    private var rowHeight: CGFloat { max(beemooSize, isCompact ? 76 : 100) }
+    var beemooCenter: CGPoint { CGPoint(x: beemooLeft + beemooSize / 2, y: margin + rowHeight / 2) }
+    var bubbleLeft: CGFloat { beemooLeft + beemooSize + 2 }
+    /// Leaves room for the runner's progress pill in the top-right corner
+    var bubbleWidth: CGFloat { min(size.width - bubbleLeft - 100, 560) }
+
+    /// Everything below BEEMOO's row, down to the bottom margin
+    var gameRect: CGRect {
+        let top = margin + rowHeight + (isCompact ? 4 : 12)
+        return CGRect(x: 0, y: top, width: size.width, height: size.height - margin - top)
+    }
+
+    // Intro / celebration
+    var heroSize: CGSize { CGSize(width: size.width * 0.34, height: size.height * 0.5) }
+    var heroCenter: CGPoint { CGPoint(x: size.width / 2, y: size.height * 0.52) }
+    var heroTop: CGFloat { heroCenter.y - heroSize.height / 2 }
+    var heroBubbleWidth: CGFloat { min(size.width * 0.6, 480) }
+    var actionY: CGFloat { size.height - margin - 26 - (isCompact ? 0 : 16) }
+}
+
+/// Small left-pointing tail that connects a bubble to BEEMOO.
+private struct SpeechTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: rect.maxX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
+        p.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        return p
     }
 }

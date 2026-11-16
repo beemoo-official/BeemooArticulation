@@ -107,18 +107,19 @@ final class NarratedBubbleVM {
     /// AttributedString of only the revealed tokens.
     /// At a fixed container width, words land at the same positions
     /// as the full sentence — line breaks are determined by width, not content end.
+    /// The whole line, with words not yet spoken drawn clear. Laying out the full text up front
+    /// keeps the bubble's size and line breaks fixed while words reveal.
     func revealedAttributedString(font: Font) -> AttributedString {
         var result = AttributedString()
-        let revealed = tokens.prefix(revealedCount)
-        for token in revealed {
+        for (i, token) in tokens.enumerated() {
             var str = token.text
             if token.trailingSpace { str += " " }
             var run = AttributedString(str)
             run.font = font
-            run.foregroundColor = token.isMarked ? .bmConceptGreen : .bmNavy
+            run.foregroundColor = i >= revealedCount ? .clear : (token.isMarked ? .bmConceptGreen : .bmNavy)
             result.append(run)
         }
-        // If nothing revealed, use a space to keep minimum size
+        // If there's no text at all, use a space to keep minimum size
         if result.characters.isEmpty {
             var space = AttributedString(" ")
             space.font = font
@@ -133,8 +134,10 @@ final class NarratedBubbleVM {
 
 struct NarratedBubble: View {
     let vm: NarratedBubbleVM
-    /// Fixed width the text wraps at. Must not change between reveals.
+    /// Widest the bubble may grow; the text wraps at this width and the bubble hugs it.
     let contentWidth: CGFloat
+    /// Center the bubble in `contentWidth` instead of pinning it to the leading edge.
+    var centered = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -142,13 +145,14 @@ struct NarratedBubble: View {
 
     var body: some View {
         HStack {
+            if centered { Spacer(minLength: 0) }
             Text(vm.revealedAttributedString(font: bubbleFont))
                 .multilineTextAlignment(.leading)
                 .lineLimit(4)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .frame(minWidth: 44, maxWidth: contentWidth - 20, minHeight: 36)
+                .frame(minWidth: 44, minHeight: 36)
                 .background {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.white)

@@ -10,6 +10,13 @@ struct ActivityRunnerView: View {
 
     @State private var preloader = AssetPreloader()
     @State private var assetsReady = false
+    @State private var music = BackgroundMusicPlayer()
+
+    /// Mini-game activities: loop the jungle song across all their screens and skip the screen counter
+    /// (the games show their own progress). Monkey Climb plays its own copy of the song.
+    private var isGameActivity: Bool {
+        config.screens.contains { $0.type == .soundModeling }
+    }
 
     init(config: ActivityConfig, onDismiss: @escaping () -> Void) {
         self.config = config
@@ -48,6 +55,10 @@ struct ActivityRunnerView: View {
         .onChange(of: vm.isFinished) { _, finished in
             if finished { onDismiss() }
         }
+        .onAppear {
+            if isGameActivity { music.start("music/silly_walks.m4a", apiClient: apiClient) }
+        }
+        .onDisappear { music.stop() }
     }
 
     // MARK: - Chrome
@@ -57,8 +68,8 @@ struct ActivityRunnerView: View {
             HStack {
                 RunnerHomeButton(onExit: onDismiss)
                 Spacer()
-                // The climb game has its own progress (the monkey); the screen counter just adds clutter
-                if vm.currentScreen.type != .monkeyClimb {
+                // Games show their own progress; the screen counter just adds clutter
+                if vm.currentScreen.type != .monkeyClimb && !isGameActivity {
                     ProgressPill(
                         current: vm.currentIndex + 1,
                         total: vm.screenCount
