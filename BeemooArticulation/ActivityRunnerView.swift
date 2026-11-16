@@ -57,10 +57,13 @@ struct ActivityRunnerView: View {
             HStack {
                 RunnerHomeButton(onExit: onDismiss)
                 Spacer()
-                ProgressPill(
-                    current: vm.currentIndex + 1,
-                    total: vm.screenCount
-                )
+                // The climb game has its own progress (the monkey); the screen counter just adds clutter
+                if vm.currentScreen.type != .monkeyClimb {
+                    ProgressPill(
+                        current: vm.currentIndex + 1,
+                        total: vm.screenCount
+                    )
+                }
             }
             .padding(.top, 14)
             .padding(.horizontal, 14)

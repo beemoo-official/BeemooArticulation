@@ -11,7 +11,7 @@ import Speech
 ///
 /// Works on devices and on the simulator (which uses the Mac's microphone). If speech or microphone
 /// permission is denied, or recognition keeps failing, `mode` becomes `.manual`: nothing listens,
-/// and the adult taps the mic button to confirm the word instead.
+/// and the adult taps "They said it" to confirm the word instead.
 @Observable
 final class WordRecognizer {
     enum Mode { case speech, manual }
@@ -20,6 +20,8 @@ final class WordRecognizer {
     private(set) var mode: Mode = .speech
     /// What the recognizer has heard so far for the current word (shown under the mic button).
     private(set) var lastHeard = ""
+    /// Live microphone input level while listening, 0…1, for a "we can hear you" meter.
+    private(set) var level: Float = 0
 
     private let recognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
     private var engine: AVAudioEngine?
@@ -81,8 +83,14 @@ final class WordRecognizer {
             let input = engine.inputNode
             let format = input.outputFormat(forBus: 0)
             guard format.channelCount > 0, format.sampleRate > 0 else { mode = .manual; return }
-            input.installTap(onBus: 0, bufferSize: 1024, format: format) { @Sendable buffer, _ in
+            input.installTap(onBus: 0, bufferSize: 1024, format: format) { @Sendable [weak self] buffer, _ in
                 request.append(buffer)
+                let level = Self.normalizedLevel(of: buffer)
+                Task { @MainActor in
+                    guard let self, windowID == self.window, self.isListening else { return }
+                    // Rise fast, fall slowly, so the bars read as speech rather than flicker
+                    self.level = level > self.level ? level : self.level * 0.8 + level * 0.2
+                }
             }
             engine.prepare()
             try engine.start()
@@ -140,6 +148,7 @@ final class WordRecognizer {
         }
         engine = nil
         isListening = false
+        level = 0
     }
 
     // MARK: - Helpers
@@ -148,6 +157,16 @@ final class WordRecognizer {
     static func transcript(_ heard: String, contains word: String) -> Bool {
         let words = heard.lowercased().split { !$0.isLetter && $0 != "'" }.map(String.init)
         return words.contains(word) || words.contains(word + "s") || words.contains(word + "es")
+    }
+
+    /// RMS of the buffer mapped from roughly -50…-10 dBFS onto 0…1.
+    nonisolated private static func normalizedLevel(of buffer: AVAudioPCMBuffer) -> Float {
+        guard let samples = buffer.floatChannelData?[0], buffer.frameLength > 0 else { return 0 }
+        let n = Int(buffer.frameLength)
+        var sum: Float = 0
+        for i in 0..<n { sum += samples[i] * samples[i] }
+        let db = 20 * log10(max(sqrt(sum / Float(n)), 1e-6))
+        return min(max((db + 50) / 40, 0), 1)
     }
 
     /// Permission callbacks arrive on background threads; this hops back to the main actor.

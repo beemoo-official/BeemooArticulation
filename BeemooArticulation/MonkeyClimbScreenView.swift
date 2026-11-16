@@ -215,7 +215,6 @@ struct MonkeyClimbScreenView: View {
         let layout = ClimbLayout(size: size)
         let compact = layout.isCompact
         let manual = wordRecognizer.mode == .manual
-        let listening = wordRecognizer.isListening
         let corner: CGFloat = compact ? 14 : 20
 
         return VStack(spacing: 0) {
@@ -255,48 +254,47 @@ struct MonkeyClimbScreenView: View {
             }
             .padding(.bottom, layout.speakerSize / 2 + layout.controlGap)
 
-            // Mic button
-            Button {
-                if manual || listening { handleCorrect() }
-                else { listenForCurrentWord() }
-            } label: {
-                HStack(spacing: compact ? 8 : 12) {
-                    ZStack {
-                        Circle()
-                            .fill(listening ? Color.bmOrange : Color.bmBlue)
-                            .frame(width: layout.micSize, height: layout.micSize)
-                        Image(systemName: manual ? "checkmark" : (listening ? "waveform" : "mic.fill"))
-                            .font(.system(size: layout.micSize * 0.42, weight: .semibold))
-                            .foregroundStyle(.white)
-                    }
-                    Text(manual ? "They said it" : (listening ? "Listening..." : "Tap to listen"))
+            // Feedback that the mic hears the child. Read-only: it never advances the game.
+            // Only if speech recognition is unavailable does it become the adult's "They said it" button.
+            if manual {
+                Button { handleCorrect() } label: {
+                    Label("They said it", systemImage: "checkmark")
                         .font(.nunito(compact ? 13 : 17, weight: .bold))
-                        .foregroundStyle(Color.bmNavy)
-                        .fixedSize()
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, compact ? 14 : 20)
+                        .frame(height: layout.meterHeight)
+                        .background(Capsule().fill(Color.bmConceptGreen).bmCardShadow())
                 }
-                .padding(.leading, compact ? 5 : 7)
-                .padding(.trailing, compact ? 14 : 20)
-                .padding(.vertical, compact ? 5 : 7)
-                .background(Capsule().fill(.white.opacity(0.92)).bmCardShadow())
+                .buttonStyle(.plain)
+                .disabled(!awaitingWord)
+                .opacity(awaitingWord ? 1 : 0.5)
+            } else {
+                ListeningMeter(recognizer: wordRecognizer, height: layout.meterHeight)
+                    .opacity(awaitingWord ? 1 : 0.5)
+            }
+        }
+        .frame(width: layout.columnWidth, height: layout.panelRect.height)
+        .position(x: layout.panelRect.midX, y: layout.panelRect.midY)
+        .overlay {
+            // Skip lives bottom-right, away from the word panel
+            Button { handleSkip() } label: {
+                HStack(spacing: 4) {
+                    Text("Skip")
+                    Image(systemName: "forward.fill")
+                        .font(.system(size: compact ? 11 : 14, weight: .bold))
+                }
+                .font(.nunito(compact ? 14 : 18, weight: .bold))
+                .foregroundStyle(Color.bmNavy)
+                .padding(.horizontal, compact ? 14 : 20)
+                .padding(.vertical, compact ? 7 : 10)
+                .background(Capsule().fill(.white.opacity(0.9)).bmCardShadow())
             }
             .buttonStyle(.plain)
             .disabled(!awaitingWord)
             .opacity(awaitingWord ? 1 : 0.5)
-
-            // Skip
-            Button { handleSkip() } label: {
-                Text("Skip")
-                    .font(.nunito(compact ? 13 : 16, weight: .bold))
-                    .foregroundStyle(Color.bmNavy)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, compact ? 3 : 6)
-                    .background(Capsule().fill(.white.opacity(0.6)))
-            }
-            .buttonStyle(.plain)
-            .padding(.top, compact ? 6 : 10)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            .padding(layout.margin)
         }
-        .frame(width: layout.columnWidth, height: layout.panelRect.height)
-        .position(x: layout.panelRect.midX, y: layout.panelRect.midY)
     }
 
     // MARK: - Word lifecycle
@@ -424,10 +422,12 @@ private struct ClimbLayout {
     var beemooCenter: CGPoint { CGPoint(x: beemooLeft + beemooSize / 2, y: margin + beemooSize / 2) }
 
     var bubbleLeft: CGFloat { beemooLeft + beemooSize + 2 }
-    var bubbleWidth: CGFloat { min(columnWidth + margin - bubbleLeft, 300) }
+    /// May run past the word column over open sky (the top of the tree sits further right),
+    /// so short lines like "Say the word!" stay on one line instead of growing off the top.
+    var bubbleWidth: CGFloat { min(size.width * 0.46 - bubbleLeft, 300) }
 
     var speakerSize: CGFloat { isCompact ? 36 : 56 }
-    var micSize: CGFloat { isCompact ? 36 : 52 }
+    var meterHeight: CGFloat { isCompact ? 34 : 48 }
     var controlGap: CGFloat { isCompact ? 8 : 18 }
 
     /// Everything below the BEEMOO row
@@ -436,12 +436,8 @@ private struct ClimbLayout {
         return CGRect(x: margin, y: top, width: columnWidth, height: size.height - top - margin)
     }
 
-    /// Height used by the speaker overhang, mic pill and Skip below the card
-    private var controlsHeight: CGFloat {
-        let pill = micSize + (isCompact ? 10 : 14)
-        let skip: CGFloat = isCompact ? 26 : 38
-        return speakerSize / 2 + controlGap + pill + skip
-    }
+    /// Height used by the speaker overhang and the listening meter below the card
+    private var controlsHeight: CGFloat { speakerSize / 2 + controlGap + meterHeight }
 
     var cardSize: CGSize {
         let maxH = panelRect.height - controlsHeight
@@ -460,5 +456,42 @@ private struct BubbleTail: Shape {
         p.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
         p.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
         return p
+    }
+}
+
+/// Live mic level bars. Shows the child (and adult) that the app is actually hearing them.
+private struct ListeningMeter: View {
+    let recognizer: WordRecognizer
+    let height: CGFloat
+
+    /// Fixed per-bar shape so the bars read as a waveform, tallest in the middle
+    private let weights: [CGFloat] = [0.45, 0.7, 0.9, 1, 0.9, 0.7, 0.45]
+
+    var body: some View {
+        let listening = recognizer.isListening
+        let level = CGFloat(recognizer.level)
+        let barMax = height * 0.55
+
+        HStack(spacing: height * 0.22) {
+            Image(systemName: "mic.fill")
+                .font(.system(size: height * 0.4, weight: .semibold))
+                .foregroundStyle(listening ? Color.bmBlue : Color.bmNavy50)
+
+            HStack(spacing: height * 0.09) {
+                ForEach(weights.indices, id: \.self) { i in
+                    Capsule()
+                        .fill(listening ? Color.bmBlue : Color.bmNavy50.opacity(0.5))
+                        .frame(width: height * 0.1, height: max(height * 0.1, barMax * weights[i] * level))
+                }
+            }
+            .frame(height: barMax)
+            .animation(.easeOut(duration: 0.08), value: level)
+        }
+        .padding(.horizontal, height * 0.45)
+        .frame(height: height)
+        .background(Capsule().fill(.white.opacity(0.92)).bmCardShadow())
+        .allowsHitTesting(false)
+        .accessibilityElement()
+        .accessibilityLabel(listening ? "Listening" : "Microphone off")
     }
 }
