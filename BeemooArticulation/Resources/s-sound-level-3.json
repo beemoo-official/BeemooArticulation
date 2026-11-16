@@ -22,9 +22,11 @@
         "backgroundHeight": 941,
         "elephantHeight": 86,
         "stoneWidth": 94,
-        "stoneLandingY": 0.3,
+        "stoneLandingY": 0.28,
+        "standAnchorX": 0.351,
+        "jumpAnchorX": 0.366,
         "start": {
-          "x": 215,
+          "x": 285,
           "y": 706
         },
         "stones": [

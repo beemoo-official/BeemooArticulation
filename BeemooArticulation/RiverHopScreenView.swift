@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - Elephant River Hop Screen
 // The child says each word; the elephant hops to the next stone. 9 stones, the 10th hop lands on the far bank.
-// Word card, mic, Skip, BEEMOO and narration behave exactly like MonkeyClimbScreenView.
+// Word panel, listening meter, Skip, BEEMOO and narration are shared with MonkeyClimbScreenView (WordPracticeUI.swift).
 
 struct RiverHopScreenView: View {
     let screen: ScreenConfig
@@ -24,9 +24,11 @@ struct RiverHopScreenView: View {
     @State private var awaitingWord = false
 
     @State private var bubbleVM: NarratedBubbleVM?
-    @State private var narrationTrack = SystemNarrationTrack()
+    /// BEEMOO's voice: pre-recorded clips (voice/beemoo/…), falling back to the system voice. Set on appear.
+    @State private var narrationTrack: any NarrationTrack = SystemNarrationTrack()
     @State private var sfxPlayer = RemoteAudioPlayer()
     @State private var praise = PraisePlayer()
+    @State private var music = BackgroundMusicPlayer()
 
     // River + elephant physics scene (RiverHopModel.swift), stepped every frame by the display link
     @State private var river: RiverHopState?
@@ -45,53 +47,73 @@ struct RiverHopScreenView: View {
 
     var body: some View {
         GeometryReader { geo in
+            let layout = WordPracticeLayout(size: geo.size)
             ZStack {
-                // River, stones, elephant and splashes, drawn from the physics model
+                // River, stones, elephant and splashes, drawn full-screen from the physics model
                 riverScene
 
                 // BEEMOO mascot
-                beemooMascot(size: geo.size)
+                beemooMascot(size: geo.size, layout: layout)
 
-                // Speech bubble
+                // Speech bubble: beside the big BEEMOO (intro) or the small one (hopping)
                 if let vm = bubbleVM {
-                    NarratedBubble(vm: vm, contentWidth: geo.size.width * (beemooCentered ? 0.45 : 0.32))
-                        .position(
-                            x: beemooCentered ? geo.size.width * 0.4 : geo.size.width * 0.24,
-                            y: beemooCentered ? geo.size.height * 0.25 : geo.size.height * 0.08
+                    if beemooCentered {
+                        WordPracticeBubble(
+                            vm: vm,
+                            width: min(geo.size.width * 0.42, 360),
+                            left: introBubbleLeft(geo.size),
+                            centerY: geo.size.height * 0.26
                         )
+                    } else {
+                        WordPracticeBubble(vm: vm, layout: layout)
+                    }
                 }
 
-                // Start button (intro)
+                // Start button (intro): under the bubble, above the water, clear of the elephant on the bank
                 if showActionButton {
                     Button { startHopping() } label: {
                         Text("Start hopping!")
-                            .font(.baloo2(24))
+                            .font(.baloo2(layout.isCompact ? 22 : 26))
                             .foregroundStyle(.white)
                             .padding(.horizontal, 24)
-                            .padding(.vertical, 14)
+                            .padding(.vertical, layout.isCompact ? 10 : 14)
                             .background(Capsule().fill(Color.bmConceptGreen))
                             .bmRaisedShadow()
                     }
                     .buttonStyle(.plain)
-                    .position(x: geo.size.width * 0.25, y: geo.size.height * 0.82)
+                    .fixedSize()
+                    .frame(width: geo.size.width * 0.42, alignment: .leading)
+                    .position(x: introBubbleLeft(geo.size) + 12 + geo.size.width * 0.21, y: geo.size.height * 0.5)
                     .transition(.scale.combined(with: .opacity))
                 }
 
-                // Hopping: word card + mic + skip
+                // Hopping: word panel + Skip
                 if phase == .climbing, let stimulus = currentStimulus {
-                    wordCard(stimulus, size: geo.size)
-                    micButton(size: geo.size)
-                    skipButton(size: geo.size)
+                    WordPracticePanel(
+                        stimulus: stimulus,
+                        layout: layout,
+                        recognizer: wordRecognizer,
+                        awaitingWord: awaitingWord,
+                        onSpeaker: {
+                            // Pause listening while the app says the word, so it can't hear itself.
+                            wordRecognizer.stop()
+                            narrationTrack.speak(stimulus.targetWord, onWord: { _ in }, onFinish: {
+                                if awaitingWord { listenForCurrentWord() }
+                            })
+                        },
+                        onConfirm: { handleCorrect() }
+                    )
+                    WordPracticeSkipButton(layout: layout, enabled: awaitingWord) { handleSkip() }
                 }
             }
-            .onAppear { setUpScene(size: geo.size) }
-            .onChange(of: geo.size) { _, newSize in
-                river?.updateScreenSize(screenW: newSize.width, screenH: newSize.height)
-            }
+            .onAppear { setUpScene(geo: geo, layout: layout) }
+            .onChange(of: geo.size) { _, _ in fitScene(geo: geo, layout: WordPracticeLayout(size: geo.size)) }
         }
         .background { JungleBackground() }   // shown only until the river images have loaded
         .onAppear {
             praise.configure(apiClient: apiClient)
+            narrationTrack = VoiceClipNarrationTrack(apiClient: apiClient)
+            music.start("music/silly_walks.m4a", apiClient: apiClient)
             phase = .intro
             startIntroNarration()
         }
@@ -100,20 +122,39 @@ struct RiverHopScreenView: View {
             praise.stop()
             wordRecognizer.stop()
             frameDriver.stop()
+            music.stop()
         }
+        .onChange(of: wordRecognizer.isListening) { _, _ in music.resumeIfNeeded() }
     }
+
+    /// The intro bubble's tail sits just right of the big BEEMOO
+    private func introBubbleLeft(_ size: CGSize) -> CGFloat { size.width * 0.25 }
 
     // MARK: - River scene
 
-    private func setUpScene(size: CGSize) {
+    private func setUpScene(geo: GeometryProxy, layout: WordPracticeLayout) {
         guard river == nil, let config else { return }
         let state = RiverHopState(config: config)
         state.onLand = { reachedEnd in handleLanding(reachedEnd: reachedEnd) }
-        state.updateScreenSize(screenW: size.width, screenH: size.height)
         river = state
+        fitScene(geo: geo, layout: layout)
         frameDriver.onFrame = { dt in state.tick(dt: dt) }
         frameDriver.start()
         Task { await state.preload(apiClient: apiClient) }
+    }
+
+    /// The river is drawn edge to edge (under the safe areas), while the overlays stay inside them.
+    /// Give the camera the full-screen size, and aim it at the middle of the area right of the word panel.
+    private func fitScene(geo: GeometryProxy, layout: WordPracticeLayout) {
+        guard let river else { return }
+        let insets = geo.safeAreaInsets
+        let fullW = geo.size.width + insets.leading + insets.trailing
+        let fullH = geo.size.height + insets.top + insets.bottom
+        let freeMinX = insets.leading + layout.columnMaxX
+        let freeMaxX = insets.leading + geo.size.width
+        river.anchorX = (freeMinX + freeMaxX) / 2 / max(fullW, 1)
+        river.freeWidthFraction = (freeMaxX - freeMinX) / max(fullW, 1)
+        river.updateScreenSize(screenW: fullW, screenH: fullH)
     }
 
     @ViewBuilder
@@ -174,9 +215,16 @@ struct RiverHopScreenView: View {
 
             var elephant = world
             elephant.translateBy(x: m.pos.x, y: m.pos.y + sink)
+            // Pitch about the body's middle, not the feet, so it tips like a real jump
+            let pivotY = -h * 0.45
+            elephant.translateBy(x: 0, y: pivotY)
             elephant.rotate(by: .radians(Double(m.lean)))
+            elephant.translateBy(x: 0, y: -pivotY)
+            // Squash and stretch about the feet, keeping the volume
             elephant.scaleBy(x: 1 / sqrt(s), y: s)
-            elephant.draw(Image(uiImage: image), in: CGRect(x: -w / 2, y: -h, width: w, height: h))
+            // The feet (not the image center) go on the stone
+            let anchorX = airborne ? m.jumpAnchorX : m.standAnchorX
+            elephant.draw(Image(uiImage: image), in: CGRect(x: -w * anchorX, y: -h, width: w, height: h))
         }
 
         // Splash drops and confetti
@@ -197,119 +245,18 @@ struct RiverHopScreenView: View {
 
     // MARK: - BEEMOO
 
-    private func beemooMascot(size: CGSize) -> some View {
+    private func beemooMascot(size: CGSize, layout: WordPracticeLayout) -> some View {
         RemoteImage(filename: "mascot/BEEMOO_02_Flying_Hovering.png")
             .scaledToFit()
             .frame(
-                width: beemooCentered ? size.width * 0.18 : size.width * 0.08,
-                height: beemooCentered ? size.height * 0.38 : size.height * 0.18
+                width: beemooCentered ? size.width * 0.18 : layout.beemooSize,
+                height: beemooCentered ? size.height * 0.36 : layout.beemooSize
             )
             .position(
-                x: beemooCentered ? size.width * 0.15 : size.width * 0.06,
-                y: beemooCentered ? size.height * 0.48 : size.height * 0.14
+                x: beemooCentered ? size.width * 0.15 : layout.beemooCenter.x,
+                y: beemooCentered ? size.height * 0.4 : layout.beemooCenter.y
             )
             .animation(.spring(duration: 0.6, bounce: 0.2), value: phase)
-    }
-
-    // MARK: - Word Card
-
-    private func wordCard(_ stimulus: StimulusConfig, size: CGSize) -> some View {
-        VStack(spacing: 8) {
-            ZStack {
-                ZStack {
-                    Color.white
-                    RemoteImage(filename: stimulus.wordImage)
-                        .scaledToFit()
-                        .padding(16)
-                }
-                .drawingGroup()
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                CardFrame(cornerRadius: 16, borderWidth: 6)
-            }
-            .frame(width: size.width * 0.24, height: size.height * 0.4)
-
-            HStack(spacing: 8) {
-                Button {
-                    // Pause listening while the app says the word, so it can't hear itself.
-                    wordRecognizer.stop()
-                    narrationTrack.speak(stimulus.targetWord, onWord: { _ in }, onFinish: {
-                        if awaitingWord { listenForCurrentWord() }
-                    })
-                } label: {
-                    RemoteImage(filename: "ui/speaker_button.png")
-                        .scaledToFit()
-                        .frame(width: 34, height: 34)
-                }
-                .buttonStyle(.plain)
-
-                Text(stimulus.targetWord.capitalized)
-                    .font(.baloo2(20))
-                    .foregroundStyle(Color.bmNavy)
-            }
-        }
-        .position(x: size.width * 0.18, y: size.height * 0.5)
-    }
-
-    // MARK: - Mic Button
-
-    /// Speech mode: tap to start listening; tap while listening to confirm the word yourself.
-    /// Manual mode (simulator, or no speech permission): tap when the child says the word.
-    private func micButton(size: CGSize) -> some View {
-        let manual = wordRecognizer.mode == .manual
-        let listening = wordRecognizer.isListening
-        return Button {
-            if manual || listening {
-                handleCorrect()
-            } else {
-                listenForCurrentWord()
-            }
-        } label: {
-            VStack(spacing: 6) {
-                ZStack {
-                    Circle()
-                        .fill(listening ? Color.bmOrange : Color.bmBlue)
-                        .frame(width: 56, height: 56)
-                    Image(systemName: manual ? "checkmark" : (listening ? "waveform" : "mic.fill"))
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .symbolEffect(.variableColor.iterative, isActive: listening)
-                }
-                .bmRaisedShadow()
-                Text(manual ? "They said it" : (listening ? "Listening…" : "Tap to listen"))
-                    .font(.nunito(12, weight: .bold))
-                    .foregroundStyle(Color.bmNavy)
-                if listening, !wordRecognizer.lastHeard.isEmpty {
-                    Text("Heard: \"\(wordRecognizer.lastHeard)\"")
-                        .font(.nunito(11, weight: .bold))
-                        .foregroundStyle(.white)
-                        .lineLimit(1)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Capsule().fill(.black.opacity(0.45)))
-                        .frame(maxWidth: 220)
-                }
-            }
-        }
-        .buttonStyle(.plain)
-        .disabled(!awaitingWord)
-        .opacity(awaitingWord ? 1 : 0.5)
-        .accessibilityLabel(manual ? "They said the word" : (listening ? "Listening. Tap to confirm the word" : "Start listening"))
-        .position(x: size.width * 0.18, y: size.height * 0.86)
-    }
-
-    // MARK: - Skip Button
-
-    private func skipButton(size: CGSize) -> some View {
-        Button { handleSkip() } label: {
-            Text("Skip")
-                .font(.nunito(14, weight: .bold))
-                .foregroundStyle(Color.bmNavy62)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(Capsule().fill(.white.opacity(0.8)))
-        }
-        .buttonStyle(.plain)
-        .position(x: size.width * 0.30, y: size.height * 0.85)
     }
 
     // MARK: - Word lifecycle
@@ -327,7 +274,8 @@ struct RiverHopScreenView: View {
         wordRecognizer.stop()
         logTrial(stimulus: stimulus, outcome: "correct")
         sfxPlayer.play("sfx/correct.mp3", from: apiClient)
-        praise.play()
+        // On the last hop BEEMOO cheers when the elephant reaches the bank instead
+        if !isFinalHop { praise.play() }
         hopElephant()
     }
 
@@ -337,6 +285,11 @@ struct RiverHopScreenView: View {
         wordRecognizer.stop()
         logTrial(stimulus: stimulus, outcome: "skip")
         hopElephant()
+    }
+
+    private var isFinalHop: Bool {
+        guard let river else { return false }
+        return river.index + 1 >= river.hopCount || currentStimulusIndex + 1 >= stimuli.count
     }
 
     private func hopElephant() {
@@ -359,6 +312,10 @@ struct RiverHopScreenView: View {
         let next = currentStimulusIndex + 1
         if next >= stimuli.count || hopsDone >= totalHops {
             phase = .complete
+            let vm = NarratedBubbleVM(markerText: "You did it!", narrationTrack: narrationTrack)
+            vm.isNarrationOff = !settings.narrationEnabled
+            bubbleVM = vm
+            vm.startNarration()
             Task {
                 try? await Task.sleep(for: .milliseconds(2600))   // let the pull-back and confetti play
                 onAdvance()

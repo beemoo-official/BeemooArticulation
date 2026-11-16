@@ -69,7 +69,7 @@ struct ActivityRunnerView: View {
                 RunnerHomeButton(onExit: onDismiss)
                 Spacer()
                 // Games show their own progress; the screen counter just adds clutter
-                if vm.currentScreen.type != .monkeyClimb && !isGameActivity {
+                if ![.monkeyClimb, .riverHop].contains(vm.currentScreen.type) && !isGameActivity {
                     ProgressPill(
                         current: vm.currentIndex + 1,
                         total: vm.screenCount

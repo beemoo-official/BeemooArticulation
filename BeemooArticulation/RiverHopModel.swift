@@ -18,6 +18,11 @@ struct RiverHopConfig: Codable, Sendable {
     let stoneWidth: Double
     /// Where the feet land on the stone image, as a fraction from its top (0.30 = front half of the flat top).
     let stoneLandingY: Double
+    /// Where the feet are across each elephant image, as a fraction of its width. The art faces right
+    /// with the trunk raised, so the feet sit left of the image center. The jump frame's anchor keeps the
+    /// body in the same place when the frames swap. Default to the measured values of the current art.
+    let standAnchorX: Double?
+    let jumpAnchorX: Double?
     let start: Point
     let stones: [Point]
     let end: Point
@@ -73,12 +78,17 @@ final class RiverHopState {
     private var camTimer: CGFloat = 0
     private var camFrom = (x: CGFloat(0), y: CGFloat(0), z: CGFloat(1))
 
-    /// Elephant height as a share of the screen height while following.
-    var elephantScreenHeight: CGFloat = 0.35
+    /// How many stone gaps fit across the free part of the screen while following: the current
+    /// stone, plus the next two or three ahead so the child can see where the elephant is going.
+    var followSpanGaps: CGFloat = 3.4
+    /// Upper limit on the elephant's height as a share of the screen height (keeps phones from over-zooming).
+    var maxElephantScreenHeight: CGFloat = 0.36
     /// Where the elephant's feet sit vertically on screen (0 = top, 1 = bottom).
-    var feetScreenY: CGFloat = 0.72
-    /// Horizontal position on screen of the camera's center, so the elephant stays right of the word card.
-    var anchorX: CGFloat = 0.62
+    var feetScreenY: CGFloat = 0.64
+    /// Horizontal position on screen of the camera's center: the middle of the area right of the word panel.
+    var anchorX: CGFloat = 0.7
+    /// Width of the screen area right of the word panel, as a share of the screen width.
+    var freeWidthFraction: CGFloat = 0.6
 
     var screenW: CGFloat = 1
     var screenH: CGFloat = 1
@@ -88,6 +98,15 @@ final class RiverHopState {
 
     /// Called when the feet touch a stone or the far bank. `reachedEnd` is true on the far bank.
     var onLand: ((_ reachedEnd: Bool) -> Void)?
+
+    var standAnchorX: CGFloat { CGFloat(config.standAnchorX ?? 0.351) }
+    var jumpAnchorX: CGFloat { CGFloat(config.jumpAnchorX ?? 0.366) }
+    /// Typical distance between stones, used to frame the camera
+    private var stoneGap: CGFloat {
+        let s = config.stones
+        guard s.count > 1, let first = s.first, let last = s.last else { return 105 }
+        return CGFloat(last.x - first.x) / CGFloat(s.count - 1)
+    }
 
     var bw: CGFloat { CGFloat(config.backgroundWidth) }
     var bh: CGFloat { CGFloat(config.backgroundHeight) }
@@ -141,13 +160,23 @@ final class RiverHopState {
         return clamp(x: bw / 2, y: bh / 2, z: z)
     }
 
-    /// Close on the elephant, aimed at where it will LAND (not where it is mid-air),
-    /// so the camera glides sideways during a hop and never rides the jump arc.
+    /// Close on the elephant, aimed at where it will LAND (not where it is mid-air), so the camera
+    /// glides sideways during a hop and never rides the jump arc. The elephant sits in the left third
+    /// of the free area, with the next stones ahead of it in view.
     private func followCamera() -> (x: CGFloat, y: CGFloat, z: CGFloat) {
-        let z = max(overviewCamera().z, elephantScreenHeight * screenH / elephantHeight)
-        let p = phase == .flight ? to : pos
+        let freeW = screenW * freeWidthFraction
+        let spanZoom = freeW / (followSpanGaps * stoneGap)
+        let capZoom = maxElephantScreenHeight * screenH / elephantHeight
+        let p = phase == .flight || phase == .windup ? to : pos
+        // Near the left edge of the river the camera can't scroll further left, so the elephant
+        // would slide behind the word panel. Zoom in just enough to keep its body right of the panel.
+        let freeMinX = (anchorX - freeWidthFraction / 2) * screenW + 12
+        let bodyLeft = standAnchorX * elephantHeight * 1.35     // tail end of the elephant, from the feet
+        let edgeZoom = freeMinX / max(p.x - bodyLeft, 1)
+        let z = max(overviewCamera().z, min(max(spanZoom, edgeZoom), capZoom * 1.15))
         let visibleH = screenH / z
-        return clamp(x: p.x + 30, y: p.y - (feetScreenY - 0.5) * visibleH, z: z)
+        let lookAhead = 0.17 * freeW / z
+        return clamp(x: p.x + lookAhead, y: p.y - (feetScreenY - 0.5) * visibleH, z: z)
     }
 
     /// Never show past the edges of the background.
@@ -181,30 +210,49 @@ final class RiverHopState {
         sTarget = 0.84
     }
 
+    /// Pitch of the body during flight, in radians (nose up on take-off, nose down on landing).
+    var pitch: CGFloat = 0
+
+    private var flightDuration: CGFloat {
+        let dist = hypot(to.x - from.x, to.y - from.y)
+        return 0.44 + dist / 1100
+    }
+
+    /// Apex height above the higher end of the hop: a real-feeling hop, about half the elephant's height.
+    private var arcHeight: CGFloat {
+        let dist = hypot(to.x - from.x, to.y - from.y)
+        return 30 + dist * 0.18
+    }
+
     func tick(dt rawDt: CGFloat) {
         let dt = min(rawDt, 1.0 / 30.0)
 
         switch phase {
         case .windup:
+            // Anticipation: crouch, lean back a touch
             timer += dt
-            if timer >= 0.17 {
+            pitch += (-0.05 - pitch) * min(1, 14 * dt)
+            if timer >= 0.16 {
                 phase = .flight
                 timer = 0
-                sTarget = 1.1
-                sv += 4.5
+                sTarget = 1.08
+                sv += 5      // push off
             }
         case .flight:
+            // Projectile: constant horizontal speed, parabolic height, so the arc reads as a real jump
             timer += dt
-            let dist = hypot(to.x - from.x, to.y - from.y)
-            let duration = 0.48 + dist / 900
-            let u = min(timer / duration, 1)
-            let arc = 40 + dist * 0.25
-            pos = CGPoint(
-                x: lerp(from.x, to.x, 0.5 - cos(.pi * u) / 2),
-                y: lerp(from.y, to.y, u) - arc * 4 * u * (1 - u)
-            )
-            sTarget = u < 0.45 ? 1.1 - 0.2 * u : 1.0 + 0.08 * (u - 0.45)
-            lean = 0.14 * (1 - 1.6 * u)
+            let T = flightDuration
+            let u = min(timer / T, 1)
+            let h = arcHeight + max(0, from.y - to.y)        // clear the higher end when hopping up
+            let x = lerp(from.x, to.x, u)
+            let y = lerp(from.y, to.y, u) - 4 * h * u * (1 - u)
+            pos = CGPoint(x: x, y: y)
+            // Body follows the direction of travel (softened), so it noses up then down
+            let vx = (to.x - from.x) / T
+            let vy = ((to.y - from.y) - 4 * h * (1 - 2 * u)) / T
+            pitch = max(-0.32, min(0.32, atan2(vy, max(vx, 1)) * 0.45))
+            // Stretch on the way up, relax at the apex, brace just before touching down
+            sTarget = u < 0.5 ? 1.08 - 0.12 * u : (u > 0.85 ? 0.97 : 1.02)
             if u >= 1 { land() }
         case .celebration:
             timer += dt
@@ -214,11 +262,12 @@ final class RiverHopState {
         }
 
         // Springs
-        sv += (-420 * (s - sTarget) - 38 * sv) * dt
-        s = min(max(s + sv * dt, 0.62), 1.3)
-        if phase != .flight { lean += -lean * min(1, 10 * dt) }
+        sv += (-420 * (s - sTarget) - 32 * sv) * dt
+        s = min(max(s + sv * dt, 0.7), 1.25)
+        if phase != .flight && phase != .windup { pitch += -pitch * min(1, 12 * dt) }
+        lean = pitch
         for k in stoneDip.indices {
-            stoneDipV[k] += (-140 * stoneDip[k] - 9 * stoneDipV[k]) * dt
+            stoneDipV[k] += (-160 * stoneDip[k] - 10 * stoneDipV[k]) * dt
             stoneDip[k] += stoneDipV[k] * dt
         }
 
@@ -261,12 +310,12 @@ final class RiverHopState {
         index += 1
         pos = path[index]
         sTarget = 1
-        sv = -7.5
-        lean = 0
-        punch = 0.012
+        sv = -6.5        // squash on impact, then the spring settles it
+        pitch = 0.06     // small forward nod as the weight lands
+        punch = 0.01
         let stone = index - 1
         let onStone = stone >= 0 && stone < stoneDip.count
-        if onStone { stoneDipV[stone] += 55 }
+        if onStone { stoneDipV[stone] += 60 }
         splash(at: pos, onStone: onStone)
 
         let reachedEnd = index >= path.count - 1
