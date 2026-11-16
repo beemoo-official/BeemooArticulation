@@ -26,6 +26,7 @@ struct RiverHopScreenView: View {
     @State private var bubbleVM: NarratedBubbleVM?
     @State private var narrationTrack = SystemNarrationTrack()
     @State private var sfxPlayer = RemoteAudioPlayer()
+    @State private var praise = PraisePlayer()
 
     // River + elephant physics scene (RiverHopModel.swift), stepped every frame by the display link
     @State private var river: RiverHopState?
@@ -90,11 +91,13 @@ struct RiverHopScreenView: View {
         }
         .background { JungleBackground() }   // shown only until the river images have loaded
         .onAppear {
+            praise.configure(apiClient: apiClient)
             phase = .intro
             startIntroNarration()
         }
         .onDisappear {
             narrationTrack.stop()
+            praise.stop()
             wordRecognizer.stop()
             frameDriver.stop()
         }
@@ -324,6 +327,7 @@ struct RiverHopScreenView: View {
         wordRecognizer.stop()
         logTrial(stimulus: stimulus, outcome: "correct")
         sfxPlayer.play("sfx/correct.mp3", from: apiClient)
+        praise.play()
         hopElephant()
     }
 

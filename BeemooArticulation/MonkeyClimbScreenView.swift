@@ -24,8 +24,11 @@ struct MonkeyClimbScreenView: View {
     @State private var awaitingWord = false
 
     @State private var bubbleVM: NarratedBubbleVM?
-    @State private var narrationTrack = SystemNarrationTrack()
+    /// BEEMOO's voice: pre-recorded clips (voice/beemoo/…), falling back to the system voice. Set on appear.
+    @State private var narrationTrack: any NarrationTrack = SystemNarrationTrack()
     @State private var sfxPlayer = RemoteAudioPlayer()
+    @State private var praise = PraisePlayer()
+    @State private var music = BackgroundMusicPlayer()
 
     // Tree + monkey physics scene (MonkeyClimbModel.swift), stepped every frame by the display link
     @State private var climb: MonkeyClimbState?
@@ -92,14 +95,20 @@ struct MonkeyClimbScreenView: View {
         }
         .background { JungleBackground() }
         .onAppear {
+            praise.configure(apiClient: apiClient)
+            narrationTrack = VoiceClipNarrationTrack(apiClient: apiClient)
+            music.start("music/silly_walks.m4a", apiClient: apiClient)
             phase = .intro
             startIntroNarration()
         }
         .onDisappear {
             narrationTrack.stop()
+            praise.stop()
             wordRecognizer.stop()
             frameDriver.stop()
+            music.stop()
         }
+        .onChange(of: wordRecognizer.isListening) { _, _ in music.resumeIfNeeded() }
     }
 
     // MARK: - Climb scene (tree, monkey, leaves)
@@ -306,6 +315,7 @@ struct MonkeyClimbScreenView: View {
         wordRecognizer.stop()
         logTrial(stimulus: stimulus, outcome: "correct")
         sfxPlayer.play("sfx/correct.mp3", from: apiClient)
+        praise.play()
         jumpMonkey()
     }
 

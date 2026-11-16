@@ -88,8 +88,7 @@ final class SystemNarrationTrack: NSObject, NarrationTrack, AVSpeechSynthesizerD
         utterance.pitchMultiplier = 1.1
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
 
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio)
-        try? AVAudioSession.sharedInstance().setActive(true)
+        GameAudioSession.prepareForPlayback()
 
         synthesizer.speak(utterance)
     }

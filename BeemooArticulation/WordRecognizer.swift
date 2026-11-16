@@ -77,9 +77,7 @@ final class WordRecognizer {
 
         let engine = AVAudioEngine()
         do {
-            let audio = AVAudioSession.sharedInstance()
-            try audio.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker, .duckOthers])
-            try audio.setActive(true, options: .notifyOthersOnDeactivation)
+            try GameAudioSession.activate()
             let input = engine.inputNode
             let format = input.outputFormat(forBus: 0)
             guard format.channelCount > 0, format.sampleRate > 0 else { mode = .manual; return }
