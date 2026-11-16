@@ -15,7 +15,7 @@ struct ActivityRunnerView: View {
     /// Mini-game activities: loop the jungle song across all their screens and skip the screen counter
     /// (the games show their own progress). Monkey Climb plays its own copy of the song.
     private var isGameActivity: Bool {
-        config.screens.contains { $0.type == .soundModeling }
+        config.screens.contains { [.soundModeling, .soundDiscrimination].contains($0.type) }
     }
 
     init(config: ActivityConfig, onDismiss: @escaping () -> Void) {

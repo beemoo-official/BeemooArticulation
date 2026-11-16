@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Level 2 — Hear the S Sound.
-/// Intro: BEEMOO centered, "Let's listen for the S sound!", Continue button.
+/// Intro: BEEMOO centered, "Let's listen for the S sound!", Continue button below.
 /// Game: BEEMOO top-left, 3 image cards with speaker buttons, child picks the /s/ word.
 struct SoundDiscriminationScreenView: View {
     let screen: ScreenConfig
@@ -29,9 +29,9 @@ struct SoundDiscriminationScreenView: View {
     @State private var dismissing = false
 
     @State private var bubbleVM: NarratedBubbleVM?
-    @State private var narrationTrack = SystemNarrationTrack()
-    @State private var listingTrack = SystemNarrationTrack()
-    @State private var speakerTrack = SystemNarrationTrack()  // persistent track for speaker buttons
+    /// BEEMOO's voice: pre-recorded clips (voice/beemoo/…), falling back to the system voice. Set on appear.
+    @State private var narrationTrack: any NarrationTrack = SystemNarrationTrack()
+    @State private var speakerTrack: any NarrationTrack = SystemNarrationTrack()  // persistent track for speaker buttons
     @State private var sfxPlayer = RemoteAudioPlayer()
 
     enum Phase {
@@ -43,36 +43,33 @@ struct SoundDiscriminationScreenView: View {
 
     var body: some View {
         GeometryReader { geo in
+            let layout = GameSceneLayout(size: geo.size)
             ZStack {
                 // BEEMOO mascot
-                beemooMascot(size: geo.size)
+                beemooMascot(layout)
 
-                // Speech bubble
+                // Speech bubble — above the big BEEMOO (intro) or beside the small one (game)
                 if let vm = bubbleVM {
-                    NarratedBubble(vm: vm, contentWidth: geo.size.width * (beemooCentered ? 0.5 : 0.4))
-                        .position(
-                            x: beemooCentered ? geo.size.width * 0.5 : geo.size.width * 0.32,
-                            y: beemooCentered ? geo.size.height * 0.28 : geo.size.height * 0.10
-                        )
+                    BeemooSpeechBubble(vm: vm, layout: layout, heroPose: beemooCentered)
                         .opacity(dismissing ? 0 : 1)
                 }
 
                 // Intro action button
                 if phase == .intro && showActionButton {
-                    introButton(size: geo.size)
+                    introButton(layout)
                         .transition(.scale.combined(with: .opacity))
                 }
 
                 // Game content
                 if phase == .game {
-                    choicePanels(in: geo.size)
+                    choicePanels(layout)
                         .opacity(dismissing ? 0 : 1)
                         .scaleEffect(dismissing ? 0.9 : 1.0)
                         .transition(.opacity)
 
                     // Continue button after correct answer
                     if showContinueButton && !dismissing {
-                        continueButton(size: geo.size)
+                        continueButton(layout)
                             .transition(.scale.combined(with: .opacity))
                     }
                 }
@@ -80,6 +77,8 @@ struct SoundDiscriminationScreenView: View {
         }
         .background { JungleBackground() }
         .onAppear {
+            narrationTrack = VoiceClipNarrationTrack(apiClient: apiClient)
+            speakerTrack = VoiceClipNarrationTrack(apiClient: apiClient)
             shuffleAndReset()
             if isFirstScreen {
                 phase = .intro
@@ -91,29 +90,26 @@ struct SoundDiscriminationScreenView: View {
         }
         .onDisappear {
             narrationTrack.stop()
-            listingTrack.stop()
+            speakerTrack.stop()
         }
     }
 
     // MARK: - BEEMOO mascot
 
-    private func beemooMascot(size: CGSize) -> some View {
+    private func beemooMascot(_ layout: GameSceneLayout) -> some View {
         RemoteImage(filename: "mascot/BEEMOO_02_Flying_Hovering.png")
             .scaledToFit()
             .frame(
-                width: beemooCentered ? size.width * 0.28 : size.width * 0.09,
-                height: beemooCentered ? size.height * 0.55 : size.height * 0.22
+                width: beemooCentered ? layout.heroSize.width : layout.beemooSize,
+                height: beemooCentered ? layout.heroSize.height : layout.beemooSize
             )
-            .position(
-                x: beemooCentered ? size.width * 0.5 : size.width * 0.065,
-                y: beemooCentered ? size.height * 0.62 : size.height * 0.18
-            )
+            .position(beemooCentered ? layout.heroCenter : layout.beemooCenter)
             .animation(.spring(duration: 0.6, bounce: 0.2), value: phase)
     }
 
     // MARK: - Buttons
 
-    private func introButton(size: CGSize) -> some View {
+    private func introButton(_ layout: GameSceneLayout) -> some View {
         Button {
             withAnimation(.spring(duration: 0.5, bounce: 0.15)) {
                 phase = .game
@@ -133,10 +129,10 @@ struct SoundDiscriminationScreenView: View {
                 .bmRaisedShadow()
         }
         .buttonStyle(.plain)
-        .position(x: size.width * 0.5, y: size.height * 0.88)
+        .position(x: layout.size.width / 2, y: layout.actionY)
     }
 
-    private func continueButton(size: CGSize) -> some View {
+    private func continueButton(_ layout: GameSceneLayout) -> some View {
         Button {
             withAnimation(.easeOut(duration: 0.3)) {
                 dismissing = true
@@ -159,40 +155,56 @@ struct SoundDiscriminationScreenView: View {
             .bmRaisedShadow()
         }
         .buttonStyle(.plain)
-        .position(x: size.width * 0.88, y: size.height * 0.92)
+        // Bottom-right corner, clear of the centered winning card
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+        .padding(layout.margin + (layout.isCompact ? 4 : 8))
     }
 
     // MARK: - Choice panels
 
-    private func choicePanels(in size: CGSize) -> some View {
-        let cardWidth = (size.width - 160 - 32) / 3
-        let cardHeight = size.height * 0.55
-        let spacing: CGFloat = 16
-        // The HStack is positioned at y=0.55, screen center is y=0.5
-        let yCorrectionToCenter = size.height * (0.5 - 0.55)
+    /// Card size: as big as the game area allows, with the speaker button's overhang below,
+    /// never wider than 1 : 1.2 tall-to-wide (keeps the picture the hero, not white space).
+    private func cardSize(_ layout: GameSceneLayout) -> CGSize {
+        let area = layout.gameRect
+        let sideInset: CGFloat = layout.isCompact ? 40 : area.width * 0.08
+        let maxW = (area.width - 2 * sideInset - 2 * cardSpacing(layout)) / 3
+        let maxH = area.height - speakerSize(layout) / 2 - (layout.isCompact ? 4 : 12)
+        let h = min(maxH, maxW / 0.8)
+        return CGSize(width: min(maxW, h * 1.2), height: h)
+    }
+
+    private func cardSpacing(_ layout: GameSceneLayout) -> CGFloat { layout.isCompact ? 18 : 28 }
+    private func speakerSize(_ layout: GameSceneLayout) -> CGFloat { layout.isCompact ? 46 : 60 }
+
+    private func choicePanels(_ layout: GameSceneLayout) -> some View {
+        let card = cardSize(layout)
+        let spacing = cardSpacing(layout)
+        let area = layout.gameRect
+        // The row of cards (plus the speaker overhang) is centered in the game area
+        let rowCenterY = area.midY - speakerSize(layout) / 4
+        // When revealed, the winner grows; keep it inside the game area
+        let revealScale = min(1.15, (area.height - speakerSize(layout) / 2) / card.height)
 
         return HStack(spacing: spacing) {
             ForEach(Array(shuffledChoices.enumerated()), id: \.element.id) { index, choice in
                 let isRight = choice.meaning == screen.correct
                 let isWrong = !isRight
 
-                let cardSlot = cardWidth + spacing
+                let cardSlot = card.width + spacing
                 let xOffset: CGFloat = correctRevealed && isRight ? CGFloat(1 - index) * cardSlot : 0
-                let yOffset: CGFloat = correctRevealed && isRight ? yCorrectionToCenter : 0
 
-                choiceCard(choice, index: index, width: cardWidth, height: cardHeight)
-                    .scaleEffect(correctRevealed && isRight ? 1.15 : 1.0)
-                    .offset(x: xOffset, y: yOffset)
+                choiceCard(choice, index: index, width: card.width, height: card.height, speaker: speakerSize(layout))
+                    .scaleEffect(correctRevealed && isRight ? revealScale : 1.0)
+                    .offset(x: xOffset)
                     .opacity(correctRevealed && isWrong ? 0 : 1)
                     .zIndex(correctRevealed && isRight ? 10 : 0)
                     .animation(.spring(duration: 0.5, bounce: 0.2), value: correctRevealed)
             }
         }
-        .padding(.horizontal, 80)
-        .position(x: size.width * 0.5, y: size.height * 0.55)
+        .position(x: layout.size.width / 2, y: rowCenterY)
     }
 
-    private func choiceCard(_ choice: ChoiceConfig, index: Int, width: CGFloat, height: CGFloat) -> some View {
+    private func choiceCard(_ choice: ChoiceConfig, index: Int, width: CGFloat, height: CGFloat, speaker: CGFloat) -> some View {
         let isSelected = selectedMeaning == choice.meaning
         let isRight = choice.meaning == screen.correct
         let isHighlighted = highlightedIndex == index
@@ -209,7 +221,10 @@ struct SoundDiscriminationScreenView: View {
                     Color.white
                     RemoteImage(filename: choice.asset)
                         .scaledToFit()
-                        .padding(24)
+                        // Bottom padding leaves room for the speaker button's top half
+                        .padding(.horizontal, width * 0.08)
+                        .padding(.top, height * 0.07)
+                        .padding(.bottom, speaker / 2 + height * 0.03)
                 }
                 .drawingGroup()
                 .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -238,10 +253,10 @@ struct SoundDiscriminationScreenView: View {
                 } label: {
                     RemoteImage(filename: "ui/speaker_button.png")
                         .scaledToFit()
-                        .frame(width: 50, height: 50)
+                        .frame(width: speaker, height: speaker)
                 }
                 .buttonStyle(PressButtonStyle())
-                .offset(y: 25)
+                .offset(y: speaker / 2)
                 .opacity(correctRevealed && choice.meaning != screen.correct ? 0 : 1)
             }
             .shadow(

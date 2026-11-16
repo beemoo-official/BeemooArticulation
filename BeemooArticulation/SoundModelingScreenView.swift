@@ -36,7 +36,7 @@ struct SoundModelingScreenView: View {
 
     var body: some View {
         GeometryReader { geo in
-            let layout = SoundLayout(size: geo.size)
+            let layout = GameSceneLayout(size: geo.size)
             ZStack {
                 // BEEMOO mascot
                 beemooMascot(layout)
@@ -86,7 +86,7 @@ struct SoundModelingScreenView: View {
 
     // MARK: - BEEMOO mascot
 
-    private func beemooMascot(_ layout: SoundLayout) -> some View {
+    private func beemooMascot(_ layout: GameSceneLayout) -> some View {
         RemoteImage(filename: "mascot/BEEMOO_04_Smiling_Happy.png")
             .scaledToFit()
             .frame(
@@ -99,38 +99,13 @@ struct SoundModelingScreenView: View {
 
     // MARK: - Speech bubble
 
-    @ViewBuilder
-    private func speechBubble(vm: NarratedBubbleVM, layout: SoundLayout) -> some View {
-        if beemooCentered {
-            // Bottom of the bubble sits just above BEEMOO's head, tail pointing down at it
-            VStack(spacing: -2) {
-                NarratedBubble(vm: vm, contentWidth: layout.heroBubbleWidth, centered: true)
-                SpeechTail()
-                    .fill(.white)
-                    .overlay { SpeechTail().stroke(Color.bmYellow, lineWidth: 3) }
-                    .frame(width: 12, height: 18)
-                    .rotationEffect(.degrees(-90))
-                    .frame(width: 18, height: 12)
-            }
-            .frame(width: layout.size.width, height: layout.heroTop - 4, alignment: .bottom)
-            .position(x: layout.size.width / 2, y: (layout.heroTop - 4) / 2)
-        } else {
-            HStack(spacing: -2) {
-                SpeechTail()
-                    .fill(.white)
-                    .overlay { SpeechTail().stroke(Color.bmYellow, lineWidth: 3) }
-                    .frame(width: 12, height: 18)
-                    .zIndex(1)
-                NarratedBubble(vm: vm, contentWidth: layout.bubbleWidth)
-            }
-            .frame(width: layout.bubbleWidth + 10, alignment: .leading)
-            .position(x: layout.bubbleLeft + (layout.bubbleWidth + 10) / 2, y: layout.beemooCenter.y)
-        }
+    private func speechBubble(vm: NarratedBubbleVM, layout: GameSceneLayout) -> some View {
+        BeemooSpeechBubble(vm: vm, layout: layout, heroPose: beemooCentered)
     }
 
     // MARK: - Action button (Go / Continue)
 
-    private func actionButton(_ layout: SoundLayout) -> some View {
+    private func actionButton(_ layout: GameSceneLayout) -> some View {
         Button {
             if phase == .intro {
                 transitionToGame()
@@ -392,53 +367,5 @@ private struct EggHatchGame: View {
                     onHatch()
                 }
             }
-    }
-}
-
-// MARK: - Layout
-
-/// Landscape metrics. Game phase: small BEEMOO + bubble in a row at the top (clear of the runner's
-/// home button), the mini-game filling the area below.
-/// Intro/celebration: big BEEMOO centered, bubble above it, Go/Continue below it.
-private struct SoundLayout {
-    let size: CGSize
-
-    /// iPhone landscape (short screens)
-    var isCompact: Bool { size.height < 600 }
-    var margin: CGFloat { isCompact ? 10 : 24 }
-
-    // Game phase: top row
-    var beemooSize: CGFloat { min(max(size.height * 0.15, 56), 120) }
-    /// BEEMOO starts right of the runner's 44pt home button (RunnerChrome)
-    private var beemooLeft: CGFloat { isCompact ? 58 : 72 }
-    /// Tall enough for a two-line bubble next to BEEMOO
-    private var rowHeight: CGFloat { max(beemooSize, isCompact ? 76 : 100) }
-    var beemooCenter: CGPoint { CGPoint(x: beemooLeft + beemooSize / 2, y: margin + rowHeight / 2) }
-    var bubbleLeft: CGFloat { beemooLeft + beemooSize + 2 }
-    /// Leaves room for the runner's progress pill in the top-right corner
-    var bubbleWidth: CGFloat { min(size.width - bubbleLeft - 100, 560) }
-
-    /// Everything below BEEMOO's row, down to the bottom margin
-    var gameRect: CGRect {
-        let top = margin + rowHeight + (isCompact ? 4 : 12)
-        return CGRect(x: 0, y: top, width: size.width, height: size.height - margin - top)
-    }
-
-    // Intro / celebration
-    var heroSize: CGSize { CGSize(width: size.width * 0.34, height: size.height * 0.5) }
-    var heroCenter: CGPoint { CGPoint(x: size.width / 2, y: size.height * 0.52) }
-    var heroTop: CGFloat { heroCenter.y - heroSize.height / 2 }
-    var heroBubbleWidth: CGFloat { min(size.width * 0.6, 480) }
-    var actionY: CGFloat { size.height - margin - 26 - (isCompact ? 0 : 16) }
-}
-
-/// Small left-pointing tail that connects a bubble to BEEMOO.
-private struct SpeechTail: Shape {
-    func path(in rect: CGRect) -> Path {
-        var p = Path()
-        p.move(to: CGPoint(x: rect.maxX, y: rect.minY))
-        p.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
-        p.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        return p
     }
 }
