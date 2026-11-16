@@ -145,10 +145,10 @@ struct NarratedBubble: View {
             Text(vm.revealedAttributedString(font: bubbleFont))
                 .multilineTextAlignment(.leading)
                 .lineLimit(4)
-                .fixedSize(horizontal: true, vertical: true)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .frame(minWidth: 44, minHeight: 36)
+                .frame(minWidth: 44, maxWidth: contentWidth - 20, minHeight: 36)
                 .background {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.white)

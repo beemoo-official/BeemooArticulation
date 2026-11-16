@@ -5,7 +5,12 @@ import UIKit
 
 @Observable
 final class OrientationLock {
-    var mask: UIInterfaceOrientationMask = .portrait
+    /// Outside activities: iPhone stays portrait, iPad rotates freely.
+    static var appDefault: UIInterfaceOrientationMask {
+        UIDevice.current.userInterfaceIdiom == .pad ? .all : .portrait
+    }
+
+    var mask: UIInterfaceOrientationMask = OrientationLock.appDefault
 }
 
 // MARK: - AppDelegate

@@ -32,7 +32,11 @@ enum LandscapePresenter {
         // Set the mask so the AppDelegate agrees
         AppDelegate.orientationLock.mask = .landscape
 
-        top.present(host, animated: true)
+        top.present(host, animated: true) {
+            // Rotate now instead of waiting for the device to turn (iPad included)
+            windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscape)) { _ in }
+            host.setNeedsUpdateOfSupportedInterfaceOrientations()
+        }
     }
 
     static func dismiss() {
@@ -45,9 +49,10 @@ enum LandscapePresenter {
             top = presented
         }
 
-        AppDelegate.orientationLock.mask = .portrait
+        AppDelegate.orientationLock.mask = OrientationLock.appDefault
         top.dismiss(animated: true) {
             // Force re-query after dismiss
+            windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: OrientationLock.appDefault)) { _ in }
             root.setNeedsUpdateOfSupportedInterfaceOrientations()
         }
     }

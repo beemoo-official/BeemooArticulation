@@ -11,6 +11,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Baloo2-VariableFont_wght.ttf</string>

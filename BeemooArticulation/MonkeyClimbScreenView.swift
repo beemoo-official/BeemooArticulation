@@ -56,13 +56,24 @@ struct MonkeyClimbScreenView: View {
                 // BEEMOO mascot
                 beemooMascot(size: geo.size)
 
-                // Speech bubble
+                // Speech bubble — intro: beside the big BEEMOO; climbing: right of the small BEEMOO, tail pointing at it
                 if let vm = bubbleVM {
-                    NarratedBubble(vm: vm, contentWidth: geo.size.width * (beemooCentered ? 0.45 : 0.32))
-                        .position(
-                            x: beemooCentered ? geo.size.width * 0.4 : geo.size.width * 0.24,
-                            y: beemooCentered ? geo.size.height * 0.25 : geo.size.height * 0.08
-                        )
+                    let layout = ClimbLayout(size: geo.size)
+                    if beemooCentered {
+                        NarratedBubble(vm: vm, contentWidth: min(geo.size.width * 0.4, 320))
+                            .position(x: geo.size.width * 0.38, y: geo.size.height * 0.22)
+                    } else {
+                        HStack(spacing: -2) {
+                            BubbleTail()
+                                .fill(.white)
+                                .overlay { BubbleTail().stroke(Color.bmYellow, lineWidth: 3) }
+                                .frame(width: 12, height: 18)
+                                .zIndex(1)
+                            NarratedBubble(vm: vm, contentWidth: layout.bubbleWidth)
+                        }
+                        .frame(width: layout.bubbleWidth + 10, alignment: .leading)
+                        .position(x: layout.bubbleLeft + (layout.bubbleWidth + 10) / 2, y: layout.beemooCenter.y)
+                    }
                 }
 
                 // Go button (intro)
@@ -81,11 +92,9 @@ struct MonkeyClimbScreenView: View {
                     .transition(.scale.combined(with: .opacity))
                 }
 
-                // Climbing: word card + mic + skip
+                // Climbing: unified left panel with word card + controls
                 if phase == .climbing, let stimulus = currentStimulus {
-                    wordCard(stimulus, size: geo.size)
-                    micButton(size: geo.size)
-                    skipButton(size: geo.size)
+                    climbingPanel(stimulus: stimulus, size: geo.size)
                 }
             }
             .onAppear { setUpScene(size: geo.size) }
@@ -186,39 +195,52 @@ struct MonkeyClimbScreenView: View {
     // MARK: - BEEMOO
 
     private func beemooMascot(size: CGSize) -> some View {
-        RemoteImage(filename: "mascot/BEEMOO_02_Flying_Hovering.png")
+        let layout = ClimbLayout(size: size)
+        return RemoteImage(filename: "mascot/BEEMOO_02_Flying_Hovering.png")
             .scaledToFit()
             .frame(
-                width: beemooCentered ? size.width * 0.18 : size.width * 0.08,
-                height: beemooCentered ? size.height * 0.38 : size.height * 0.18
+                width: beemooCentered ? size.width * 0.18 : layout.beemooSize,
+                height: beemooCentered ? size.height * 0.38 : layout.beemooSize
             )
             .position(
-                x: beemooCentered ? size.width * 0.15 : size.width * 0.06,
-                y: beemooCentered ? size.height * 0.48 : size.height * 0.14
+                x: beemooCentered ? size.width * 0.15 : layout.beemooCenter.x,
+                y: beemooCentered ? size.height * 0.48 : layout.beemooCenter.y
             )
             .animation(.spring(duration: 0.6, bounce: 0.2), value: phase)
     }
 
-    // MARK: - Word Card
+    // MARK: - Unified climbing panel (word card + controls)
 
-    private func wordCard(_ stimulus: StimulusConfig, size: CGSize) -> some View {
-        VStack(spacing: 8) {
-            ZStack {
-                ZStack {
-                    Color.white
-                    RemoteImage(filename: stimulus.wordImage)
-                        .scaledToFit()
-                        .padding(16)
-                }
-                .drawingGroup()
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                CardFrame(cornerRadius: 16, borderWidth: 6)
+    private func climbingPanel(stimulus: StimulusConfig, size: CGSize) -> some View {
+        let layout = ClimbLayout(size: size)
+        let compact = layout.isCompact
+        let manual = wordRecognizer.mode == .manual
+        let listening = wordRecognizer.isListening
+        let corner: CGFloat = compact ? 14 : 20
+
+        return VStack(spacing: 0) {
+            // Word card: image + word name inside, golden frame, speaker overlapping the bottom edge
+            VStack(spacing: compact ? 2 : 6) {
+                RemoteImage(filename: stimulus.wordImage)
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                Text(stimulus.targetWord.capitalized)
+                    .font(.baloo2(compact ? 18 : 30))
+                    .foregroundStyle(Color.bmNavy)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
             }
-            .frame(width: size.width * 0.24, height: size.height * 0.4)
-
-            HStack(spacing: 8) {
+            .padding(.horizontal, compact ? 10 : 16)
+            .padding(.top, compact ? 10 : 16)
+            // Leave room so the word sits above the half of the speaker that overlaps the card
+            .padding(.bottom, layout.speakerSize / 2 + (compact ? 2 : 6))
+            .frame(width: layout.cardSize.width, height: layout.cardSize.height)
+            .background(RoundedRectangle(cornerRadius: corner).fill(.white))
+            .overlay { CardFrame(cornerRadius: corner, borderWidth: compact ? 5 : 8) }
+            .bmCardShadow()
+            .overlay(alignment: .bottom) {
                 Button {
-                    // Pause listening while the app says the word, so it can't hear itself.
                     wordRecognizer.stop()
                     narrationTrack.speak(stimulus.targetWord, onWord: { _ in }, onFinish: {
                         if awaitingWord { listenForCurrentWord() }
@@ -226,78 +248,55 @@ struct MonkeyClimbScreenView: View {
                 } label: {
                     RemoteImage(filename: "ui/speaker_button.png")
                         .scaledToFit()
-                        .frame(width: 34, height: 34)
+                        .frame(width: layout.speakerSize, height: layout.speakerSize)
                 }
                 .buttonStyle(.plain)
-
-                Text(stimulus.targetWord.capitalized)
-                    .font(.baloo2(20))
-                    .foregroundStyle(Color.bmNavy)
+                .offset(y: layout.speakerSize / 2)
             }
-        }
-        .position(x: size.width * 0.18, y: size.height * 0.5)
-    }
+            .padding(.bottom, layout.speakerSize / 2 + layout.controlGap)
 
-    // MARK: - Mic Button
-
-    /// Speech mode: tap to start listening; tap while listening to confirm the word yourself.
-    /// Manual mode (simulator, or no speech permission): tap when the child says the word.
-    private func micButton(size: CGSize) -> some View {
-        let manual = wordRecognizer.mode == .manual
-        let listening = wordRecognizer.isListening
-        return Button {
-            if manual || listening {
-                handleCorrect()
-            } else {
-                listenForCurrentWord()
-            }
-        } label: {
-            VStack(spacing: 6) {
-                ZStack {
-                    Circle()
-                        .fill(listening ? Color.bmOrange : Color.bmBlue)
-                        .frame(width: 56, height: 56)
-                    Image(systemName: manual ? "checkmark" : (listening ? "waveform" : "mic.fill"))
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .symbolEffect(.variableColor.iterative, isActive: listening)
+            // Mic button
+            Button {
+                if manual || listening { handleCorrect() }
+                else { listenForCurrentWord() }
+            } label: {
+                HStack(spacing: compact ? 8 : 12) {
+                    ZStack {
+                        Circle()
+                            .fill(listening ? Color.bmOrange : Color.bmBlue)
+                            .frame(width: layout.micSize, height: layout.micSize)
+                        Image(systemName: manual ? "checkmark" : (listening ? "waveform" : "mic.fill"))
+                            .font(.system(size: layout.micSize * 0.42, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                    Text(manual ? "They said it" : (listening ? "Listening..." : "Tap to listen"))
+                        .font(.nunito(compact ? 13 : 17, weight: .bold))
+                        .foregroundStyle(Color.bmNavy)
+                        .fixedSize()
                 }
-                .bmRaisedShadow()
-                Text(manual ? "They said it" : (listening ? "Listening…" : "Tap to listen"))
-                    .font(.nunito(12, weight: .bold))
-                    .foregroundStyle(Color.bmNavy)
-                if listening, !wordRecognizer.lastHeard.isEmpty {
-                    Text("Heard: \"\(wordRecognizer.lastHeard)\"")
-                        .font(.nunito(11, weight: .bold))
-                        .foregroundStyle(.white)
-                        .lineLimit(1)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Capsule().fill(.black.opacity(0.45)))
-                        .frame(maxWidth: 220)
-                }
+                .padding(.leading, compact ? 5 : 7)
+                .padding(.trailing, compact ? 14 : 20)
+                .padding(.vertical, compact ? 5 : 7)
+                .background(Capsule().fill(.white.opacity(0.92)).bmCardShadow())
             }
-        }
-        .buttonStyle(.plain)
-        .disabled(!awaitingWord)
-        .opacity(awaitingWord ? 1 : 0.5)
-        .accessibilityLabel(manual ? "They said the word" : (listening ? "Listening. Tap to confirm the word" : "Start listening"))
-        .position(x: size.width * 0.18, y: size.height * 0.86)
-    }
+            .buttonStyle(.plain)
+            .disabled(!awaitingWord)
+            .opacity(awaitingWord ? 1 : 0.5)
 
-    // MARK: - Skip Button
-
-    private func skipButton(size: CGSize) -> some View {
-        Button { handleSkip() } label: {
-            Text("Skip")
-                .font(.nunito(14, weight: .bold))
-                .foregroundStyle(Color.bmNavy62)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(Capsule().fill(.white.opacity(0.8)))
+            // Skip
+            Button { handleSkip() } label: {
+                Text("Skip")
+                    .font(.nunito(compact ? 13 : 16, weight: .bold))
+                    .foregroundStyle(Color.bmNavy)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, compact ? 3 : 6)
+                    .background(Capsule().fill(.white.opacity(0.6)))
+            }
+            .buttonStyle(.plain)
+            .padding(.top, compact ? 6 : 10)
         }
-        .buttonStyle(.plain)
-        .position(x: size.width * 0.30, y: size.height * 0.85)
+        .frame(width: layout.columnWidth, height: layout.panelRect.height)
+        .position(x: layout.panelRect.midX, y: layout.panelRect.midY)
     }
 
     // MARK: - Word lifecycle
@@ -402,5 +401,64 @@ struct MonkeyClimbScreenView: View {
             }
             listenForCurrentWord()
         }
+    }
+}
+
+// MARK: - Layout
+
+/// Landscape metrics for the climbing phase. Left column = BEEMOO + bubble on top, word panel below;
+/// the tree and monkey own the right side of the screen.
+private struct ClimbLayout {
+    let size: CGSize
+
+    /// iPhone landscape (short screens). Width can't tell iPhone apart: an iPhone 17 is ~874pt wide.
+    var isCompact: Bool { size.height < 600 }
+
+    var margin: CGFloat { isCompact ? 10 : 24 }
+    /// Left column, kept clear of the tree trunk (camera anchored at 0.66 of the width)
+    var columnWidth: CGFloat { size.width * 0.40 - margin }
+
+    var beemooSize: CGFloat { min(max(size.height * 0.15, 56), 120) }
+    /// BEEMOO starts right of the runner's 44pt home button (RunnerChrome) so they never touch
+    private var beemooLeft: CGFloat { isCompact ? 58 : 72 }
+    var beemooCenter: CGPoint { CGPoint(x: beemooLeft + beemooSize / 2, y: margin + beemooSize / 2) }
+
+    var bubbleLeft: CGFloat { beemooLeft + beemooSize + 2 }
+    var bubbleWidth: CGFloat { min(columnWidth + margin - bubbleLeft, 300) }
+
+    var speakerSize: CGFloat { isCompact ? 36 : 56 }
+    var micSize: CGFloat { isCompact ? 36 : 52 }
+    var controlGap: CGFloat { isCompact ? 8 : 18 }
+
+    /// Everything below the BEEMOO row
+    var panelRect: CGRect {
+        let top = margin + beemooSize + (isCompact ? 6 : 16)
+        return CGRect(x: margin, y: top, width: columnWidth, height: size.height - top - margin)
+    }
+
+    /// Height used by the speaker overhang, mic pill and Skip below the card
+    private var controlsHeight: CGFloat {
+        let pill = micSize + (isCompact ? 10 : 14)
+        let skip: CGFloat = isCompact ? 26 : 38
+        return speakerSize / 2 + controlGap + pill + skip
+    }
+
+    var cardSize: CGSize {
+        let maxH = panelRect.height - controlsHeight
+        let maxW = columnWidth * (isCompact ? 0.78 : 0.9)
+        // Slightly taller than wide so the image stays square-ish above the word
+        let h = min(maxH, maxW * 1.15)
+        return CGSize(width: min(maxW, h / 1.15 * (isCompact ? 1.25 : 1)), height: h)
+    }
+}
+
+/// Small left-pointing tail that connects the climbing bubble to BEEMOO.
+private struct BubbleTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: rect.maxX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
+        p.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        return p
     }
 }
