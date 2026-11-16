@@ -1,0 +1,212 @@
+{
+  "activityId": "s-sound-level-1",
+  "version": 1,
+  "title": "Make the S Sound",
+  "umbrella": "clear-speech",
+  "orientation": "landscape",
+  "concepts": [
+    "S"
+  ],
+  "screens": [
+    {
+      "n": 1,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 0,
+      "text": "Find the spot on the snake! Tap it and say *S*.",
+      "spotMap": {
+        "asset": "s-sound/level1/BEEMOO_S_Sound_Snake.png",
+        "imageWidth": 1448,
+        "imageHeight": 1086,
+        "contentBounds": [0.013, 0.168, 0.994, 0.852],
+        "spots": [
+          {
+            "id": "spot_1",
+            "x": 0.1962,
+            "y": 0.5878,
+            "r": 0.0357
+          },
+          {
+            "id": "spot_2",
+            "x": 0.2594,
+            "y": 0.6936,
+            "r": 0.0368
+          },
+          {
+            "id": "spot_3",
+            "x": 0.3719,
+            "y": 0.7162,
+            "r": 0.0373
+          },
+          {
+            "id": "spot_4",
+            "x": 0.4709,
+            "y": 0.6479,
+            "r": 0.0359
+          },
+          {
+            "id": "spot_5",
+            "x": 0.5509,
+            "y": 0.5405,
+            "r": 0.0364
+          },
+          {
+            "id": "spot_6",
+            "x": 0.6474,
+            "y": 0.4912,
+            "r": 0.0359
+          },
+          {
+            "id": "spot_7",
+            "x": 0.7452,
+            "y": 0.5393,
+            "r": 0.0368
+          },
+          {
+            "id": "spot_8",
+            "x": 0.8214,
+            "y": 0.6565,
+            "r": 0.0359
+          },
+          {
+            "id": "spot_9",
+            "x": 0.9445,
+            "y": 0.6091,
+            "r": 0.0335
+          }
+        ]
+      }
+    },
+    {
+      "n": 2,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 1,
+      "text": "Drag the snake into the pit! Say *S* as you drag.",
+      "dragToGoal": {
+        "goalBack": "s-sound/level1/snake_pit_back.png",
+        "goalFront": "s-sound/level1/snake_pit_front.png",
+        "goalImageWidth": 1774,
+        "goalImageHeight": 887,
+        "dropZone": {
+          "centerX": 0.49,
+          "centerY": 0.47,
+          "radiusX": 0.33,
+          "radiusY": 0.23
+        },
+        "spots": [
+          {
+            "id": "pit_front_1",
+            "x": 0.25,
+            "y": 0.72,
+            "height": 0.28
+          },
+          {
+            "id": "pit_front_2",
+            "x": 0.4,
+            "y": 0.74,
+            "height": 0.28
+          },
+          {
+            "id": "pit_front_3",
+            "x": 0.6,
+            "y": 0.74,
+            "height": 0.28
+          },
+          {
+            "id": "pit_front_4",
+            "x": 0.75,
+            "y": 0.72,
+            "height": 0.28
+          },
+          {
+            "id": "pit_back_1",
+            "x": 0.3,
+            "y": 0.56,
+            "height": 0.24
+          },
+          {
+            "id": "pit_back_2",
+            "x": 0.45,
+            "y": 0.57,
+            "height": 0.24
+          },
+          {
+            "id": "pit_back_3",
+            "x": 0.55,
+            "y": 0.57,
+            "height": 0.24
+          },
+          {
+            "id": "pit_back_4",
+            "x": 0.7,
+            "y": 0.56,
+            "height": 0.24
+          }
+        ],
+        "items": [
+          {
+            "id": "snake_1",
+            "asset": "s-sound/level1/Level1_SnakePit_Purple_Snake.png",
+            "startX": 0.06,
+            "startY": 0.78
+          },
+          {
+            "id": "snake_2",
+            "asset": "s-sound/level1/Level1_SnakePit_Teal_Snake.png",
+            "startX": 0.2,
+            "startY": 0.88
+          },
+          {
+            "id": "snake_3",
+            "asset": "s-sound/level1/Level1_SnakePit_Pink_Snake.png",
+            "startX": 0.36,
+            "startY": 0.92
+          },
+          {
+            "id": "snake_4",
+            "asset": "s-sound/level1/Level1_SnakePit_Orange_Snake.png",
+            "startX": 0.52,
+            "startY": 0.92
+          },
+          {
+            "id": "snake_5",
+            "asset": "s-sound/level1/Level1_SnakePit_Blue_Snake.png",
+            "startX": 0.64,
+            "startY": 0.92
+          },
+          {
+            "id": "snake_6",
+            "asset": "s-sound/level1/Level1_SnakePit_Green_Snake.png",
+            "startX": 0.8,
+            "startY": 0.88
+          },
+          {
+            "id": "snake_7",
+            "asset": "s-sound/level1/Level1_SnakePit_Red_Snake.png",
+            "startX": 0.94,
+            "startY": 0.78
+          },
+          {
+            "id": "snake_8",
+            "asset": "s-sound/level1/Level1_SnakePit_Yellow_Snake.png",
+            "startX": 0.5,
+            "startY": 0.8
+          }
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "type": "soundModeling",
+      "concept": "S",
+      "variant": 2,
+      "text": "Make the *S* sound then tap the egg."
+    },
+    {
+      "n": 4,
+      "type": "celebration",
+      "concept": "S"
+    }
+  ]
+}

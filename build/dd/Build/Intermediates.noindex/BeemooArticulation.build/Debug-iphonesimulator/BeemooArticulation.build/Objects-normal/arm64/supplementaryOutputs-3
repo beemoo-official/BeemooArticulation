@@ -1,0 +1,30 @@
+{
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/BMTabBar.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/BMTabBar.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/BMTabBar.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/BMTabBar.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/BMTabBar.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/BMTabBar.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/CardFrame.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CardFrame.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CardFrame.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CardFrame.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CardFrame.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CardFrame.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/CelebrationScreenView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CelebrationScreenView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CelebrationScreenView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CelebrationScreenView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CelebrationScreenView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/CelebrationScreenView.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ComparisonScreenView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ComparisonScreenView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ComparisonScreenView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ComparisonScreenView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ComparisonScreenView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ComparisonScreenView.swiftdeps"
+  }
+}

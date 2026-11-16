@@ -1,0 +1,48 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/WordPracticeUI.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Hear the word",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 174
+        }
+      },
+      {
+        "comment": "",
+        "key": "They said it",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 180
+        }
+      },
+      {
+        "comment": "",
+        "key": "Skip",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 212
+        }
+      },
+      {
+        "comment": "",
+        "key": "Listening",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 265
+        }
+      },
+      {
+        "comment": "",
+        "key": "Microphone off",
+        "location": {
+          "startingColumn": 55,
+          "startingLine": 265
+        }
+      }
+    ]
+  },
+  "version": 1
+}

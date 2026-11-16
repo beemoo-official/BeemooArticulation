@@ -1,0 +1,30 @@
+{
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/OrientationLock.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/OrientationLock.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/OrientationLock.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/OrientationLock.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/OrientationLock.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/OrientationLock.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ParentsListView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ParentsListView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ParentsListView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ParentsListView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ParentsListView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ParentsListView.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/PraisePlayer.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/PraisePlayer.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/PraisePlayer.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/PraisePlayer.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/PraisePlayer.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/PraisePlayer.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ProgressTabView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ProgressTabView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ProgressTabView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ProgressTabView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ProgressTabView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ProgressTabView.swiftdeps"
+  }
+}

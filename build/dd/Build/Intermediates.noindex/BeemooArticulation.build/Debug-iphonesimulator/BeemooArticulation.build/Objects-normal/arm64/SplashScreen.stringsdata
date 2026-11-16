@@ -1,0 +1,16 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SplashScreen.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "BEEMOO",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 18
+        }
+      }
+    ]
+  },
+  "version": 1
+}

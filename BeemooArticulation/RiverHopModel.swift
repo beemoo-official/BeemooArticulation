@@ -74,15 +74,16 @@ final class RiverHopState {
     var zoom: CGFloat = 1
     var punch: CGFloat = 0
     enum CameraMode { case overview, pushIn, follow, pullOut }
-    var cameraMode: CameraMode = .overview
+    /// Stays close on the elephant the whole game (no overview at the start or end)
+    var cameraMode: CameraMode = .follow
     private var camTimer: CGFloat = 0
     private var camFrom = (x: CGFloat(0), y: CGFloat(0), z: CGFloat(1))
 
     /// How many stone gaps fit across the free part of the screen while following: the current
-    /// stone, plus the next two or three ahead so the child can see where the elephant is going.
-    var followSpanGaps: CGFloat = 3.4
+    /// stone plus the next one or two ahead, so the elephant is big but the child sees where it's going.
+    var followSpanGaps: CGFloat = 2.6
     /// Upper limit on the elephant's height as a share of the screen height (keeps phones from over-zooming).
-    var maxElephantScreenHeight: CGFloat = 0.36
+    var maxElephantScreenHeight: CGFloat = 0.48
     /// Where the elephant's feet sit vertically on screen (0 = top, 1 = bottom).
     var feetScreenY: CGFloat = 0.64
     /// Horizontal position on screen of the camera's center: the middle of the area right of the word panel.
@@ -152,7 +153,11 @@ final class RiverHopState {
     func updateScreenSize(screenW: CGFloat, screenH: CGFloat) {
         self.screenW = max(screenW, 1)
         self.screenH = max(screenH, 1)
-        if cameraMode == .overview { applyCamera(overviewCamera()) }
+        switch cameraMode {
+        case .overview: applyCamera(overviewCamera())
+        case .follow: applyCamera(followCamera())   // snap, so the first frame is already framed
+        case .pushIn, .pullOut: break
+        }
     }
 
     private func overviewCamera() -> (x: CGFloat, y: CGFloat, z: CGFloat) {
@@ -175,7 +180,7 @@ final class RiverHopState {
         let edgeZoom = freeMinX / max(p.x - bodyLeft, 1)
         let z = max(overviewCamera().z, min(max(spanZoom, edgeZoom), capZoom * 1.15))
         let visibleH = screenH / z
-        let lookAhead = 0.17 * freeW / z
+        let lookAhead = 0.12 * freeW / z
         return clamp(x: p.x + lookAhead, y: p.y - (feetScreenY - 0.5) * visibleH, z: z)
     }
 
@@ -192,11 +197,10 @@ final class RiverHopState {
         camX = c.x; camY = c.y; zoom = c.z
     }
 
-    /// The "Start" push-in from the whole river to the elephant.
+    /// "Start": the camera is already on the elephant; just a little "ready!" bounce.
     func startHopping() {
-        camFrom = (camX, camY, zoom)
-        cameraMode = .pushIn
-        camTimer = 0
+        cameraMode = .follow
+        sv -= 4
     }
 
     // MARK: Hop
@@ -322,9 +326,6 @@ final class RiverHopState {
         if reachedEnd {
             phase = .celebration
             timer = 0
-            camFrom = (camX, camY, zoom)
-            cameraMode = .pullOut
-            camTimer = 0
             confetti(at: CGPoint(x: pos.x, y: pos.y - elephantHeight))
         } else {
             phase = .idle

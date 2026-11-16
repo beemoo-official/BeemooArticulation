@@ -1,0 +1,24 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ParentsListView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Parents",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "Account and settings",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 27
+        }
+      }
+    ]
+  },
+  "version": 1
+}

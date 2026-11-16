@@ -1,0 +1,30 @@
+{
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/WordPracticeUI.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordPracticeUI.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordPracticeUI.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordPracticeUI.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordPracticeUI.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordPracticeUI.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/WordProductionScreenView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordProductionScreenView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordProductionScreenView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordProductionScreenView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordProductionScreenView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordProductionScreenView.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/WordRecognizer.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordRecognizer.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordRecognizer.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordRecognizer.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordRecognizer.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/WordRecognizer.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  }
+}

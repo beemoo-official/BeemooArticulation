@@ -1,0 +1,37 @@
+{
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/APIClient.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/APIClient.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/APIClient.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/APIClient.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/APIClient.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/APIClient.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ActivityConfig.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityConfig.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityConfig.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityConfig.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityConfig.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityConfig.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ActivityListView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityListView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityListView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityListView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityListView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityListView.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ActivityRunnerView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityRunnerView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityRunnerView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityRunnerView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityRunnerView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/ActivityRunnerView.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/AdultScoringBar.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/AdultScoringBar.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/AdultScoringBar.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/AdultScoringBar.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/AdultScoringBar.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/AdultScoringBar.swiftdeps"
+  }
+}

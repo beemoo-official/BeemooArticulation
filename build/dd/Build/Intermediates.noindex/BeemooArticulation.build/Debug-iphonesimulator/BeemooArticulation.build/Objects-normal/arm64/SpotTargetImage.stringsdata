@@ -1,0 +1,16 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SpotTargetImage.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Spot %@",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 91
+        }
+      }
+    ]
+  },
+  "version": 1
+}

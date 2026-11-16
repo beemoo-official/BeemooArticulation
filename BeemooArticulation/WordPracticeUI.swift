@@ -39,6 +39,15 @@ struct WordPracticeLayout {
     /// Height used by the speaker overhang and the listening meter below the card
     private var controlsHeight: CGFloat { speakerSize / 2 + controlGap + meterHeight }
 
+    // Intro: big BEEMOO inside the word column, bubble above it, the start button below it.
+    // Everything stays left of the scene's hero, on every screen size.
+    var introBeemooSize: CGFloat { min(columnWidth * 0.6, size.height * 0.3) }
+    var introBeemooCenter: CGPoint { CGPoint(x: margin + columnWidth / 2, y: size.height * 0.58) }
+    /// The intro bubble stays below the runner's home button (14pt inset + 44pt)
+    var introBubbleTop: CGFloat { 66 }
+    var introBubbleWidth: CGFloat { min(columnWidth, 360) }
+    var introButtonY: CGFloat { (introBeemooCenter.y + introBeemooSize / 2 + size.height - margin) / 2 }
+
     var cardSize: CGSize {
         let maxH = panelRect.height - controlsHeight
         let maxW = columnWidth * (isCompact ? 0.78 : 0.9)
@@ -84,8 +93,30 @@ struct WordPracticeBubble: View {
     }
 }
 
+/// Intro bubble: centered in the word column, just above the big BEEMOO, tail pointing down at it.
+/// It grows upward as words reveal, so it never covers BEEMOO.
+struct WordPracticeIntroBubble: View {
+    let vm: NarratedBubbleVM
+    let layout: WordPracticeLayout
+
+    var body: some View {
+        let top = layout.introBeemooCenter.y - layout.introBeemooSize / 2 - 4
+        VStack(spacing: -2) {
+            NarratedBubble(vm: vm, contentWidth: layout.introBubbleWidth, centered: true)
+            BubbleTail()
+                .fill(.white)
+                .overlay { BubbleTail().stroke(Color.bmYellow, lineWidth: 3) }
+                .frame(width: 12, height: 18)
+                .rotationEffect(.degrees(-90))
+                .frame(width: 18, height: 12)
+        }
+        .frame(width: layout.columnWidth, height: top - layout.introBubbleTop, alignment: .bottom)
+        .position(x: layout.introBeemooCenter.x, y: layout.introBubbleTop + (top - layout.introBubbleTop) / 2)
+    }
+}
+
 /// Small left-pointing tail that connects the bubble to BEEMOO.
-private struct BubbleTail: Shape {
+struct BubbleTail: Shape {
     func path(in rect: CGRect) -> Path {
         var p = Path()
         p.move(to: CGPoint(x: rect.maxX, y: rect.minY))

@@ -1,0 +1,30 @@
+{
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SoundModelingScreenView.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SoundModelingScreenView.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SoundModelingScreenView.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SoundModelingScreenView.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SoundModelingScreenView.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SoundModelingScreenView.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SpeakerButton.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpeakerButton.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpeakerButton.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpeakerButton.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpeakerButton.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpeakerButton.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SplashScreen.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SplashScreen.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SplashScreen.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SplashScreen.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SplashScreen.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SplashScreen.swiftdeps"
+  },
+  "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SpotTargetImage.swift" : {
+    "const-values" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpotTargetImage.swiftconstvalues",
+    "dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpotTargetImage.d",
+    "diagnostics" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpotTargetImage.dia",
+    "object" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpotTargetImage.o",
+    "swift-dependencies" : "/Users/anthonyrubin/Desktop/BeemooArticulation/build/dd/Build/Intermediates.noindex/BeemooArticulation.build/Debug-iphonesimulator/BeemooArticulation.build/Objects-normal/arm64/SpotTargetImage.swiftdeps"
+  }
+}

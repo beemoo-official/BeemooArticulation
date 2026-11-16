@@ -1,0 +1,16 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/CelebrationScreenView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "You did it!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 25
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,24 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Coming soon",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "Subscription — coming soon",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 73
+        }
+      }
+    ]
+  },
+  "version": 1
+}

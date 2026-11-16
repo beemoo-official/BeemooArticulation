@@ -69,7 +69,7 @@ struct ActivityRunnerView: View {
                 RunnerHomeButton(onExit: onDismiss)
                 Spacer()
                 // Games show their own progress; the screen counter just adds clutter
-                if ![.monkeyClimb, .riverHop].contains(vm.currentScreen.type) && !isGameActivity {
+                if ![.monkeyClimb, .riverHop, .sentenceBuilder].contains(vm.currentScreen.type) && !isGameActivity {
                     ProgressPill(
                         current: vm.currentIndex + 1,
                         total: vm.screenCount
@@ -94,7 +94,7 @@ struct ActivityRunnerView: View {
 
     private var hidesNextButton: Bool {
         switch vm.currentScreen.type {
-        case .receptive, .soundDiscrimination, .wordProduction, .sentenceProduction, .flashcard, .soundModeling, .monkeyClimb, .riverHop:
+        case .receptive, .soundDiscrimination, .wordProduction, .sentenceProduction, .sentenceBuilder, .flashcard, .soundModeling, .monkeyClimb, .riverHop:
             true
         default:
             false
@@ -151,6 +151,14 @@ struct ActivityRunnerView: View {
             )
         case .sentenceProduction:
             SentenceProductionScreenView(
+                screen: screen,
+                activityId: config.activityId,
+                settings: settings,
+                trialLogger: trialLogger,
+                onAdvance: { vm.advance() }
+            )
+        case .sentenceBuilder:
+            SentenceBuilderScreenView(
                 screen: screen,
                 activityId: config.activityId,
                 settings: settings,

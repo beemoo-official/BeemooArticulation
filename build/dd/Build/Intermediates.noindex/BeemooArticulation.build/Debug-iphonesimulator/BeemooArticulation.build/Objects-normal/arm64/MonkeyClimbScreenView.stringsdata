@@ -1,0 +1,16 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/MonkeyClimbScreenView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Start climbing!",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 72
+        }
+      }
+    ]
+  },
+  "version": 1
+}

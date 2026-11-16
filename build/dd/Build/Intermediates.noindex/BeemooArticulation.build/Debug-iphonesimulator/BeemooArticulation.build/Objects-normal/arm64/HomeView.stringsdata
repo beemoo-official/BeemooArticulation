@@ -1,0 +1,120 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/HomeView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Hi, %@!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "Let's practice!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "Speech & Language Practice\nMade Simple. Made Fun.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "Hi! I'm BeeMoo!",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 125
+        }
+      },
+      {
+        "comment": "",
+        "key": "I'll be your guide. Let's have fun learning together!",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 128
+        }
+      },
+      {
+        "comment": "",
+        "key": "Today's Progress",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 173
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld/%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "Activities\nCompleted",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 195
+        }
+      },
+      {
+        "comment": "",
+        "key": "Daily Challenge",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 227
+        }
+      },
+      {
+        "comment": "",
+        "key": "Complete 5 activities to earn your badge.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 230
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld / 5",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 233
+        }
+      },
+      {
+        "comment": "",
+        "key": "BeeMoo Everything",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 264
+        }
+      },
+      {
+        "comment": "",
+        "key": "All 4 umbrellas, 30+ activities, unlimited children.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 267
+        }
+      },
+      {
+        "comment": "",
+        "key": "See plans",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 273
+        }
+      }
+    ]
+  },
+  "version": 1
+}

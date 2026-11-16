@@ -1,0 +1,48 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SentenceBuilderScreenView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Next",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 279
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sentence",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 304
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld of %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 306
+        }
+      },
+      {
+        "comment": "",
+        "key": "Finish",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 356
+        }
+      },
+      {
+        "comment": "",
+        "key": "Swipe the leaves to reveal your surprise!",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 375
+        }
+      }
+    ]
+  },
+  "version": 1
+}

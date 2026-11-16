@@ -1,0 +1,24 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SoundModelingScreenView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Go!",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 120
+        }
+      },
+      {
+        "comment": "",
+        "key": "Continue",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 120
+        }
+      }
+    ]
+  },
+  "version": 1
+}

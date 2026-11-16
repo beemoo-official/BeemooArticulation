@@ -58,18 +58,13 @@ struct RiverHopScreenView: View {
                 // Speech bubble: beside the big BEEMOO (intro) or the small one (hopping)
                 if let vm = bubbleVM {
                     if beemooCentered {
-                        WordPracticeBubble(
-                            vm: vm,
-                            width: min(geo.size.width * 0.42, 360),
-                            left: introBubbleLeft(geo.size),
-                            centerY: geo.size.height * 0.26
-                        )
+                        WordPracticeIntroBubble(vm: vm, layout: layout)
                     } else {
                         WordPracticeBubble(vm: vm, layout: layout)
                     }
                 }
 
-                // Start button (intro): under the bubble, above the water, clear of the elephant on the bank
+                // Start button (intro): under BEEMOO, in the same column
                 if showActionButton {
                     Button { startHopping() } label: {
                         Text("Start hopping!")
@@ -82,8 +77,7 @@ struct RiverHopScreenView: View {
                     }
                     .buttonStyle(.plain)
                     .fixedSize()
-                    .frame(width: geo.size.width * 0.42, alignment: .leading)
-                    .position(x: introBubbleLeft(geo.size) + 12 + geo.size.width * 0.21, y: geo.size.height * 0.5)
+                    .position(x: layout.introBeemooCenter.x, y: layout.introButtonY)
                     .transition(.scale.combined(with: .opacity))
                 }
 
@@ -126,9 +120,6 @@ struct RiverHopScreenView: View {
         }
         .onChange(of: wordRecognizer.isListening) { _, _ in music.resumeIfNeeded() }
     }
-
-    /// The intro bubble's tail sits just right of the big BEEMOO
-    private func introBubbleLeft(_ size: CGSize) -> CGFloat { size.width * 0.25 }
 
     // MARK: - River scene
 
@@ -249,13 +240,10 @@ struct RiverHopScreenView: View {
         RemoteImage(filename: "mascot/BEEMOO_02_Flying_Hovering.png")
             .scaledToFit()
             .frame(
-                width: beemooCentered ? size.width * 0.18 : layout.beemooSize,
-                height: beemooCentered ? size.height * 0.36 : layout.beemooSize
+                width: beemooCentered ? layout.introBeemooSize : layout.beemooSize,
+                height: beemooCentered ? layout.introBeemooSize : layout.beemooSize
             )
-            .position(
-                x: beemooCentered ? size.width * 0.15 : layout.beemooCenter.x,
-                y: beemooCentered ? size.height * 0.4 : layout.beemooCenter.y
-            )
+            .position(beemooCentered ? layout.introBeemooCenter : layout.beemooCenter)
             .animation(.spring(duration: 0.6, bounce: 0.2), value: phase)
     }
 

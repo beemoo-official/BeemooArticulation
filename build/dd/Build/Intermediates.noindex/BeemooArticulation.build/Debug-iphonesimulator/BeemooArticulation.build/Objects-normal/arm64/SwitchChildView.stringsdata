@@ -1,0 +1,32 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SwitchChildView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Switch Child",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 27
+        }
+      },
+      {
+        "comment": "",
+        "key": "Age %lld · 0 sessions",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add child",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 80
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,56 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/RewardsTabView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Rewards",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 27
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@'s badges",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "Daily Challenge",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "Complete 5 activities to earn your badge.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 51
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld / 5",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "Badge %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 89
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -10,14 +10,7 @@
   "screens": [
     {
       "n": 1,
-      "type": "intro",
-      "concept": "S",
-      "text": "Let's say sentences with *S* words!",
-      "audio": "Let's say sentences with S words!"
-    },
-    {
-      "n": 2,
-      "type": "sentenceProduction",
+      "type": "sentenceBuilder",
       "concept": "S",
       "stimuli": [
         {
@@ -111,12 +104,6 @@
           "audioText": "The sack is heavy."
         }
       ]
-    },
-    {
-      "n": 3,
-      "type": "celebration",
-      "concept": "S",
-      "audio": "Awesome! You said all the beginning S sentences!"
     }
   ]
 }

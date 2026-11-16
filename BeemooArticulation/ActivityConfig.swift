@@ -85,6 +85,7 @@ enum ScreenType: String, Codable, Sendable {
     case soundDiscrimination
     case wordProduction
     case sentenceProduction
+    case sentenceBuilder
     case flashcard
     case monkeyClimb
     case riverHop

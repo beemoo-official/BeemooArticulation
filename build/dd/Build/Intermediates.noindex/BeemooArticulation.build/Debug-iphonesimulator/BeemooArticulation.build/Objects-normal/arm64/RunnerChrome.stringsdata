@@ -1,0 +1,16 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/RunnerChrome.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld / %lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 91
+        }
+      }
+    ]
+  },
+  "version": 1
+}

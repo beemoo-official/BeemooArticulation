@@ -1,0 +1,16 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/RiverHopScreenView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Start hopping!",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 70
+        }
+      }
+    ]
+  },
+  "version": 1
+}
