@@ -1,0 +1,40 @@
+{
+  "source": "/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SoundPickerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Which sound do you want to play with?",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ sound, %@",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 118
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ sound, coming soon",
+        "location": {
+          "startingColumn": 86,
+          "startingLine": 118
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 154
+        }
+      }
+    ]
+  },
+  "version": 1
+}

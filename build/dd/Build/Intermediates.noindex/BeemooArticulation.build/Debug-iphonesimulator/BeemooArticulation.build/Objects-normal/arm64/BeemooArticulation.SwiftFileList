@@ -10,6 +10,7 @@
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/BMTabBar.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/CardFrame.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/CelebrationScreenView.swift
+/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ChunkyButton.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ComparisonScreenView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/ContentView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/DesignTokens.swift
@@ -47,11 +48,13 @@
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SentenceProductionScreenView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SettingsView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SoundDiscriminationScreenView.swift
+/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SoundMapView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SoundModelingScreenView.swift
+/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SoundPickerView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SpeakerButton.swift
+/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SpeechSounds.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SplashScreen.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SpotTargetImage.swift
-/Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SPracticeHomeView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SProgressStore.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/SwitchChildView.swift
 /Users/anthonyrubin/Desktop/BeemooArticulation/BeemooArticulation/TeachingScreenView.swift

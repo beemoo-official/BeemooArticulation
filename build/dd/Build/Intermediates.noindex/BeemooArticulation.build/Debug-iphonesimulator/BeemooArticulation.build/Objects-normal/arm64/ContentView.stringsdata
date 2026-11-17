@@ -7,7 +7,7 @@
         "key": "Coming soon",
         "location": {
           "startingColumn": 30,
-          "startingLine": 43
+          "startingLine": 47
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Subscription — coming soon",
         "location": {
           "startingColumn": 46,
-          "startingLine": 73
+          "startingLine": 77
         }
       }
     ]

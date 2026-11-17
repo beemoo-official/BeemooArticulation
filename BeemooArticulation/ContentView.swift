@@ -31,11 +31,15 @@ struct ContentView: View {
                 .toolbar(.hidden)
                 .navigationDestination(for: Route.self) { route in
                     switch route {
+                    case .umbrella(let key) where key == "clear-speech":
+                        // Clear Speech is a set of speech sounds, each with its own world
+                        SoundPickerView(path: $homePath)
+                            .toolbar(.hidden)
                     case .umbrella(let key):
                         ActivityListView(umbrellaKey: key, path: $homePath)
                             .toolbar(.hidden)
                     case .sPracticeHome:
-                        SPracticeHomeView {
+                        SoundMapView {
                             homePath.removeLast()
                         }
                         .toolbar(.hidden)

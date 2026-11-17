@@ -76,6 +76,9 @@ final class SProgressStore {
         }
     }
 
+    /// Levels finished at least once
+    var completedLevelCount: Int { levelAccuracy.count }
+
     func isLevelUnlocked(_ level: Int) -> Bool {
         level <= highestUnlockedLevel
     }
